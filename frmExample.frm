@@ -780,7 +780,7 @@ End Sub
 Private Sub btnGetURL_SBOX_Click()
     Dim url As String
     
-    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "SBOX")
+    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "PBOX")
     
     If url = "" Then
          MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
