@@ -427,7 +427,7 @@ Option Explicit
 '연동아이디
 Private Const linkID = "TESTER"
 '비밀키. 유출에 주의하시기 바랍니다.
-Private Const SecretKey = "zxv+w93mHiiQJTIkkiwLavhjmAFDjONY0NTAZjX+Q0s="
+Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
 
 Private CashbillService As New PBCBService
 
