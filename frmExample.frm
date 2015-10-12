@@ -800,6 +800,7 @@ Private Sub btnGetInfos_Click()
     Dim resultList As Collection
     Dim KeyList As New Collection
     
+    '관리번호 배열, 최대 1000건
     KeyList.Add "123123"
     KeyList.Add "123123"
     KeyList.Add "123"
@@ -906,6 +907,18 @@ Private Sub btnGetPopbillURL_LOGIN_Click()
     MsgBox "URL : " + vbCrLf + url
 End Sub
 
+
+Private Sub btnGetPopUpURL_Click()
+    Dim url As String
+    
+    url = CashbillService.GetPopUpURL(txtCorpNum.Text, txtMgtKey.Text, txtUserID.Text)
+    
+    If url = "" Then
+         MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    MsgBox "URL : " + vbCrLf + url
+End Sub
 
 Private Sub btnGetPrintURL_Click()
     Dim url As String
@@ -1087,29 +1100,28 @@ End Sub
 Private Sub btnRegister_Click()
     Dim Cashbill As New PBCashbill
     
-    Cashbill.mgtKey = txtMgtKey.Text        '발행자별 고유번호 할당, 1~24자리 영문,숫자조합으로 중복없이 구성.
-    Cashbill.tradeType = "승인거래"         '승인거래 or 취소거래
-    Cashbill.franchiseCorpNum = "1231212312"
+    Cashbill.mgtKey = txtMgtKey.Text            '현금영수증 관리번호, 1~24자리 영문,숫자조합으로 중복없이 구성.
+    Cashbill.tradeType = "승인거래"             '승인거래 or 취소거래
+    Cashbill.franchiseCorpNum = "1234567890"    '발행자 사업자번호, "-" 제외 10자리
     Cashbill.franchiseCorpName = "발행자 상호"
     Cashbill.franchiseCEOName = "발행자 대표자"
     Cashbill.franchiseAddr = "발행자 주소"
     Cashbill.franchiseTEL = "070-1234-1234"
-    Cashbill.identityNum = "01041680206"
+    Cashbill.tradeUsage = "소득공제용"          '거래유형, 소득공제용 or 지출증빙용
+    Cashbill.taxationType = "과세"              '과세 or 비과세
+    Cashbill.identityNum = "01041680206"        '거래처 식별번호, 거래유형에 따라 작성, 소득공제용(핸드폰번호,주민등록번호), 지출증빙용(사업자번호)
+    Cashbill.supplyCost = "10000"               ' 공급가액
+    Cashbill.serviceFee = "0"                   ' 봉사료
+    Cashbill.tax = "1000"                       ' 세액
+    Cashbill.totalAmount = "11000"              ' 합계금액
     Cashbill.customerName = "고객명"
     Cashbill.itemName = "상품명"
     Cashbill.orderNumber = "주문번호"
     Cashbill.email = "test@test.com"
     Cashbill.hp = "111-1234-1234"
     Cashbill.fax = "777-444-3333"
-    Cashbill.serviceFee = "0"
-    Cashbill.supplyCost = "10000"
-    Cashbill.tax = "1000"
-    Cashbill.totalAmount = "11000"
-    Cashbill.tradeUsage = "소득공제용"      '소득공제용 or 지출증빙용
-    Cashbill.taxationType = "과세"          '과세 or 비과세
     
-    Cashbill.smssendYN = False
-    Cashbill.faxsendYN = False
+    Cashbill.smssendYN = False                  '발행시 문자전송여부
     
     Dim Response As PBResponse
     
@@ -1129,32 +1141,29 @@ End Sub
 Private Sub btnRegistIssue_Click()
     Dim Cashbill As New PBCashbill
     
-        
-    Cashbill.mgtKey = txtMgtKey.Text        '발행자별 고유번호 할당, 1~24자리 영문,숫자조합으로 중복없이 구성.
-    Cashbill.tradeType = "승인거래"         '승인거래 or 취소거래
-    Cashbill.franchiseCorpNum = "1234567890"
+    Cashbill.mgtKey = txtMgtKey.Text            '현금영수증 관리번호, 1~24자리 영문,숫자조합으로 중복없이 구성.
+    Cashbill.tradeType = "승인거래"             '승인거래 or 취소거래
+    Cashbill.franchiseCorpNum = "1234567890"    '발행자 사업자번호, "-" 제외 10자리
     Cashbill.franchiseCorpName = "발행자 상호"
     Cashbill.franchiseCEOName = "발행자 대표자"
     Cashbill.franchiseAddr = "발행자 주소"
     Cashbill.franchiseTEL = "070-1234-1234"
-    Cashbill.identityNum = "01043245117"
+    Cashbill.tradeUsage = "소득공제용"          '거래유형, 소득공제용 or 지출증빙용
+    Cashbill.taxationType = "과세"              '과세 or 비과세
+    Cashbill.identityNum = "01041680206"        '거래처 식별번호, 거래유형에 따라 작성, 소득공제용(핸드폰번호,주민등록번호), 지출증빙용(사업자번호)
+    Cashbill.supplyCost = "10000"               ' 공급가액
+    Cashbill.serviceFee = "0"                   ' 봉사료
+    Cashbill.tax = "1000"                       ' 세액
+    Cashbill.totalAmount = "11000"              ' 합계금액
     Cashbill.customerName = "고객명"
     Cashbill.itemName = "상품명"
     Cashbill.orderNumber = "주문번호"
     Cashbill.email = "test@test.com"
     Cashbill.hp = "111-1234-1234"
     Cashbill.fax = "777-444-3333"
-    Cashbill.serviceFee = "0"
-    Cashbill.supplyCost = "10000"
-    Cashbill.tax = "1000"
-    Cashbill.totalAmount = "11000"
-    Cashbill.tradeUsage = "소득공제용"      '소득공제용 or 지출증빙용
-    Cashbill.taxationType = "과세"          '과세 or 비과세
-    Cashbill.memo = "즉시발행 메모"
     
-    Cashbill.smssendYN = False
-    Cashbill.faxsendYN = False
-    
+    Cashbill.smssendYN = False                  '발행시 문자전송여부
+        
     Dim Response As PBResponse
     
     Set Response = CashbillService.RegistIssue(txtCorpNum.Text, Cashbill, txtUserID.Text)
@@ -1169,8 +1178,11 @@ End Sub
 
 Private Sub btnSendEmail_Click()
     Dim Response As PBResponse
+    Dim receiveEmail As String
     
-    Set Response = CashbillService.SendEmail(txtCorpNum.Text, txtMgtKey.Text, "test@test.com", txtUserID.Text)
+    receiveEmail = "test@test.com"
+    
+    Set Response = CashbillService.SendEmail(txtCorpNum.Text, txtMgtKey.Text, receiveEmail, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
@@ -1182,8 +1194,13 @@ End Sub
 
 Private Sub btnSendFAX_Click()
     Dim Response As PBResponse
+    Dim senderNum As String
+    Dim receiveNum As String
     
-    Set Response = CashbillService.SendFax(txtCorpNum.Text, txtMgtKey.Text, "07075106766", "111-2222-4444", txtUserID.Text)
+    senderNum = "07075103710"
+    receiveNum = "111-2222-4444"
+    
+    Set Response = CashbillService.SendFax(txtCorpNum.Text, txtMgtKey.Text, senderNum, receiveNum, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
@@ -1195,8 +1212,15 @@ End Sub
 
 Private Sub btnSendSMS_Click()
     Dim Response As PBResponse
+    Dim senderNum As String
+    Dim receiveNum As String
+    Dim contents As String
+    
+    senderNum = "07075103710"
+    receiveNum = "111-2222-4444"
+    contents = "알림 문자 내용, 최대 90Byte"
       
-    Set Response = CashbillService.SendSMS(txtCorpNum.Text, txtMgtKey.Text, "07075106766", "111-2222-4444", "문자 내용 최대 90Byte", txtUserID.Text)
+    Set Response = CashbillService.SendSMS(txtCorpNum.Text, txtMgtKey.Text, senderNum, receiveNum, contents, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
@@ -1262,7 +1286,7 @@ Private Sub btnUpdateCorpInfo_Click()
     Dim Response As PBResponse
     
     CorpInfo.ceoname = "대표자"         '대표자명
-    CorpInfo.corpName = "상호_수정"          '상호명
+    CorpInfo.corpName = "상호_수정"     '상호명
     CorpInfo.addr = "서울특별시"        '주소
     CorpInfo.bizType = "업태"           '업태
     CorpInfo.bizClass = "업종"          '업종
