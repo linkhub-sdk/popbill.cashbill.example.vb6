@@ -1,17 +1,17 @@
 VERSION 5.00
 Begin VB.Form frmExample 
    Caption         =   "팝빌 현금영수증 SDK 예제"
-   ClientHeight    =   11025
+   ClientHeight    =   10980
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   11565
+   ClientWidth     =   11325
    LinkTopic       =   "Form1"
-   ScaleHeight     =   11025
-   ScaleWidth      =   11565
-   StartUpPosition =   3  'Windows 기본값
+   ScaleHeight     =   10980
+   ScaleWidth      =   11325
+   StartUpPosition =   2  '화면 가운데
    Begin VB.Frame Frame7 
       Caption         =   "현금영수증 관련 기능"
-      Height          =   6705
+      Height          =   6825
       Left            =   360
       TabIndex        =   13
       Top             =   3840
@@ -49,7 +49,7 @@ Begin VB.Form frmExample
             Left            =   600
             Style           =   1  '그래픽
             TabIndex        =   54
-            Top             =   460
+            Top             =   480
             Width           =   975
          End
          Begin VB.Line Line5 
@@ -188,11 +188,19 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame11 
          Caption         =   " 문서 정보 "
-         Height          =   2295
+         Height          =   2775
          Left            =   240
          TabIndex        =   23
          Top             =   3525
          Width           =   2265
+         Begin VB.CommandButton btnSearch 
+            Caption         =   "문서 목록조회"
+            Height          =   390
+            Left            =   195
+            TabIndex        =   57
+            Top             =   2160
+            Width           =   1845
+         End
          Begin VB.CommandButton btnGetDetailInfo 
             Caption         =   "문서 상세 정보"
             Height          =   390
@@ -1176,6 +1184,85 @@ Private Sub btnRegistIssue_Click()
     MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
 End Sub
 
+Private Sub btnSearch_Click()
+    Dim cbSearchList As PBCBSearchList
+    Dim DType As String
+    Dim SDate As String
+    Dim EDate As String
+    Dim State As New Collection
+    Dim tradeType As New Collection
+    Dim tradeUsage As New Collection
+    Dim taxationType As New Collection
+    Dim Page As Integer
+    Dim PerPage As Integer
+    
+    DType = "I"             '[필수] 일자유형, R-등록일자, T-거래일자 I-발행일자
+    SDate = "20150701"      '[필수] 시작일자, 형식(yyyyMMdd)
+    EDate = "20151231"      '[필수] 종료일자, 형식(yyyyMMdd)
+    
+    '전송상태코드 배열, 미기재시 전체조회, 2,3번째 자리 와일드카드(*) 가능
+    '[참조] 현금영수증 API 연동매뉴열 "5.1. 현금영수증 상태코드"
+    State.Add "2**"
+    State.Add "3**"
+    State.Add "4**"
+    
+    '현금영수증 형태 배열, N-일반 현금영수증, C-취소 현금영수증
+    tradeType.Add "N"
+    tradeType.Add "C"
+    
+    '거래유형 배열, P-소득공제, C-제출증빙
+    tradeUsage.Add "P"
+    tradeUsage.Add "C"
+    
+    '과세형태 배열, T-과세, N-비과세
+    taxationType.Add "T"
+    taxationType.Add "N"
+                
+    Page = 1                '페이지 번호, 기본값 1
+    PerPage = 30            '페이지당 목록갯수, 기본값 500
+    
+    Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, State, tradeType, tradeUsage, taxationType, Page, PerPage)
+     
+    If cbSearchList Is Nothing Then
+        MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    Dim tmp As String
+    
+    tmp = "code : " + CStr(cbSearchList.code) + vbCrLf
+    tmp = tmp + "total : " + CStr(cbSearchList.total) + vbCrLf
+    tmp = tmp + "perPage : " + CStr(cbSearchList.PerPage) + vbCrLf
+    tmp = tmp + "pageNum : " + CStr(cbSearchList.pageNum) + vbCrLf
+    tmp = tmp + "pageCount : " + CStr(cbSearchList.pageCount) + vbCrLf
+    tmp = tmp + "message : " + cbSearchList.message + vbCrLf + vbCrLf + vbCrLf
+    
+    
+    tmp = tmp + "ItemKey | MgtKey | TradeDate | TradeUsage | IssueDT | CustomerName | ItemName | IdentityNum | TaxationType | TotalAmount | tradeType | StateCode | TxationType | TradeDate | confirmNum " + vbCrLf
+    
+    Dim info As PBCbInfo
+    
+    For Each info In cbSearchList.list
+        tmp = tmp + info.itemKey + " | "
+        tmp = tmp + info.mgtKey + " | "
+        tmp = tmp + info.tradeDate + " | "
+        tmp = tmp + info.tradeUsage + " | "
+        tmp = tmp + info.issueDT + " | "
+        tmp = tmp + info.customerName + " | "
+        tmp = tmp + info.itemName + " | "
+        tmp = tmp + info.identityNum + " | "
+        tmp = tmp + info.taxationType + " | "
+        tmp = tmp + info.totalAmount + " | "
+        tmp = tmp + info.tradeType + " | "
+        tmp = tmp + CStr(info.stateCode) + " | "
+        tmp = tmp + info.taxationType + " | "
+        tmp = tmp + info.tradeDate + " | "
+        tmp = tmp + info.confirmNum + vbCrLf
+    Next
+    
+    MsgBox tmp
+End Sub
+
 Private Sub btnSendEmail_Click()
     Dim Response As PBResponse
     Dim receiveEmail As String
@@ -1214,13 +1301,13 @@ Private Sub btnSendSMS_Click()
     Dim Response As PBResponse
     Dim senderNum As String
     Dim receiveNum As String
-    Dim contents As String
+    Dim Contents As String
     
     senderNum = "07075103710"
     receiveNum = "111-2222-4444"
-    contents = "알림 문자 내용, 최대 90Byte"
+    Contents = "알림 문자 내용, 최대 90Byte"
       
-    Set Response = CashbillService.SendSMS(txtCorpNum.Text, txtMgtKey.Text, senderNum, receiveNum, contents, txtUserID.Text)
+    Set Response = CashbillService.SendSMS(txtCorpNum.Text, txtMgtKey.Text, senderNum, receiveNum, Contents, txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)

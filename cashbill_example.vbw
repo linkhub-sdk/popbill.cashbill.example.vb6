@@ -10,3 +10,4 @@ PBCbInfo = 154, 203, 1347, 916,
 PBCbLog = 220, 290, 1413, 1003, 
 PBContactInfo = 198, 261, 1440, 970, 
 PBCorpInfo = 220, 290, 1462, 999, 
+PBCBSearchList = 0, 0, 0, 0, C
