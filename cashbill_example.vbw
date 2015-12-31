@@ -1,13 +1,13 @@
-frmExample = 44, 58, 1237, 772, , 22, 29, 1215, 743, C
+frmExample = 44, 58, 1237, 772, Z, 22, 29, 1215, 743, C
 cStringBuilder = 0, 0, 0, 0, C
 Linkhub = 0, 0, 0, 0, C
 LinkhubToken = 0, 0, 0, 0, C
 PBResponse = 132, 174, 1325, 887, 
 PBJoinForm = 132, 174, 1325, 887, 
-PBCBService = 154, 203, 1396, 912, Z
+PBCBService = 154, 203, 1396, 912, 
 PBCashbill = 110, 145, 1303, 858, 
 PBCbInfo = 154, 203, 1347, 916, 
 PBCbLog = 220, 290, 1413, 1003, 
 PBContactInfo = 198, 261, 1440, 970, 
 PBCorpInfo = 220, 290, 1462, 999, 
-PBCBSearchList = 0, 0, 0, 0, C
+PBCBSearchList = 220, 290, 1483, 908, 

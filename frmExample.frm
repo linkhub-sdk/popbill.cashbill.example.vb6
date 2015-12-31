@@ -1195,6 +1195,7 @@ Private Sub btnSearch_Click()
     Dim taxationType As New Collection
     Dim Page As Integer
     Dim PerPage As Integer
+    Dim Order As String
     
     DType = "I"             '[필수] 일자유형, R-등록일자, T-거래일자 I-발행일자
     SDate = "20150701"      '[필수] 시작일자, 형식(yyyyMMdd)
@@ -1220,8 +1221,9 @@ Private Sub btnSearch_Click()
                 
     Page = 1                '페이지 번호, 기본값 1
     PerPage = 30            '페이지당 목록갯수, 기본값 500
+    Order = "D"             '정렬방향 D-내림차순(기본값), A-오름차순
     
-    Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, State, tradeType, tradeUsage, taxationType, Page, PerPage)
+    Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, State, tradeType, tradeUsage, taxationType, Page, PerPage, Order)
      
     If cbSearchList Is Nothing Then
         MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
