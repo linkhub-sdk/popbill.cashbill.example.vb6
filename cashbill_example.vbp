@@ -13,6 +13,7 @@ Class=PBCbLog; PopbillCashbill\PBCbLog.cls
 Class=PBContactInfo; PopbillCashbill\PBContactInfo.cls
 Class=PBCorpInfo; PopbillCashbill\PBCorpInfo.cls
 Class=PBCBSearchList; PopbillCashbill\PBCBSearchList.cls
+Class=PBChargeInfo; PopbillCashbill\PBChargeInfo.cls
 IconForm="frmExample"
 Startup="frmExample"
 ExeName32="cashbill_example.exe"
