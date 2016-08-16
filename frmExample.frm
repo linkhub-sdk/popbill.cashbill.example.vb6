@@ -1251,7 +1251,7 @@ Private Sub btnSearch_Click()
     PerPage = 30            '페이지당 목록갯수, 기본값 500
     Order = "D"             '정렬방향 D-내림차순(기본값), A-오름차순
     
-    QString = ""            '식별번호 조회, 미기재시 전체조회
+    QString = ""            '현금영수증 식별번호 조회, 미기재시 전체조회
     
     Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, State, tradeType, tradeUsage, taxationType, Page, PerPage, Order, QString)
      
