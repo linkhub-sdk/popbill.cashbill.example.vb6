@@ -587,17 +587,6 @@ Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
 '현금영수증 서비스 객체 생성
 Private CashbillService As New PBCBService
 
-Private Sub btn_GetURL_PBOX_Click()
-    Dim url As String
-    
-    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "PBOX")
-    
-    If url = "" Then
-         MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-End Sub
 
 '=========================================================================
 ' [발행완료] 상태의 현금영수증을 [발행취소] 합니다.
