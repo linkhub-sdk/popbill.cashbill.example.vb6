@@ -1418,11 +1418,11 @@ Private Sub btnRegister_Click()
     Set Response = CashbillService.Register(txtCorpNum.Text, Cashbill, txtUserID.Text)
     
     If Response Is Nothing Then
-        MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
     
 
 End Sub
@@ -1581,7 +1581,7 @@ Private Sub btnSearch_Click()
                                 tradeUsage, taxationType, Page, PerPage, Order, QString)
      
     If cbSearchList Is Nothing Then
-        MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
@@ -1794,11 +1794,11 @@ Private Sub btnUpdate_Click()
     Set Response = CashbillService.Update(txtCorpNum.Text, txtMgtKey.Text, Cashbill, txtUserID.Text)
     
     If Response Is Nothing Then
-        MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox (Response.message)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
 '=========================================================================
@@ -1867,7 +1867,7 @@ Private Sub btnUpdateCorpInfo_Click()
     Set Response = CashbillService.UpdateCorpInfo(txtCorpNum.Text, CorpInfo, txtUserID.Text)
     
     If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(TaxinvoiceService.LastErrCode) + vbCrLf + "응답메시지 : " + TaxinvoiceService.LastErrMessage)
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
