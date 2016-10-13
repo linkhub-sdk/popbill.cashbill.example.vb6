@@ -560,7 +560,7 @@ Attribute VB_Exposed = False
 ' - VB6 SDK 연동환경 설정방법 안내 :
 ' - 업데이트 일자 : 2016-10-11
 ' - 연동 기술지원 연락처 : 1600-8536 / 070-4504-2991 (직통 / 정요한대리)
-' - 연동 기술지원 이메일 : support@linkhub.co.kr
+' - 연동 기술지원 이메일 : dev@linkhub.co.kr
 '
 ' <테스트 연동개발 준비사항>
 ' 1) 27, 30번 라인에 선언된 링크아이디(LinkID)와 비밀키(SecretKey)를
@@ -1685,7 +1685,7 @@ Private Sub btnSendSMS_Click()
     senderNum = "07075103710"
     
     '수신번호
-    receiveNum = "111-2222-4444"
+    receiveNum = "010-111-222"
     
     '문자메시지 내용, 90Byte를 초과한 내용은 삭제되어 전송됨
     Contents = "알림 문자 내용, 최대 90Byte"
