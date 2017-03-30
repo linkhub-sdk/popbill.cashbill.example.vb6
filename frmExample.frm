@@ -807,38 +807,33 @@ Private Sub btnGetDetailInfo_Click()
     
     Dim tmp As String
     
-    tmp = tmp + "mgtKey : " + cbDetailInfo.mgtKey + vbCrLf
-    tmp = tmp + "tradeDate : " + cbDetailInfo.tradeDate + vbCrLf
-    tmp = tmp + "tradeUsage : " + cbDetailInfo.tradeUsage + vbCrLf
-    tmp = tmp + "tradeType : " + cbDetailInfo.tradeType + vbCrLf
+    tmp = tmp + "mgtKey (관리번호) : " + cbDetailInfo.mgtKey + vbCrLf
+    tmp = tmp + "confirmNum (국세청승인번호) : " + cbDetailInfo.confirmNum + vbCrLf
+    tmp = tmp + "tradeDate (거래일자) : " + cbDetailInfo.tradeDate + vbCrLf
+    tmp = tmp + "tradeUsage (거래유형) : " + cbDetailInfo.tradeUsage + vbCrLf
+    tmp = tmp + "tradeType (현금영수증 형태) : " + cbDetailInfo.tradeType + vbCrLf
+    tmp = tmp + "taxationType (과세형태) : " + cbDetailInfo.taxationType + vbCrLf
+    tmp = tmp + "supplyCost (공급가액) : " + cbDetailInfo.supplyCost + vbCrLf
+    tmp = tmp + "tax (세액) : " + cbDetailInfo.tax + vbCrLf
+    tmp = tmp + "serviceFee (봉사료) : " + cbDetailInfo.serviceFee + vbCrLf
+    tmp = tmp + "totalAmount (거래금액) : " + cbDetailInfo.totalAmount + vbCrLf
     
-    tmp = tmp + "taxationType : " + cbDetailInfo.taxationType + vbCrLf
-    tmp = tmp + "supplyCost : " + cbDetailInfo.supplyCost + vbCrLf
-    tmp = tmp + "tax : " + cbDetailInfo.tax + vbCrLf
-    tmp = tmp + "serviceFee : " + cbDetailInfo.serviceFee + vbCrLf
-    tmp = tmp + "totalAmount : " + cbDetailInfo.totalAmount + vbCrLf
+    tmp = tmp + "franchiseCorpNum (발행자 사업자번호) : " + cbDetailInfo.franchiseCorpNum + vbCrLf
+    tmp = tmp + "franchiseCorpName (발행자 상호) : " + cbDetailInfo.franchiseCorpName + vbCrLf
+    tmp = tmp + "franchiseCEOName (발행자 대표자명) : " + cbDetailInfo.franchiseCEOName + vbCrLf
+    tmp = tmp + "franchiseAddr (발행자 주소) : " + cbDetailInfo.franchiseAddr + vbCrLf
+    tmp = tmp + "franchiseTEL (발행자 연락처) : " + cbDetailInfo.franchiseTEL + vbCrLf
     
-    tmp = tmp + "franchiseCorpNum : " + cbDetailInfo.franchiseCorpNum + vbCrLf
-    tmp = tmp + "franchiseCorpName : " + cbDetailInfo.franchiseCorpName + vbCrLf
-    tmp = tmp + "franchiseCEOName : " + cbDetailInfo.franchiseCEOName + vbCrLf
-    tmp = tmp + "franchiseAddr : " + cbDetailInfo.franchiseAddr + vbCrLf
-    tmp = tmp + "franchiseTEL : " + cbDetailInfo.franchiseTEL + vbCrLf
+    tmp = tmp + "identityNum (거래처 식별번호) : " + cbDetailInfo.identityNum + vbCrLf
+    tmp = tmp + "customerName (고객명) : " + cbDetailInfo.customerName + vbCrLf
+    tmp = tmp + "itemName (상품명) : " + cbDetailInfo.itemName + vbCrLf
+    tmp = tmp + "orderNumber (주문번호) : " + cbDetailInfo.orderNumber + vbCrLf
+    tmp = tmp + "email (고객 이메일) : " + cbDetailInfo.email + vbCrLf
+    tmp = tmp + "hp (고객 휴대폰번호) : " + cbDetailInfo.hp + vbCrLf
+    tmp = tmp + "smssendYN (알림문자 전송여부) : " + CStr(cbDetailInfo.smssendYN) + vbCrLf
     
-    tmp = tmp + "identityNum : " + cbDetailInfo.identityNum + vbCrLf
-    tmp = tmp + "customerName : " + cbDetailInfo.customerName + vbCrLf
-    tmp = tmp + "itemName : " + cbDetailInfo.itemName + vbCrLf
-    tmp = tmp + "orderNumber : " + cbDetailInfo.orderNumber + vbCrLf
-    
-    tmp = tmp + "email : " + cbDetailInfo.email + vbCrLf
-    tmp = tmp + "hp : " + cbDetailInfo.hp + vbCrLf
-    tmp = tmp + "fax : " + cbDetailInfo.fax + vbCrLf
-    tmp = tmp + "smssendYN : " + CStr(cbDetailInfo.smssendYN) + vbCrLf
-    tmp = tmp + "faxsendYN : " + CStr(cbDetailInfo.faxsendYN) + vbCrLf
-    
-    tmp = tmp + "confirmNum : " + cbDetailInfo.confirmNum + vbCrLf
-    
-    tmp = tmp + "orgConfirmNum : " + cbDetailInfo.orgConfirmNum + vbCrLf
-    tmp = tmp + "orgTradeDate : " + cbDetailInfo.orgTradeDate + vbCrLf
+    tmp = tmp + "orgConfirmNum (원본현금영수증 국세청승인번호) : " + cbDetailInfo.orgConfirmNum + vbCrLf
+    tmp = tmp + "orgTradeDate (원본현금영수증 거래일자) : " + cbDetailInfo.orgTradeDate + vbCrLf
     
     MsgBox tmp
     
@@ -879,32 +874,32 @@ Private Sub btnGetInfo_Click()
     
     Dim tmp As String
     
-   
-    tmp = tmp + "itemKey : " + cbInfo.itemKey + vbCrLf
-    tmp = tmp + "mgtKey : " + cbInfo.mgtKey + vbCrLf
-    tmp = tmp + "tradeDate : " + cbInfo.tradeDate + vbCrLf
-    tmp = tmp + "issueDT : " + cbInfo.issueDT + vbCrLf
-    tmp = tmp + "customerName : " + cbInfo.customerName + vbCrLf
-    tmp = tmp + "itemName : " + cbInfo.itemName + vbCrLf
-    tmp = tmp + "identityNum : " + cbInfo.identityNum + vbCrLf
-    tmp = tmp + "taxationType : " + cbInfo.taxationType + vbCrLf
-    tmp = tmp + "totalAmount : " + cbInfo.totalAmount + vbCrLf
-    tmp = tmp + "tradeUsage : " + cbInfo.tradeUsage + vbCrLf
-    tmp = tmp + "tradeType : " + cbInfo.tradeType + vbCrLf
-    tmp = tmp + "stateCode : " + CStr(cbInfo.stateCode) + vbCrLf
-    tmp = tmp + "stateDT : " + cbInfo.stateDT + vbCrLf
-    tmp = tmp + "printYN : " + CStr(cbInfo.printYN) + vbCrLf
-    tmp = tmp + "confirmNum : " + cbInfo.confirmNum + vbCrLf
-    tmp = tmp + "orgTradeDate : " + cbInfo.orgTradeDate + vbCrLf
-    tmp = tmp + "orgConfirmNum : " + cbInfo.orgConfirmNum + vbCrLf
-    tmp = tmp + "ntssendDT : " + cbInfo.ntssendDT + vbCrLf
-    tmp = tmp + "ntsresult : " + cbInfo.ntsresult + vbCrLf
-    tmp = tmp + "ntsresultDT : " + cbInfo.ntsresultDT + vbCrLf
-    tmp = tmp + "ntsresultCode : " + cbInfo.ntsresultCode + vbCrLf
-    tmp = tmp + "ntsresultMessage : " + cbInfo.ntsresultMessage + vbCrLf
-   
-    tmp = tmp + "regDT : " + cbInfo.regDT + vbCrLf
+    tmp = tmp + "itemKey (아이템키) : " + cbInfo.itemKey + vbCrLf
+    tmp = tmp + "mgtKey (문서관리번호) : " + cbInfo.mgtKey + vbCrLf
+    tmp = tmp + "tradeDate (거래일자) : " + cbInfo.tradeDate + vbCrLf
+    tmp = tmp + "issueDT (발행일시) : " + cbInfo.issueDT + vbCrLf
+    tmp = tmp + "regDT (등록일시) : " + cbInfo.regDT + vbCrLf
+    tmp = tmp + "taxationType (과세형태) : " + cbInfo.taxationType + vbCrLf
+    tmp = tmp + "totalAmount (거래금액) : " + cbInfo.totalAmount + vbCrLf
+    tmp = tmp + "tradeUsage (거래용도) : " + cbInfo.tradeUsage + vbCrLf
+    tmp = tmp + "tradeType (현금영수증 형태) : " + cbInfo.tradeType + vbCrLf
+    tmp = tmp + "stateCode (상태코드) : " + CStr(cbInfo.stateCode) + vbCrLf
+    tmp = tmp + "stateDT (상태변경일시) : " + cbInfo.stateDT + vbCrLf
     
+    tmp = tmp + "identityNum (거래처 식별번호) : " + cbInfo.identityNum + vbCrLf
+    tmp = tmp + "itemName (상품명) : " + cbInfo.itemName + vbCrLf
+    tmp = tmp + "customerName (고객명) : " + cbInfo.customerName + vbCrLf
+    
+    tmp = tmp + "confirmNum (국세청승인번호) : " + cbInfo.confirmNum + vbCrLf
+    tmp = tmp + "ntssendDT (국세청 전송일시) : " + cbInfo.ntssendDT + vbCrLf
+    tmp = tmp + "ntsresultDT (국세청 처리결과 수신일시) : " + cbInfo.ntsresultDT + vbCrLf
+    tmp = tmp + "ntsresultCode (국세청 처리결과 상태코드) : " + cbInfo.ntsresultCode + vbCrLf
+    tmp = tmp + "ntsresultMessage (국세청 처리결과 메시지) : " + cbInfo.ntsresultMessage + vbCrLf
+    tmp = tmp + "orgConfirmNum (원본 현금영수증 국세청 승인번호) : " + cbInfo.orgConfirmNum + vbCrLf
+    tmp = tmp + "orgTradeDate (원본 현금영수증 거래일자) : " + cbInfo.orgTradeDate + vbCrLf
+    
+    tmp = tmp + "printYN (인쇄여부) : " + CStr(cbInfo.printYN) + vbCrLf
+   
     MsgBox tmp
     
     
