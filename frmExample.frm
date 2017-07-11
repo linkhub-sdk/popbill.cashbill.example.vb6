@@ -1445,7 +1445,11 @@ Private Sub btnRegistIssue_Click()
     
     '[취소거래시 필수] 원본 국세청승인번호
     '문서정보(GetInfo API)의 응답항목중 국세청승인번호(confirmNum)를 확인하여 기재
-    Cashbill.orgConfirmNum = ""
+    'Cashbill.orgConfirmNum = "E1234123"
+    
+    '[취소거래시 필수] 원본 현금영수증 거래일자
+    '문서정보(GetInfo API)의 응답항목중 거래일자(tradeDate)를 확인하여 기재
+    'Cashbill.orgTradeDate = "20170101"
     
     '발행자 사업자번호, "-" 제외 10자리
     Cashbill.franchiseCorpNum = txtCorpNum.Text
