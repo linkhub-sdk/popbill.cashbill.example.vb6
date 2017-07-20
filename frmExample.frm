@@ -558,7 +558,7 @@ Attribute VB_Exposed = False
 ' 팝빌 현금영수증 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 :
-' - 업데이트 일자 : 2017-05-24
+' - 업데이트 일자 : 2017-07-20
 ' - 연동 기술지원 연락처 : 1600-8536 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -1355,6 +1355,14 @@ Private Sub btnRegister_Click()
     '현금영수증 형태, [승인거래, 취소거래] 중 기재
     Cashbill.tradeType = "승인거래"
     
+    '[취소거래시 필수] 원본 국세청승인번호
+    '문서정보(GetInfo API)의 응답항목중 국세청승인번호(confirmNum)를 확인하여 기재
+    Cashbill.orgConfirmNum = ""
+    
+    '[취소거래시 필수] 원본 현금영수증 거래일자
+    '문서정보(GetInfo API)의 응답항목중 거래일자(tradeDate)를 확인하여 기재
+    Cashbill.orgTradeDate = ""
+    
     '발행자 사업자번호, "-" 제외 10자리
     Cashbill.franchiseCorpNum = "1234567890"
     
@@ -1376,7 +1384,7 @@ Private Sub btnRegister_Click()
     '거래처 식별번호, 거래유형에 따라 작성
     '소득공제용 - 주민등록/휴대폰/카드번호 기재가능
     '지출증빙용 - 사업자번호/주민등록/휴대폰/카드번호 기재가능
-    Cashbill.identityNum = "01041680206"
+    Cashbill.identityNum = "0101112222"
     
     '과세형태, [과세, 비과세] 중 기재
     Cashbill.taxationType = "과세"
@@ -1445,11 +1453,11 @@ Private Sub btnRegistIssue_Click()
     
     '[취소거래시 필수] 원본 국세청승인번호
     '문서정보(GetInfo API)의 응답항목중 국세청승인번호(confirmNum)를 확인하여 기재
-    'Cashbill.orgConfirmNum = "E1234123"
+    Cashbill.orgConfirmNum = ""
     
     '[취소거래시 필수] 원본 현금영수증 거래일자
     '문서정보(GetInfo API)의 응답항목중 거래일자(tradeDate)를 확인하여 기재
-    'Cashbill.orgTradeDate = "20170101"
+    Cashbill.orgTradeDate = ""
     
     '발행자 사업자번호, "-" 제외 10자리
     Cashbill.franchiseCorpNum = txtCorpNum.Text
@@ -1472,7 +1480,7 @@ Private Sub btnRegistIssue_Click()
     '거래처 식별번호, 거래유형에 따라 작성
     '소득공제용 - 주민등록/휴대폰/카드번호 기재가능
     '지출증빙용 - 사업자번호/주민등록/휴대폰/카드번호 기재가능
-    Cashbill.identityNum = "01041680206"
+    Cashbill.identityNum = "0101112222"
     
     '과세형태, [과세, 비과세] 중 기재
     Cashbill.taxationType = "과세"
