@@ -1,17 +1,17 @@
 VERSION 5.00
 Begin VB.Form frmExample 
    Caption         =   "팝빌 현금영수증 SDK 예제"
-   ClientHeight    =   10980
+   ClientHeight    =   11325
    ClientLeft      =   60
    ClientTop       =   450
    ClientWidth     =   11325
    LinkTopic       =   "Form1"
-   ScaleHeight     =   10980
+   ScaleHeight     =   11325
    ScaleWidth      =   11325
    StartUpPosition =   2  '화면 가운데
    Begin VB.Frame Frame7 
       Caption         =   "현금영수증 관련 기능"
-      Height          =   6825
+      Height          =   7185
       Left            =   360
       TabIndex        =   13
       Top             =   3840
@@ -19,16 +19,16 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame9 
          Caption         =   "즉시발행 프로세스 "
          Height          =   2295
-         Left            =   1320
-         TabIndex        =   53
-         Top             =   840
+         Left            =   1800
+         TabIndex        =   49
+         Top             =   1440
          Width           =   3135
          Begin VB.CommandButton btnDelete_ 
             Caption         =   "삭제"
             Height          =   375
             Left            =   1755
             Style           =   1  '그래픽
-            TabIndex        =   56
+            TabIndex        =   52
             Top             =   1560
             Width           =   855
          End
@@ -38,7 +38,7 @@ Begin VB.Form frmExample
             Height          =   375
             Left            =   480
             Style           =   1  '그래픽
-            TabIndex        =   55
+            TabIndex        =   51
             Top             =   1560
             Width           =   975
          End
@@ -48,7 +48,7 @@ Begin VB.Form frmExample
             Height          =   430
             Left            =   600
             Style           =   1  '그래픽
-            TabIndex        =   54
+            TabIndex        =   50
             Top             =   480
             Width           =   975
          End
@@ -78,14 +78,14 @@ Begin VB.Form frmExample
          Caption         =   " 문서 정보 "
          Height          =   2760
          Left            =   4800
-         TabIndex        =   36
-         Top             =   3525
+         TabIndex        =   33
+         Top             =   4125
          Width           =   3210
          Begin VB.CommandButton btnGetEPrintUrl 
             Caption         =   "공급받는자 인쇄 팝업 URL"
             Height          =   390
             Left            =   210
-            TabIndex        =   41
+            TabIndex        =   38
             Top             =   1260
             Width           =   2745
          End
@@ -93,7 +93,7 @@ Begin VB.Form frmExample
             Caption         =   "문서 내용 보기 팝업 URL"
             Height          =   390
             Left            =   210
-            TabIndex        =   40
+            TabIndex        =   37
             Top             =   390
             Width           =   2745
          End
@@ -101,7 +101,7 @@ Begin VB.Form frmExample
             Caption         =   "인쇄 팝업 URL"
             Height          =   390
             Left            =   210
-            TabIndex        =   39
+            TabIndex        =   36
             Top             =   825
             Width           =   2745
          End
@@ -109,7 +109,7 @@ Begin VB.Form frmExample
             Caption         =   "다량 인쇄 팝업 URL"
             Height          =   390
             Left            =   210
-            TabIndex        =   38
+            TabIndex        =   35
             Top             =   1710
             Width           =   2745
          End
@@ -117,7 +117,7 @@ Begin VB.Form frmExample
             Caption         =   "이메일(공급받는자) 링크 URL"
             Height          =   390
             Left            =   210
-            TabIndex        =   37
+            TabIndex        =   34
             Top             =   2160
             Width           =   2745
          End
@@ -126,14 +126,14 @@ Begin VB.Form frmExample
          Caption         =   " 기타 URL "
          Height          =   1890
          Left            =   8160
-         TabIndex        =   32
-         Top             =   3525
+         TabIndex        =   29
+         Top             =   4125
          Width           =   2265
          Begin VB.CommandButton btnGetURL_TBOX 
             Caption         =   "임시 문서함"
             Height          =   390
             Left            =   210
-            TabIndex        =   35
+            TabIndex        =   32
             Top             =   390
             Width           =   1845
          End
@@ -141,7 +141,7 @@ Begin VB.Form frmExample
             Caption         =   "발행 문서함"
             Height          =   390
             Left            =   210
-            TabIndex        =   34
+            TabIndex        =   31
             Top             =   825
             Width           =   1845
          End
@@ -149,7 +149,7 @@ Begin VB.Form frmExample
             Caption         =   "매출 작성"
             Height          =   390
             Left            =   210
-            TabIndex        =   33
+            TabIndex        =   30
             Top             =   1275
             Width           =   1845
          End
@@ -158,14 +158,14 @@ Begin VB.Form frmExample
          Caption         =   " 부가 서비스"
          Height          =   1935
          Left            =   2760
-         TabIndex        =   28
-         Top             =   3525
+         TabIndex        =   25
+         Top             =   4125
          Width           =   1815
          Begin VB.CommandButton btnSendEmail 
             Caption         =   "이메일 전송"
             Height          =   390
             Left            =   225
-            TabIndex        =   31
+            TabIndex        =   28
             Top             =   390
             Width           =   1335
          End
@@ -173,7 +173,7 @@ Begin VB.Form frmExample
             Caption         =   "문자 전송"
             Height          =   390
             Left            =   225
-            TabIndex        =   30
+            TabIndex        =   27
             Top             =   825
             Width           =   1335
          End
@@ -181,7 +181,7 @@ Begin VB.Form frmExample
             Caption         =   "팩스 전송"
             Height          =   390
             Left            =   210
-            TabIndex        =   29
+            TabIndex        =   26
             Top             =   1290
             Width           =   1335
          End
@@ -190,14 +190,14 @@ Begin VB.Form frmExample
          Caption         =   " 문서 정보 "
          Height          =   2775
          Left            =   240
-         TabIndex        =   23
-         Top             =   3525
+         TabIndex        =   20
+         Top             =   4125
          Width           =   2265
          Begin VB.CommandButton btnSearch 
             Caption         =   "문서 목록조회"
             Height          =   390
             Left            =   195
-            TabIndex        =   57
+            TabIndex        =   53
             Top             =   2160
             Width           =   1845
          End
@@ -205,7 +205,7 @@ Begin VB.Form frmExample
             Caption         =   "문서 상세 정보"
             Height          =   390
             Left            =   195
-            TabIndex        =   27
+            TabIndex        =   24
             Top             =   1710
             Width           =   1845
          End
@@ -213,7 +213,7 @@ Begin VB.Form frmExample
             Caption         =   "문서 이력"
             Height          =   390
             Left            =   195
-            TabIndex        =   26
+            TabIndex        =   23
             Top             =   1260
             Width           =   1845
          End
@@ -221,7 +221,7 @@ Begin VB.Form frmExample
             Caption         =   "문서 정보(대량)"
             Height          =   390
             Left            =   210
-            TabIndex        =   25
+            TabIndex        =   22
             Top             =   825
             Width           =   1845
          End
@@ -229,82 +229,46 @@ Begin VB.Form frmExample
             Caption         =   "문서 정보"
             Height          =   390
             Left            =   210
-            TabIndex        =   24
+            TabIndex        =   21
             Top             =   390
             Width           =   1845
          End
       End
       Begin VB.Frame Frame8 
-         Caption         =   "임시저장-발행 프로세스 "
+         Caption         =   "취소현금영수증 즉시발행 프로세스"
          Height          =   2385
-         Left            =   4800
+         Left            =   5640
          TabIndex        =   18
-         Top             =   840
-         Width           =   3735
-         Begin VB.CommandButton btnIssue 
+         Top             =   1440
+         Width           =   3135
+         Begin VB.CommandButton btnRevokeRegistIssue 
             BackColor       =   &H00C0C0FF&
-            Caption         =   "발행"
-            Height          =   525
-            Left            =   1230
-            Style           =   1  '그래픽
-            TabIndex        =   43
-            Top             =   1140
-            Width           =   1020
+            Caption         =   "즉시발행"
+            Height          =   375
+            Left            =   480
+            MaskColor       =   &H00C0C0FF&
+            TabIndex        =   55
+            Top             =   480
+            Width           =   975
          End
          Begin VB.CommandButton btnCancelIssue 
             BackColor       =   &H00C0C0FF&
             Caption         =   "발행취소"
             Height          =   375
-            Left            =   1215
+            Left            =   360
             Style           =   1  '그래픽
-            TabIndex        =   42
-            Top             =   1830
+            TabIndex        =   39
+            Top             =   1560
             Width           =   960
-         End
-         Begin VB.CommandButton btnRegister 
-            BackColor       =   &H00C0C0FF&
-            Caption         =   "등록"
-            Height          =   375
-            Left            =   1305
-            Style           =   1  '그래픽
-            TabIndex        =   21
-            Top             =   480
-            Width           =   855
-         End
-         Begin VB.CommandButton btnUpdate 
-            BackColor       =   &H00C0C0FF&
-            Caption         =   "수정"
-            Height          =   375
-            Left            =   2280
-            Style           =   1  '그래픽
-            TabIndex        =   20
-            Top             =   480
-            Width           =   855
          End
          Begin VB.CommandButton btnDelete 
             Caption         =   "삭제"
             Height          =   375
-            Left            =   2490
+            Left            =   1680
             Style           =   1  '그래픽
             TabIndex        =   19
-            Top             =   1830
+            Top             =   1560
             Width           =   855
-         End
-         Begin VB.Line Line1 
-            X1              =   1740
-            X2              =   1740
-            Y1              =   2100
-            Y2              =   795
-         End
-         Begin VB.Label Label4 
-            AutoSize        =   -1  'True
-            BackStyle       =   0  '투명
-            Caption         =   "임시저장"
-            Height          =   180
-            Left            =   465
-            TabIndex        =   22
-            Top             =   555
-            Width           =   720
          End
          Begin VB.Shape Shape1 
             BackColor       =   &H00E0E0E0&
@@ -313,19 +277,19 @@ Begin VB.Form frmExample
             Height          =   660
             Left            =   300
             Top             =   345
-            Width           =   3135
+            Width           =   2415
          End
-         Begin VB.Line Line3 
-            X1              =   2925
-            X2              =   2925
-            Y1              =   2010
-            Y2              =   615
+         Begin VB.Line Line1 
+            X1              =   840
+            X2              =   840
+            Y1              =   2100
+            Y2              =   795
          End
          Begin VB.Line Line2 
-            X1              =   1710
-            X2              =   3120
-            Y1              =   2010
-            Y2              =   2010
+            X1              =   1080
+            X2              =   2490
+            Y1              =   1760
+            Y2              =   1760
          End
       End
       Begin VB.CommandButton btnCheckMgtKeyInUse 
@@ -342,6 +306,14 @@ Begin VB.Form frmExample
          TabIndex        =   16
          Top             =   285
          Width           =   2775
+      End
+      Begin VB.Label Label4 
+         Caption         =   "국세청에 신고된 현금영수증을 취소하기 위해서는'취소현금영수증'을 발행해야 합니다."
+         Height          =   375
+         Left            =   5640
+         TabIndex        =   56
+         Top             =   960
+         Width           =   4095
       End
       Begin VB.Label Label3 
          AutoSize        =   -1  'True
@@ -364,14 +336,14 @@ Begin VB.Form frmExample
          Caption         =   " 회사정보 관련"
          Height          =   2415
          Left            =   8880
-         TabIndex        =   50
+         TabIndex        =   46
          Top             =   360
          Width           =   1935
          Begin VB.CommandButton btnUpdateCorpInfo 
             Caption         =   "회사정보 수정"
             Height          =   410
             Left            =   120
-            TabIndex        =   52
+            TabIndex        =   48
             Top             =   840
             Width           =   1695
          End
@@ -379,7 +351,7 @@ Begin VB.Form frmExample
             Caption         =   "회사정보 조회"
             Height          =   410
             Left            =   120
-            TabIndex        =   51
+            TabIndex        =   47
             Top             =   360
             Width           =   1695
          End
@@ -395,7 +367,7 @@ Begin VB.Form frmExample
             Caption         =   "ID 중복 확인"
             Height          =   410
             Left            =   120
-            TabIndex        =   44
+            TabIndex        =   40
             Top             =   840
             Width           =   1455
          End
@@ -427,7 +399,7 @@ Begin VB.Form frmExample
             Caption         =   "과금정보 확인"
             Height          =   410
             Left            =   120
-            TabIndex        =   58
+            TabIndex        =   54
             Top             =   360
             Width           =   2055
          End
@@ -435,7 +407,7 @@ Begin VB.Form frmExample
             Caption         =   "파트너 잔여포인트 확인"
             Height          =   410
             Left            =   120
-            TabIndex        =   45
+            TabIndex        =   41
             Top             =   1320
             Width           =   2055
          End
@@ -467,7 +439,7 @@ Begin VB.Form frmExample
             Caption         =   "담당자 추가"
             Height          =   410
             Left            =   120
-            TabIndex        =   49
+            TabIndex        =   45
             Top             =   360
             Width           =   1815
          End
@@ -475,7 +447,7 @@ Begin VB.Form frmExample
             Caption         =   "담당자 목록 조회"
             Height          =   410
             Left            =   120
-            TabIndex        =   48
+            TabIndex        =   44
             Top             =   840
             Width           =   1815
          End
@@ -483,7 +455,7 @@ Begin VB.Form frmExample
             Caption         =   "담당자 정보 수정"
             Height          =   410
             Left            =   120
-            TabIndex        =   47
+            TabIndex        =   43
             Top             =   1320
             Width           =   1815
          End
@@ -499,7 +471,7 @@ Begin VB.Form frmExample
             Caption         =   " 포인트 충전 URL"
             Height          =   410
             Left            =   120
-            TabIndex        =   46
+            TabIndex        =   42
             Top             =   840
             Width           =   1935
          End
@@ -1526,6 +1498,37 @@ Private Sub btnRegistIssue_Click()
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
     
+End Sub
+
+'=========================================================================
+' 1건의 취소현금영수증을 즉시발행합니다.
+' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
+'   전송결과를 확인할 수 있습니다.
+' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
+'   > 1.4. 국세청 전송정책"을 참조하시기 바랍니다.
+' - 취소현금영수증 작성방법 안내 - http://blog.linkhub.co.kr/702
+'=========================================================================
+
+Private Sub btnRevokeRegistIssue_Click()
+    Dim Response As PBResponse
+    Dim orgConfirmNum As String
+    Dim orgTradeDate As String
+    
+    
+    '원본현금영수증 승인번호
+    orgConfirmNum = "820116333"
+    
+    '원본현금영수증 거래일자
+    orgTradeDate = "20170711"
+    
+    Set Response = CashbillService.RevokeRegistIssue(txtCorpNum.Text, txtMgtKey.Text, orgConfirmNum, orgTradeDate)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
 '=========================================================================
