@@ -240,7 +240,15 @@ Begin VB.Form frmExample
          Left            =   5640
          TabIndex        =   17
          Top             =   1440
-         Width           =   3135
+         Width           =   4095
+         Begin VB.CommandButton btnRevokeRegistIssue_part 
+            Caption         =   "부분취소 즉시발행"
+            Height          =   375
+            Left            =   1680
+            TabIndex        =   60
+            Top             =   480
+            Width           =   1815
+         End
          Begin VB.CommandButton btnRevokeRegistIssue 
             BackColor       =   &H00C0C0FF&
             Caption         =   "즉시발행"
@@ -255,7 +263,7 @@ Begin VB.Form frmExample
             BackColor       =   &H00C0C0FF&
             Caption         =   "발행취소"
             Height          =   375
-            Left            =   360
+            Left            =   480
             Style           =   1  '그래픽
             TabIndex        =   38
             Top             =   1560
@@ -264,7 +272,7 @@ Begin VB.Form frmExample
          Begin VB.CommandButton btnDelete 
             Caption         =   "삭제"
             Height          =   375
-            Left            =   1680
+            Left            =   1920
             Style           =   1  '그래픽
             TabIndex        =   18
             Top             =   1560
@@ -277,11 +285,11 @@ Begin VB.Form frmExample
             Height          =   660
             Left            =   300
             Top             =   345
-            Width           =   2415
+            Width           =   3495
          End
          Begin VB.Line Line1 
-            X1              =   840
-            X2              =   840
+            X1              =   960
+            X2              =   960
             Y1              =   1905
             Y2              =   600
          End
@@ -830,6 +838,7 @@ Private Sub btnGetDetailInfo_Click()
     
     tmp = tmp + "orgConfirmNum (원본현금영수증 국세청승인번호) : " + cbDetailInfo.orgConfirmNum + vbCrLf
     tmp = tmp + "orgTradeDate (원본현금영수증 거래일자) : " + cbDetailInfo.orgTradeDate + vbCrLf
+    tmp = tmp + "cancelType (취소사유) : " + CStr(cbDetailInfo.cancelType) + vbCrLf
     
     MsgBox tmp
     
@@ -1563,6 +1572,69 @@ Private Sub btnRevokeRegistIssue_Click()
     orgTradeDate = "20170711"
     
     Set Response = CashbillService.RevokeRegistIssue(txtCorpNum.Text, txtMgtKey.Text, orgConfirmNum, orgTradeDate)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 1건의 (부분 취소현금영수증을 즉시발행합니다.
+' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
+'   전송결과를 확인할 수 있습니다.
+' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
+'   > 1.4. 국세청 전송정책"을 참조하시기 바랍니다.
+' - 취소현금영수증 작성방법 안내 - http://blog.linkhub.co.kr/702
+'=========================================================================
+
+Private Sub btnRevokeRegistIssue_part_Click()
+    Dim Response As PBResponse
+    Dim orgConfirmNum As String
+    Dim orgTradeDate As String
+    Dim smssendYN As Boolean
+    Dim memo As String
+    Dim isPartCancel As Boolean
+    Dim cancelType As Integer
+    Dim supplyCost As String
+    Dim tax As String
+    Dim serviceFee As String
+    Dim totalAmount As String
+    
+    '원본현금영수증 승인번호
+    orgConfirmNum = "820116333"
+    
+    '원본현금영수증 거래일자
+    orgTradeDate = "20170711"
+    
+    '안내문자 전송여부
+    smssendYN = False
+    
+    '메모
+    memo = "즉시발행 메모"
+    
+    '부분취소여부, True-부분취소, False-전체취소
+    isPartCancel = True
+    
+    '취소사유(Integer), 1-거래취소, 2-오류발급취소, 3-기타
+    cancelType = 1
+    
+    '[취소] 공급가액
+    supplyCost = "3000"
+    
+    '[취소] 세액
+    tax = "300"
+    
+    '[취소] 봉사료
+    serviceFee = "0"
+    
+    '[취소] 합계금액
+    totalAmount = "3300"
+    
+    Set Response = CashbillService.RevokeRegistIssue(txtCorpNum.Text, txtMgtKey.Text, orgConfirmNum, orgTradeDate, smssendYN, memo, txtUserID.Text, _
+        isPartCancel, cancelType, supplyCost, tax, serviceFee, totalAmount)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
