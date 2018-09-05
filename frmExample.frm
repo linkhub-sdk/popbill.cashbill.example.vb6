@@ -1264,7 +1264,7 @@ Private Sub btnListContact_Click()
     
     For Each info In resultList
         tmp = tmp + info.id + " | " + info.email + " | " + info.hp + " | " + info.personName + " | " + CStr(info.searchAllAllowYN) _
-                + info.tel + " | " + info.fax + " | " + CStr(info.mgrYN) + " | " + info.regDT + vbCrLf
+                + info.tel + " | " + info.fax + " | " + CStr(info.mgrYN) + " | " + info.regDT + " | " + CStr(info.state) + vbCrLf
     Next
     
     MsgBox tmp
@@ -1655,7 +1655,7 @@ Private Sub btnSearch_Click()
     Dim DType As String
     Dim SDate As String
     Dim EDate As String
-    Dim State As New Collection
+    Dim state As New Collection
     Dim tradeType As New Collection
     Dim tradeUsage As New Collection
     Dim taxationType As New Collection
@@ -1675,9 +1675,9 @@ Private Sub btnSearch_Click()
     
     '전송상태코드 배열, 미기재시 전체조회, 2,3번째 자리 와일드카드(*) 가능
     '[참조] 현금영수증 API 연동매뉴열 "5.1. 현금영수증 상태코드"
-    State.Add "2**"
-    State.Add "3**"
-    State.Add "4**"
+    state.Add "2**"
+    state.Add "3**"
+    state.Add "4**"
     
     '현금영수증 형태 배열, N-일반 현금영수증, C-취소 현금영수증
     tradeType.Add "N"
@@ -1703,7 +1703,7 @@ Private Sub btnSearch_Click()
     '현금영수증 식별번호 조회, 미기재시 전체조회
     QString = ""
     
-    Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, State, tradeType, _
+    Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, state, tradeType, _
                                 tradeUsage, taxationType, Page, PerPage, Order, QString)
      
     If cbSearchList Is Nothing Then
