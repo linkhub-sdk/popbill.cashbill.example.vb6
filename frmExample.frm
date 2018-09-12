@@ -15,7 +15,7 @@ Begin VB.Form frmExample
       Left            =   240
       TabIndex        =   12
       Top             =   3480
-      Width           =   10650
+      Width           =   12330
       Begin VB.Frame Frame9 
          Caption         =   "즉시발행 프로세스 "
          Height          =   2295
@@ -77,7 +77,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame14 
          Caption         =   " 문서 정보 "
          Height          =   2760
-         Left            =   4800
+         Left            =   5880
          TabIndex        =   32
          Top             =   4125
          Width           =   3210
@@ -125,7 +125,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
          Height          =   1890
-         Left            =   8160
+         Left            =   9240
          TabIndex        =   28
          Top             =   4125
          Width           =   2265
@@ -156,18 +156,34 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame12 
          Caption         =   " 부가 서비스"
-         Height          =   1935
+         Height          =   2775
          Left            =   2760
          TabIndex        =   24
          Top             =   4125
-         Width           =   1815
+         Width           =   2895
+         Begin VB.CommandButton btnUpdateemailconfig 
+            Caption         =   "알림메일 전송설정 수정"
+            Height          =   375
+            Left            =   240
+            TabIndex        =   62
+            Top             =   2280
+            Width           =   2415
+         End
+         Begin VB.CommandButton btnListemailconfig 
+            Caption         =   "알림메일 전송목록 조회"
+            Height          =   375
+            Left            =   240
+            TabIndex        =   61
+            Top             =   1800
+            Width           =   2415
+         End
          Begin VB.CommandButton btnSendEmail 
             Caption         =   "이메일 전송"
             Height          =   390
             Left            =   225
             TabIndex        =   27
-            Top             =   390
-            Width           =   1335
+            Top             =   360
+            Width           =   2415
          End
          Begin VB.CommandButton btnSendSMS 
             Caption         =   "문자 전송"
@@ -175,15 +191,15 @@ Begin VB.Form frmExample
             Left            =   225
             TabIndex        =   26
             Top             =   825
-            Width           =   1335
+            Width           =   2415
          End
          Begin VB.CommandButton btnSendFAX 
             Caption         =   "팩스 전송"
             Height          =   390
-            Left            =   210
+            Left            =   240
             TabIndex        =   25
-            Top             =   1290
-            Width           =   1335
+            Top             =   1320
+            Width           =   2415
          End
       End
       Begin VB.Frame Frame11 
@@ -583,7 +599,7 @@ Option Explicit
 '=========================================================================
 
 '링크아이디
-Private Const linkID = "TESTER"
+Private Const LinkID = "TESTER"
 
 '비밀키. 유출에 주의하시기 바랍니다.
 Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
@@ -680,7 +696,7 @@ End Sub
 Private Sub btnCheckIsMember_Click()
     Dim Response As PBResponse
     
-    Set Response = CashbillService.CheckIsMember(txtCorpNum.Text, linkID)
+    Set Response = CashbillService.CheckIsMember(txtCorpNum.Text, LinkID)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -1189,7 +1205,7 @@ Private Sub btnJoinMember_Click()
     Dim Response As PBResponse
     
     '링크 아이디
-    joinData.linkID = linkID
+    joinData.LinkID = LinkID
     
     '사업자번호, '-'제외, 10자리
     joinData.CorpNum = "6748500389"
@@ -1258,7 +1274,7 @@ Private Sub btnListContact_Click()
     
     Dim tmp As String
     
-    tmp = "id | email | hp | personName | searchAllAllowYN | tel | fax | mgrYN | regDT " + vbCrLf
+    tmp = "id | email | hp | personName | searchAllAllowYN | tel | fax | mgrYN | regDT | state" + vbCrLf
     
     Dim info As PBContactInfo
     
@@ -1293,6 +1309,64 @@ Private Sub btnListCorpInfo_Click()
     tmp = tmp + "bizClass(종목) : " + CorpInfo.bizClass + vbCrLf
     
     MsgBox tmp
+End Sub
+'=========================================================================
+' 현금영수증 관련 메일전송 항목에 대한 전송여부를 목록으로 반환합니다
+'=========================================================================
+Private Sub btnListemailconfig_Click()
+    Dim resultList As Collection
+    Dim i As Integer
+    
+    Set resultList = CashbillService.ListEmailConfig(txtCorpNum.Text, txtUserID.Text)
+    
+    If resultList Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+ 
+    Dim tmp As String
+    
+    tmp = "메일전송유형(EmailType) | 전송여부(SendYN) " + vbCrLf
+    
+    Dim info As PBEmailConfig
+    
+    For i = 1 To resultList.Count
+        If resultList(i).emailType = "CSH_ISSUE" Then
+            tmp = tmp + "고객에게 현금영수증이 발행 되었음을 알려주는 메일 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+        
+        If resultList(i).emailType = "CSH_CANCEL" Then
+            tmp = tmp + "고객에게 현금영수증이 발행취소 되었음을 알려주는 메일 : " + resultList(i).emailType + " | "
+            tmp = tmp + CStr(resultList(i).sendYN) + vbCrLf
+        End If
+    Next
+    
+    MsgBox tmp
+
+End Sub
+'=========================================================================
+' 현금영수증 관련 메일전송 항목에 대한 전송여부를 수정합니다.
+'=========================================================================
+Private Sub btnUpdateemailconfig_Click()
+    Dim Response As PBResponse
+    Dim emailType As String
+    Dim sendYN As Boolean
+    
+    '메일 전송 유형
+    emailType = "CSH_ISSUE"
+
+    '전송 여부 (True = 전송, False = 미전송)
+    sendYN = True
+    
+    Set Response = CashbillService.UpdateEmailConfig(txtCorpNum.Text, emailType, sendYN, txtUserID.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
 '=========================================================================
@@ -2003,8 +2077,11 @@ Private Sub btnUpdateCorpInfo_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
+
+
+
 Private Sub Form_Load()
-    CashbillService.Initialize linkID, SecretKey
+    CashbillService.Initialize LinkID, SecretKey
     
     '연동환경 설정값 True-테스트용, False-상업용
     CashbillService.IsTest = True
