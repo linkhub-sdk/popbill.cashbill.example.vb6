@@ -578,7 +578,7 @@ Attribute VB_Exposed = False
 ' 팝빌 현금영수증 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 :
-' - 업데이트 일자 : 2017-08-30
+' - 업데이트 일자 : 2018-10-04
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -829,31 +829,29 @@ Private Sub btnGetDetailInfo_Click()
     
     tmp = tmp + "mgtKey (관리번호) : " + cbDetailInfo.mgtKey + vbCrLf
     tmp = tmp + "confirmNum (국세청승인번호) : " + cbDetailInfo.confirmNum + vbCrLf
-    tmp = tmp + "tradeDate (거래일자) : " + cbDetailInfo.tradeDate + vbCrLf
-    tmp = tmp + "tradeUsage (거래유형) : " + cbDetailInfo.tradeUsage + vbCrLf
-    tmp = tmp + "tradeType (현금영수증 형태) : " + cbDetailInfo.tradeType + vbCrLf
-    tmp = tmp + "taxationType (과세형태) : " + cbDetailInfo.taxationType + vbCrLf
-    tmp = tmp + "supplyCost (공급가액) : " + cbDetailInfo.supplyCost + vbCrLf
-    tmp = tmp + "tax (세액) : " + cbDetailInfo.tax + vbCrLf
-    tmp = tmp + "serviceFee (봉사료) : " + cbDetailInfo.serviceFee + vbCrLf
-    tmp = tmp + "totalAmount (거래금액) : " + cbDetailInfo.totalAmount + vbCrLf
-    
-    tmp = tmp + "franchiseCorpNum (발행자 사업자번호) : " + cbDetailInfo.franchiseCorpNum + vbCrLf
-    tmp = tmp + "franchiseCorpName (발행자 상호) : " + cbDetailInfo.franchiseCorpName + vbCrLf
-    tmp = tmp + "franchiseCEOName (발행자 대표자명) : " + cbDetailInfo.franchiseCEOName + vbCrLf
-    tmp = tmp + "franchiseAddr (발행자 주소) : " + cbDetailInfo.franchiseAddr + vbCrLf
-    tmp = tmp + "franchiseTEL (발행자 연락처) : " + cbDetailInfo.franchiseTEL + vbCrLf
-    
-    tmp = tmp + "identityNum (거래처 식별번호) : " + cbDetailInfo.identityNum + vbCrLf
-    tmp = tmp + "customerName (고객명) : " + cbDetailInfo.customerName + vbCrLf
-    tmp = tmp + "itemName (상품명) : " + cbDetailInfo.itemName + vbCrLf
-    tmp = tmp + "orderNumber (주문번호) : " + cbDetailInfo.orderNumber + vbCrLf
-    tmp = tmp + "email (고객 이메일) : " + cbDetailInfo.email + vbCrLf
-    tmp = tmp + "hp (고객 휴대폰번호) : " + cbDetailInfo.hp + vbCrLf
-    tmp = tmp + "smssendYN (알림문자 전송여부) : " + CStr(cbDetailInfo.smssendYN) + vbCrLf
-    
     tmp = tmp + "orgConfirmNum (원본현금영수증 국세청승인번호) : " + cbDetailInfo.orgConfirmNum + vbCrLf
     tmp = tmp + "orgTradeDate (원본현금영수증 거래일자) : " + cbDetailInfo.orgTradeDate + vbCrLf
+    tmp = tmp + "tradeDate (거래일자) : " + cbDetailInfo.tradeDate + vbCrLf
+    tmp = tmp + "tradeType (문서형태) : " + cbDetailInfo.tradeType + vbCrLf
+    tmp = tmp + "tradeUsage (거래구분) : " + cbDetailInfo.tradeUsage + vbCrLf
+    tmp = tmp + "tradeOpt (거래유형) : " + cbDetailInfo.tradeOpt + vbCrLf
+    tmp = tmp + "taxationType (과세형태) : " + cbDetailInfo.taxationType + vbCrLf
+    tmp = tmp + "totalAmount (거래금액) : " + cbDetailInfo.totalAmount + vbCrLf
+    tmp = tmp + "supplyCost (공급가액) : " + cbDetailInfo.supplyCost + vbCrLf
+    tmp = tmp + "tax (부가세) : " + cbDetailInfo.tax + vbCrLf
+    tmp = tmp + "serviceFee (봉사료) : " + cbDetailInfo.serviceFee + vbCrLf
+    tmp = tmp + "franchiseCorpNum (가맹점 사업자번호) : " + cbDetailInfo.franchiseCorpNum + vbCrLf
+    tmp = tmp + "franchiseCorpName (가맹점 상호) : " + cbDetailInfo.franchiseCorpName + vbCrLf
+    tmp = tmp + "franchiseCEOName (가맹점 대표자 성명) : " + cbDetailInfo.franchiseCEOName + vbCrLf
+    tmp = tmp + "franchiseAddr (가맹점 주소) : " + cbDetailInfo.franchiseAddr + vbCrLf
+    tmp = tmp + "franchiseTEL (가맹점 전화번호) : " + cbDetailInfo.franchiseTEL + vbCrLf
+    tmp = tmp + "identityNum (식별번호) : " + cbDetailInfo.identityNum + vbCrLf
+    tmp = tmp + "customerName (주문자명) : " + cbDetailInfo.customerName + vbCrLf
+    tmp = tmp + "itemName (주문상품명) : " + cbDetailInfo.itemName + vbCrLf
+    tmp = tmp + "orderNumber (주문번호) : " + cbDetailInfo.orderNumber + vbCrLf
+    tmp = tmp + "email (주문자 이메일) : " + cbDetailInfo.email + vbCrLf
+    tmp = tmp + "hp (주문자 휴대폰) : " + cbDetailInfo.hp + vbCrLf
+    tmp = tmp + "smssendYN (알림문자 전송여부) : " + CStr(cbDetailInfo.smssendYN) + vbCrLf
     tmp = tmp + "cancelType (취소사유) : " + CStr(cbDetailInfo.cancelType) + vbCrLf
     
     MsgBox tmp
@@ -898,25 +896,25 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "itemKey (아이템키) : " + cbInfo.itemKey + vbCrLf
     tmp = tmp + "mgtKey (문서관리번호) : " + cbInfo.mgtKey + vbCrLf
     tmp = tmp + "tradeDate (거래일자) : " + cbInfo.tradeDate + vbCrLf
-    tmp = tmp + "issueDT (발행일시) : " + cbInfo.issueDT + vbCrLf
-    tmp = tmp + "regDT (등록일시) : " + cbInfo.regDT + vbCrLf
+    tmp = tmp + "tradeType (문서형태) : " + cbInfo.tradeType + vbCrLf
+    tmp = tmp + "tradeUsage (거래구분) : " + cbInfo.tradeUsage + vbCrLf
+    tmp = tmp + "tradeOpt (거래유형) : " + cbInfo.tradeOpt + vbCrLf
     tmp = tmp + "taxationType (과세형태) : " + cbInfo.taxationType + vbCrLf
     tmp = tmp + "totalAmount (거래금액) : " + cbInfo.totalAmount + vbCrLf
-    tmp = tmp + "tradeUsage (거래용도) : " + cbInfo.tradeUsage + vbCrLf
-    tmp = tmp + "tradeType (현금영수증 형태) : " + cbInfo.tradeType + vbCrLf
+    tmp = tmp + "issueDT (발행일시) : " + cbInfo.issueDT + vbCrLf
+    tmp = tmp + "regDT (등록일시) : " + cbInfo.regDT + vbCrLf
+    tmp = tmp + "stateMemo (상태메모) : " + cbInfo.stateMemo + vbCrLf
     tmp = tmp + "stateCode (상태코드) : " + CStr(cbInfo.stateCode) + vbCrLf
     tmp = tmp + "stateDT (상태변경일시) : " + cbInfo.stateDT + vbCrLf
-    
-    tmp = tmp + "identityNum (거래처 식별번호) : " + cbInfo.identityNum + vbCrLf
-    tmp = tmp + "itemName (상품명) : " + cbInfo.itemName + vbCrLf
-    tmp = tmp + "customerName (고객명) : " + cbInfo.customerName + vbCrLf
-    
+    tmp = tmp + "identityNum (식별번호) : " + cbInfo.identityNum + vbCrLf
+    tmp = tmp + "itemName (주문상품명) : " + cbInfo.itemName + vbCrLf
+    tmp = tmp + "customerName (주문자명) : " + cbInfo.customerName + vbCrLf
     tmp = tmp + "confirmNum (국세청승인번호) : " + cbInfo.confirmNum + vbCrLf
     tmp = tmp + "ntssendDT (국세청 전송일시) : " + cbInfo.ntssendDT + vbCrLf
     tmp = tmp + "ntsresultDT (국세청 처리결과 수신일시) : " + cbInfo.ntsresultDT + vbCrLf
     tmp = tmp + "ntsresultCode (국세청 처리결과 상태코드) : " + cbInfo.ntsresultCode + vbCrLf
     tmp = tmp + "ntsresultMessage (국세청 처리결과 메시지) : " + cbInfo.ntsresultMessage + vbCrLf
-    tmp = tmp + "orgConfirmNum (원본 현금영수증 국세청 승인번호) : " + cbInfo.orgConfirmNum + vbCrLf
+    tmp = tmp + "orgConfirmNum (원본 현금영수증 국세청승인번호) : " + cbInfo.orgConfirmNum + vbCrLf
     tmp = tmp + "orgTradeDate (원본 현금영수증 거래일자) : " + cbInfo.orgTradeDate + vbCrLf
     
     tmp = tmp + "printYN (인쇄여부) : " + CStr(cbInfo.printYN) + vbCrLf
@@ -937,10 +935,10 @@ Private Sub btnGetInfos_Click()
     Dim KeyList As New Collection
     
     '현금영수증 관리번호 배열, 최대 1000건
-    KeyList.Add "20161011-01"
-    KeyList.Add "20161011-02"
-    KeyList.Add "20161011-03"
-    KeyList.Add "20161011-04"
+    KeyList.Add "20181011-01"
+    KeyList.Add "20181011-02"
+    KeyList.Add "20181011-03"
+    KeyList.Add "20181011-04"
     
     Set resultList = CashbillService.GetInfos(txtCorpNum.Text, KeyList)
      
@@ -1226,10 +1224,10 @@ Private Sub btnJoinMember_Click()
     joinData.bizClass = "종목"
     
     '아이디, 6자이상 20자 미만
-    joinData.id = "testkorea_1011"
+    joinData.ID = "testkorea_1011"
     
     '비밀번호, 6자이상 20자 미만
-    joinData.pwd = "pwd_must_be_long_enough"
+    joinData.PWD = "pwd_must_be_long_enough"
     
     '담당자명, 최대 30자
     joinData.ContactName = "담당자성명"
@@ -1279,7 +1277,7 @@ Private Sub btnListContact_Click()
     Dim info As PBContactInfo
     
     For Each info In resultList
-        tmp = tmp + info.id + " | " + info.email + " | " + info.hp + " | " + info.personName + " | " + CStr(info.searchAllAllowYN) _
+        tmp = tmp + info.ID + " | " + info.email + " | " + info.hp + " | " + info.personName + " | " + CStr(info.searchAllAllowYN) _
                 + info.tel + " | " + info.fax + " | " + CStr(info.mgrYN) + " | " + info.regDT + " | " + CStr(info.state) + vbCrLf
     Next
     
@@ -1395,10 +1393,10 @@ Private Sub btnRegistContact_Click()
     Dim Response As PBResponse
     
     '담당자 아이디, 6자 이상 20자 미만
-    joinData.id = "testkorea_20161010"
+    joinData.ID = "testkorea_20161010"
     
     '비밀번호, 6자 이상 20자 미만
-    joinData.pwd = "test@test.com"
+    joinData.PWD = "test@test.com"
     
     '담당자명, 최대 30자
     joinData.personName = "담당자명"
@@ -1544,9 +1542,6 @@ Private Sub btnRegistIssue_Click()
     '현금영수증 관리번호, 1~24자리 영문,숫자조합으로 사업자별로 중복되지 않도록 구성
     Cashbill.mgtKey = txtMgtKey.Text
     
-    '현금영수증 형태, [승인거래, 취소거래] 중 기재
-    Cashbill.tradeType = "승인거래"
-    
     '[취소거래시 필수] 원본 국세청승인번호
     '문서정보(GetInfo API)의 응답항목중 국세청승인번호(confirmNum)를 확인하여 기재
     Cashbill.orgConfirmNum = ""
@@ -1555,57 +1550,63 @@ Private Sub btnRegistIssue_Click()
     '문서정보(GetInfo API)의 응답항목중 거래일자(tradeDate)를 확인하여 기재
     Cashbill.orgTradeDate = ""
     
-    '발행자 사업자번호, "-" 제외 10자리
-    Cashbill.franchiseCorpNum = txtCorpNum.Text
+    '문서형태, [승인거래, 취소거래] 중 기재
+    Cashbill.tradeType = "승인거래"
     
-    '발행자 상호명
-    Cashbill.franchiseCorpName = "발행자 상호"
-    
-    '발행자 대표자 성명
-    Cashbill.franchiseCEOName = "발행자 대표자"
-    
-    '발행자 주소
-    Cashbill.franchiseAddr = "발행자 주소"
-    
-    '발행자 연락처
-    Cashbill.franchiseTEL = "070-1234-1234"
-    
-    '거래유형, [소득공제용, 지출증빙용] 중 기재
+    '거래구분, [소득공제용, 지출증빙용] 중 기재
     Cashbill.tradeUsage = "소득공제용"
     
-    '거래처 식별번호, 거래유형에 따라 작성
-    '소득공제용 - 주민등록/휴대폰/카드번호 기재가능
-    '지출증빙용 - 사업자번호/주민등록/휴대폰/카드번호 기재가능
-    Cashbill.identityNum = "0101112222"
-    
+    '거래유형, [일반, 도서공연, 대중교통] 중 기재
+    Cashbill.tradeOpt = "일반"
+      
     '과세형태, [과세, 비과세] 중 기재
     Cashbill.taxationType = "과세"
+    
+    '거래금액, 공급가액 + 봉사료 + 세액
+    Cashbill.totalAmount = "11000"
     
     '공급가액
     Cashbill.supplyCost = "10000"
     
+    '부가세
+    Cashbill.tax = "1000"
+    
     '봉사료
     Cashbill.serviceFee = "0"
     
-    '세액
-    Cashbill.tax = "1000"
+    '가맹점 사업자번호, "-" 제외 10자리
+    Cashbill.franchiseCorpNum = txtCorpNum.Text
     
-    '합계금액, 공급가액 + 봉사료 + 세액
-    Cashbill.totalAmount = "11000"
+    '가맹점 상호명
+    Cashbill.franchiseCorpName = "발행자 상호"
     
-    '주문고객명
-    Cashbill.customerName = "고객명"
+    '가맹점 대표자 성명
+    Cashbill.franchiseCEOName = "발행자 대표자"
     
-    '상품명
-    Cashbill.itemName = "상품명"
+    '가맹점 주소
+    Cashbill.franchiseAddr = "발행자 주소"
+    
+    '가맹점 연락처
+    Cashbill.franchiseTEL = "070-1234-1234"
+        
+    '식별번호, 거래구분에 따라 작성
+    '소득공제용 - 주민등록/휴대폰/카드번호 기재가능
+    '지출증빙용 - 사업자번호/주민등록/휴대폰/카드번호 기재가능
+    Cashbill.identityNum = "0101112222"
+    
+    '주문자명
+    Cashbill.customerName = "주문자명"
+    
+    '주문상품명
+    Cashbill.itemName = "주문상품명"
     
     '주문번호
     Cashbill.orderNumber = "주문번호"
     
-    '고객이메일
+    '주문자 이메일
     Cashbill.email = "test@test.com"
     
-    '고객휴대폰번호
+    '주문자 휴대폰
     Cashbill.hp = "010-111-222"
     
     '현금영수증 발행 알림문자 전송여부
@@ -1737,15 +1738,16 @@ Private Sub btnSearch_Click()
     Dim PerPage As Integer
     Dim QString As String
     Dim Order As String
+    Dim tradeOpt As New Collection
     
     '[필수] 일자유형, R-등록일자, T-거래일자 I-발행일자
     DType = "T"
     
     '[필수] 시작일자, 형식(yyyyMMdd)
-    SDate = "20160901"
+    SDate = "20180801"
     
     '[필수] 종료일자, 형식(yyyyMMdd)
-    EDate = "20161031"
+    EDate = "20180820"
     
     '전송상태코드 배열, 미기재시 전체조회, 2,3번째 자리 와일드카드(*) 가능
     '[참조] 현금영수증 API 연동매뉴열 "5.1. 현금영수증 상태코드"
@@ -1753,13 +1755,18 @@ Private Sub btnSearch_Click()
     state.Add "3**"
     state.Add "4**"
     
-    '현금영수증 형태 배열, N-일반 현금영수증, C-취소 현금영수증
+    '문서형태 배열, N-일반 현금영수증, C-취소 현금영수증
     tradeType.Add "N"
     tradeType.Add "C"
     
-    '거래유형 배열, P-소득공제, C-제출증빙
+    '거래구분 배열, P-소득공제, C-제출증빙
     tradeUsage.Add "P"
     tradeUsage.Add "C"
+    
+    '거래유형 배열, N-일반, B-도서공연, T-대중교통
+    tradeOpt.Add "N"
+    tradeOpt.Add "B"
+    tradeOpt.Add "T"
     
     '과세형태 배열, T-과세, N-비과세
     taxationType.Add "T"
@@ -1778,7 +1785,7 @@ Private Sub btnSearch_Click()
     QString = ""
     
     Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, state, tradeType, _
-                                tradeUsage, taxationType, Page, PerPage, Order, QString)
+                                tradeUsage, taxationType, Page, PerPage, Order, QString, tradeOpt)
      
     If cbSearchList Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -1794,7 +1801,7 @@ Private Sub btnSearch_Click()
     tmp = tmp + "pageNum (페이지 번호) : " + CStr(cbSearchList.pageNum) + vbCrLf
     tmp = tmp + "pageCount (페이지 개수) : " + CStr(cbSearchList.pageCount) + vbCrLf
     
-    tmp = tmp + "ItemKey | MgtKey | TradeDate | TradeUsage | IssueDT | CustomerName | ItemName | IdentityNum | TaxationType | TotalAmount | tradeType | StateCode | TxationType | TradeDate | confirmNum " + vbCrLf
+    tmp = tmp + "ItemKey | MgtKey | TradeDate | TradeUsage | TradeOpt | IssueDT | CustomerName | ItemName | IdentityNum | TaxationType | TotalAmount | tradeType | StateCode | stateMemo | TxationType | TradeDate | confirmNum" + vbCrLf
     
     Dim info As PBCbInfo
     
@@ -1803,6 +1810,7 @@ Private Sub btnSearch_Click()
         tmp = tmp + info.mgtKey + " | "
         tmp = tmp + info.tradeDate + " | "
         tmp = tmp + info.tradeUsage + " | "
+        tmp = tmp + info.tradeOpt + " | "
         tmp = tmp + info.issueDT + " | "
         tmp = tmp + info.customerName + " | "
         tmp = tmp + info.itemName + " | "
@@ -1810,6 +1818,7 @@ Private Sub btnSearch_Click()
         tmp = tmp + info.taxationType + " | "
         tmp = tmp + info.totalAmount + " | "
         tmp = tmp + info.tradeType + " | "
+        tmp = tmp + info.stateMemo + " | "
         tmp = tmp + CStr(info.stateCode) + " | "
         tmp = tmp + info.taxationType + " | "
         tmp = tmp + info.tradeDate + " | "
@@ -2010,7 +2019,7 @@ Private Sub btnUpdateContact_Click()
     Dim Response As PBResponse
     
     '담당자 아이디
-    joinData.id = txtUserID.Text
+    joinData.ID = txtUserID.Text
     
     '담당자명
     joinData.personName = "담당자명_수정"
