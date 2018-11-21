@@ -387,7 +387,7 @@ Begin VB.Form frmExample
          TabIndex        =   54
          Top             =   360
          Width           =   2055
-         Begin VB.CommandButton btnPopbillURL_CHRG 
+         Begin VB.CommandButton btnGetChargeURL 
             Caption         =   " 포인트 충전 URL"
             Height          =   410
             Left            =   120
@@ -523,7 +523,7 @@ Begin VB.Form frmExample
          TabIndex        =   5
          Top             =   360
          Width           =   2175
-         Begin VB.CommandButton btnGetPopbillURL_LOGIN 
+         Begin VB.CommandButton btnGetAccessURL 
             Caption         =   " 팝빌 로그인 URL"
             Height          =   410
             Left            =   120
@@ -578,7 +578,7 @@ Attribute VB_Exposed = False
 ' 팝빌 현금영수증 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 :
-' - 업데이트 일자 : 2018-10-04
+' - 업데이트 일자 : 2018-11-21
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -763,6 +763,8 @@ Private Sub btnDelete_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
+
+
 '=========================================================================
 ' 연동회원의 잔여포인트를 확인합니다.
 ' - 과금방식이 파트너과금인 경우 파트너 잔여포인트(GetPartnerBalance API)
@@ -806,6 +808,8 @@ Private Sub btnGetChargeInfo_Click()
     
     MsgBox tmp
 End Sub
+
+
 
 '=========================================================================
 ' 현금영수증 1건의 상세정보를 조회합니다.
@@ -1073,11 +1077,11 @@ End Sub
 ' 팝빌(www.popbill.com)에 로그인된 팝빌 URL을 반환합니다.
 ' - 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
 '=========================================================================
+Private Sub btnGetAccessURL_Click()
 
-Private Sub btnGetPopbillURL_LOGIN_Click()
     Dim url As String
     
-    url = CashbillService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text, "LOGIN")
+    url = CashbillService.GetAccessURL(txtCorpNum.Text, txtUserID.Text)
     
     If url = "" Then
          MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -1224,10 +1228,10 @@ Private Sub btnJoinMember_Click()
     joinData.bizClass = "종목"
     
     '아이디, 6자이상 20자 미만
-    joinData.ID = "testkorea_1011"
+    joinData.id = "testkorea_1011"
     
     '비밀번호, 6자이상 20자 미만
-    joinData.PWD = "pwd_must_be_long_enough"
+    joinData.pwd = "pwd_must_be_long_enough"
     
     '담당자명, 최대 30자
     joinData.ContactName = "담당자성명"
@@ -1277,7 +1281,7 @@ Private Sub btnListContact_Click()
     Dim info As PBContactInfo
     
     For Each info In resultList
-        tmp = tmp + info.ID + " | " + info.email + " | " + info.hp + " | " + info.personName + " | " + CStr(info.searchAllAllowYN) _
+        tmp = tmp + info.id + " | " + info.email + " | " + info.hp + " | " + info.personName + " | " + CStr(info.searchAllAllowYN) _
                 + info.tel + " | " + info.fax + " | " + CStr(info.mgrYN) + " | " + info.regDT + " | " + CStr(info.state) + vbCrLf
     Next
     
@@ -1371,11 +1375,11 @@ End Sub
 ' 연동회원 포인트 충전 URL을 반환합니다.
 ' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
 '=========================================================================
+Private Sub btnGetChargeURL_Click()
 
-Private Sub btnPopbillURL_CHRG_Click()
     Dim url As String
     
-    url = CashbillService.GetPopbillURL(txtCorpNum.Text, txtUserID.Text, "CHRG")
+    url = CashbillService.GetChargeURL(txtCorpNum.Text, txtUserID.Text)
     
     If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -1393,10 +1397,10 @@ Private Sub btnRegistContact_Click()
     Dim Response As PBResponse
     
     '담당자 아이디, 6자 이상 20자 미만
-    joinData.ID = "testkorea_20161010"
+    joinData.id = "testkorea_20161010"
     
     '비밀번호, 6자 이상 20자 미만
-    joinData.PWD = "test@test.com"
+    joinData.pwd = "test@test.com"
     
     '담당자명, 최대 30자
     joinData.personName = "담당자명"
@@ -2019,7 +2023,7 @@ Private Sub btnUpdateContact_Click()
     Dim Response As PBResponse
     
     '담당자 아이디
-    joinData.ID = txtUserID.Text
+    joinData.id = txtUserID.Text
     
     '담당자명
     joinData.personName = "담당자명_수정"
