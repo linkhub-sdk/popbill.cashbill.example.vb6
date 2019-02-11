@@ -18,25 +18,25 @@ Begin VB.Form frmExample
       Width           =   12330
       Begin VB.Frame Frame9 
          Caption         =   "즉시발행 프로세스 "
-         Height          =   2295
+         Height          =   2415
          Left            =   1800
          TabIndex        =   46
          Top             =   1440
-         Width           =   3135
-         Begin VB.CommandButton btnDelete_ 
+         Width           =   3375
+         Begin VB.CommandButton btnDelete_sub 
             Caption         =   "삭제"
             Height          =   375
-            Left            =   1755
+            Left            =   1920
             Style           =   1  '그래픽
             TabIndex        =   49
             Top             =   1560
             Width           =   855
          End
-         Begin VB.CommandButton btnCanceIssue_ 
+         Begin VB.CommandButton btnCancelIssue_sub 
             BackColor       =   &H00C0C0FF&
             Caption         =   "발행취소"
             Height          =   375
-            Left            =   480
+            Left            =   600
             Style           =   1  '그래픽
             TabIndex        =   48
             Top             =   1560
@@ -63,7 +63,7 @@ Begin VB.Form frmExample
             BackStyle       =   1  '투명하지 않음
             FillColor       =   &H00E0E0E0&
             Height          =   660
-            Left            =   360
+            Left            =   480
             Top             =   360
             Width           =   2415
          End
@@ -75,7 +75,7 @@ Begin VB.Form frmExample
          End
       End
       Begin VB.Frame Frame14 
-         Caption         =   " 문서 정보 "
+         Caption         =   " 인쇄/보기"
          Height          =   2760
          Left            =   5880
          TabIndex        =   32
@@ -90,7 +90,7 @@ Begin VB.Form frmExample
             Width           =   2745
          End
          Begin VB.CommandButton btnGetPopUpURL 
-            Caption         =   "문서 내용 보기 팝업 URL"
+            Caption         =   "현금영수증 보기 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   36
@@ -98,7 +98,7 @@ Begin VB.Form frmExample
             Width           =   2745
          End
          Begin VB.CommandButton btnGetPrintURL 
-            Caption         =   "인쇄 팝업 URL"
+            Caption         =   "현금영수증 인쇄 팝업 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   35
@@ -106,7 +106,7 @@ Begin VB.Form frmExample
             Width           =   2745
          End
          Begin VB.CommandButton btnGetMassPrintURL 
-            Caption         =   "다량 인쇄 팝업 URL"
+            Caption         =   "대량 인쇄 팝업 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   34
@@ -114,7 +114,7 @@ Begin VB.Form frmExample
             Width           =   2745
          End
          Begin VB.CommandButton btnGetMailURL 
-            Caption         =   "이메일(공급받는자) 링크 URL"
+            Caption         =   "현금영수증 메일링크 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   33
@@ -137,7 +137,7 @@ Begin VB.Form frmExample
             Top             =   390
             Width           =   1845
          End
-         Begin VB.CommandButton btnGetURL_SBOX 
+         Begin VB.CommandButton btnGetURL_PBOX 
             Caption         =   "발행 문서함"
             Height          =   390
             Left            =   210
@@ -210,41 +210,41 @@ Begin VB.Form frmExample
          Top             =   4125
          Width           =   2265
          Begin VB.CommandButton btnSearch 
-            Caption         =   "문서 목록조회"
+            Caption         =   "목록 조회"
             Height          =   390
             Left            =   195
             TabIndex        =   50
-            Top             =   2160
+            Top             =   1800
             Width           =   1845
          End
          Begin VB.CommandButton btnGetDetailInfo 
-            Caption         =   "문서 상세 정보"
+            Caption         =   "상세 정보확인"
             Height          =   390
             Left            =   195
             TabIndex        =   23
-            Top             =   1710
+            Top             =   1320
             Width           =   1845
          End
          Begin VB.CommandButton btnGetLogs 
-            Caption         =   "문서 이력"
+            Caption         =   "상태 변경이력"
             Height          =   390
             Left            =   195
             TabIndex        =   22
-            Top             =   1260
+            Top             =   2280
             Width           =   1845
          End
          Begin VB.CommandButton btnGetInfos 
-            Caption         =   "문서 정보(대량)"
+            Caption         =   "상태 대량 확인"
             Height          =   390
-            Left            =   210
+            Left            =   195
             TabIndex        =   21
             Top             =   825
             Width           =   1845
          End
          Begin VB.CommandButton btnGetInfo 
-            Caption         =   "문서 정보"
+            Caption         =   "상태 확인"
             Height          =   390
-            Left            =   210
+            Left            =   195
             TabIndex        =   20
             Top             =   390
             Width           =   1845
@@ -257,7 +257,7 @@ Begin VB.Form frmExample
          TabIndex        =   17
          Top             =   1440
          Width           =   4095
-         Begin VB.CommandButton btnRevokeRegistIssue_part 
+         Begin VB.CommandButton btnRegistIssue_part 
             Caption         =   "부분취소 즉시발행"
             Height          =   375
             Left            =   1680
@@ -419,7 +419,7 @@ Begin VB.Form frmExample
             Top             =   840
             Width           =   1695
          End
-         Begin VB.CommandButton btnListCorpInfo 
+         Begin VB.CommandButton btnGetCorpInfo 
             Caption         =   "회사정보 조회"
             Height          =   410
             Left            =   120
@@ -578,19 +578,18 @@ Attribute VB_Exposed = False
 ' 팝빌 현금영수증 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 :
-' - 업데이트 일자 : 2018-11-21
+' - 업데이트 일자 : 2019-02-11
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
 ' <테스트 연동개발 준비사항>
-' 1) 27, 30번 라인에 선언된 링크아이디(LinkID)와 비밀키(SecretKey)를
+' 1) 26, 29번 라인에 선언된 링크아이디(LinkID)와 비밀키(SecretKey)를
 '    링크허브 가입시 메일로 발급받은 인증정보를 참조하여 변경합니다.
 ' 2) 팝빌 개발용 사이트(test.popbill.com)에 연동회원으로 가입합니다.
 '=========================================================================
 
 
 Option Explicit
-
 
 '=========================================================================
 ' - 인증정보(링크아이디, 비밀키)는 파트너의 연동회원을 식별하는
@@ -607,92 +606,10 @@ Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
 '현금영수증 서비스 객체 생성
 Private CashbillService As New PBCBService
 
-
-'=========================================================================
-' [발행완료] 상태의 현금영수증을 [발행취소] 합니다.
-' - 발행취소는 국세청 전송전에만 가능합니다.
-' - 발행취소된 형금영수증은 국세청에 전송되지 않습니다.
-'=========================================================================
-
-Private Sub btnCanceIssue__Click()
-    Dim Response As PBResponse
-    Dim memo As String
-    
-    '메모
-    memo = "발행 취소 메모"
-  
-    Set Response = CashbillService.CancelIssue(txtCorpNum.Text, txtMgtKey.Text, memo)
-    
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-End Sub
-
-'=========================================================================
-' [발행완료] 상태의 현금영수증을 [발행취소] 합니다.
-' - 발행취소는 국세청 전송전에만 가능합니다.
-' - 발행취소된 형금영수증은 국세청에 전송되지 않습니다.
-'=========================================================================
-
-Private Sub btnCancelIssue_Click()
-    Dim Response As PBResponse
-    Dim memo As String
-    
-    '메모
-    memo = "발행 취소 메모"
-  
-    Set Response = CashbillService.CancelIssue(txtCorpNum.Text, txtMgtKey.Text, memo)
-    
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-End Sub
-
-Private Sub btnCancelIssue_rev_Click()
-    Dim Response As PBResponse
-    Dim memo As String
-    
-    '메모
-    memo = "발행 취소 메모"
-    
-    Set Response = CashbillService.CancelIssue(txtCorpNum.Text, txtMgtKey.Text, memo)
-    
-    If Response Is Nothing Then
-        MsgBox ("[" + CStr(CashbillService.LastErrCode) + "] " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("[" + CStr(Response.code) + "] " + Response.message)
-End Sub
-
-'=========================================================================
-' 팝빌 회원아이디 중복여부를 확인합니다.
-'=========================================================================
-
-Private Sub btnCheckID_Click()
-    Dim Response As PBResponse
-    
-    Set Response = CashbillService.CheckID(txtUserID.Text)
-    
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-End Sub
-
 '=========================================================================
 ' 해당 사업자의 파트너 연동회원 가입여부를 확인합니다.
 ' - LinkID는 인증정보로 설정되어 있는 링크아이디 값입니다.
 '=========================================================================
-
 Private Sub btnCheckIsMember_Click()
     Dim Response As PBResponse
     
@@ -707,34 +624,12 @@ Private Sub btnCheckIsMember_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증 관리번호 중복여부를 확인합니다.
-' - 관리번호는 1~24자리로 숫자, 영문 '-', '_' 조합으로 구성할 수 있습니다.
+' 팝빌 회원아이디 중복여부를 확인합니다.
 '=========================================================================
-
-Private Sub btnCheckMgtKeyInUse_Click()
+Private Sub btnCheckID_Click()
     Dim Response As PBResponse
-      
-    Set Response = CashbillService.CheckMgtKeyInUse(txtCorpNum.Text, txtMgtKey.Text)
     
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-    
-End Sub
-
-'=========================================================================
-' 1건의 현금영수증을 삭제합니다.
-' - 현금영수증을 삭제하면 사용된 문서관리번호(mgtKey)를 재사용할 수 있습니다.
-' - 삭제가능한 문서 상태 : [임시저장], [발행취소]
-'=========================================================================
-
-Private Sub btnDelete__Click()
-    Dim Response As PBResponse
-      
-    Set Response = CashbillService.Delete(txtCorpNum.Text, txtMgtKey.Text)
+    Set Response = CashbillService.CheckID(txtUserID.Text)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -745,15 +640,55 @@ Private Sub btnDelete__Click()
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증을 삭제합니다.
-' - 현금영수증을 삭제하면 사용된 문서관리번호(mgtKey)를 재사용할 수 있습니다.
-' - 삭제가능한 문서 상태 : [임시저장], [발행취소]
+' 연동회원 가입을 요청합니다.
 '=========================================================================
-
-Private Sub btnDelete_Click()
+Private Sub btnJoinMember_Click()
+    Dim joinData As New PBJoinForm
     Dim Response As PBResponse
-  
-    Set Response = CashbillService.Delete(txtCorpNum.Text, txtMgtKey.Text)
+    
+    '아이디, 6자이상 50자 미만
+    joinData.id = "userid"
+    
+    '비밀번호, 6자이상 20자 미만
+    joinData.pwd = "pwd_must_be_long_enough"
+    
+    '파트너링크 아이디
+    joinData.LinkID = LinkID
+    
+    '사업자번호, '-'제외, 10자리
+    joinData.CorpNum = "1234567890"
+    
+    '대표자성명, 최대 100자
+    joinData.ceoname = "대표자성명"
+    
+    '상호명, 최대 200자
+    joinData.corpName = "회원상호"
+    
+    '사업장 주소, 최대 300자
+    joinData.addr = "주소"
+    
+    '업태, 최대 100자
+    joinData.bizType = "업태"
+    
+    '종목, 최대 100자
+    joinData.bizClass = "종목"
+
+    '담당자 성명, 최대 100자
+    joinData.ContactName = "담당자성명"
+    
+    '담당자 이메일, 최대 100자
+    joinData.ContactEmail = "test@test.com"
+    
+    '담당자 연락처, 최대 20자
+    joinData.ContactTEL = "02-999-9999"
+    
+    '담당자 휴대폰번호, 최대 20자
+    joinData.ContactHP = "010-1234-5678"
+    
+    '담당자 팩스번호, 최대 20자
+    joinData.ContactFAX = "02-999-9998"
+    
+    Set Response = CashbillService.JoinMember(joinData)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -763,14 +698,231 @@ Private Sub btnDelete_Click()
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
+'=========================================================================
+' 현금영수증 발행단가를 확인합니다.
+'=========================================================================
+Private Sub btnUnitCost_Click()
+    Dim unitCost As Double
+    
+    unitCost = CashbillService.GetUnitCost(txtCorpNum.Text)
+    
+    If unitCost < 0 Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "발행단가 : " + CStr(unitCost)
+End Sub
 
+'=========================================================================
+' 연동회원의 현금영수증 API 서비스 과금정보를 확인합니다.
+'=========================================================================
+Private Sub btnGetChargeInfo_Click()
+    Dim ChargeInfo As PBChargeInfo
+    Dim tmp As String
+    
+    Set ChargeInfo = CashbillService.GetChargeInfo(txtCorpNum.Text)
+     
+    If ChargeInfo Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    tmp = tmp + "unitCost (발행단가) : " + ChargeInfo.unitCost + vbCrLf
+    tmp = tmp + "chargeMethod (과금유형) : " + ChargeInfo.chargeMethod + vbCrLf
+    tmp = tmp + "rateSystem (과금제도) : " + ChargeInfo.rateSystem + vbCrLf
+    
+    MsgBox tmp
+End Sub
+
+'=========================================================================
+' 팝빌(www.popbill.com)에 로그인된 팝빌 URL을 반환합니다.
+' - 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+'=========================================================================
+Private Sub btnGetAccessURL_Click()
+    Dim url As String
+     
+    url = CashbillService.GetAccessURL(txtCorpNum.Text, txtUserID.Text)
+    
+    If url = "" Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "URL : " + vbCrLf + url
+End Sub
+
+'=========================================================================
+' 연동회원의 담당자를 신규로 등록합니다.
+'=========================================================================
+Private Sub btnRegistContact_Click()
+    Dim joinData As New PBContactInfo
+    Dim Response As PBResponse
+    
+    '담당자 아이디, 6자 이상 50자 미만
+    joinData.id = "testkorea"
+    
+    '비밀번호, 6자 이상 20자 미만
+    joinData.pwd = "test@test.com"
+    
+    '담당자명, 최대 100자
+    joinData.personName = "담당자명"
+    
+    '담당자 연락처, 최대 20자
+    joinData.tel = "070-1234-1234"
+    
+    '담당자 휴대폰번호, 최대 20자
+    joinData.hp = "010-1234-1234"
+    
+    '담당자 팩스번,최대 20자
+    joinData.fax = "070-1234-1234"
+    
+    '담당자 메일주소, 최대 100자
+    joinData.email = "test@test.com"
+    
+    '회사조회 권한여부, True-회사조회 / False-개인조회
+    joinData.searchAllAllowYN = True
+    
+    '관리자 여부, True-관리자 / False-사용자
+    joinData.mgrYN = False
+        
+    Set Response = CashbillService.RegistContact(txtCorpNum.Text, joinData)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 연동회원의 담당자 목록을 확인합니다.
+'=========================================================================
+Private Sub btnListContact_Click()
+    Dim resultList As Collection
+    Dim tmp As String
+    Dim info As PBContactInfo
+    
+    Set resultList = CashbillService.ListContact(txtCorpNum.Text)
+     
+    If resultList Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    tmp = "id(아이디) | personName(성명) | email(이메일) | hp(휴대폰번호) |  fax(팩스번호) | tel(연락처) | " _
+         + "regDT(등록일시) | searchAllAllowYN(회사조회 권한여부) | mgrYN(관리자 여부) | state(상태) " + vbCrLf
+    
+    For Each info In resultList
+        tmp = tmp + info.id + " | " + info.personName + " | " + info.email + " | " + info.hp + " | " + info.fax _
+        + info.tel + " | " + info.regDT + " | " + CStr(info.searchAllAllowYN) + " | " + CStr(info.mgrYN) + " | " + CStr(info.state) + vbCrLf
+    Next
+    
+    MsgBox tmp
+End Sub
+
+'=========================================================================
+' 연동회원의 담당자 정보를 수정합니다.
+'=========================================================================
+Private Sub btnUpdateContact_Click()
+    Dim joinData As New PBContactInfo
+    Dim Response As PBResponse
+    
+    '담당자 아이디
+    joinData.id = txtUserID.Text
+    
+    '담당자 성명, 최대 100자
+    joinData.personName = "담당자명_수정"
+    
+    '담당자 연락처, 최대 20자
+    joinData.tel = "070-1234-1234"
+    
+    '담당자 휴대폰번호, 최대 20자
+    joinData.hp = "010-1234-1234"
+        
+    '담당자 팩스번호, 최대 20자
+    joinData.fax = "070-1234-1234"
+    
+    '담당자 이메일, 최대 100자
+    joinData.email = "test@test.com"
+
+    '회사조회 권한여부, True-회사조회 / False-개인조회
+    joinData.searchAllAllowYN = True
+    
+    '관리자 여부, True-관리자 / False-사용자
+    joinData.mgrYN = False
+                
+    Set Response = CashbillService.UpdateContact(txtCorpNum.Text, joinData, txtUserID.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 연동회원의 회사정보를 확인합니다.
+'=========================================================================
+Private Sub btnGetCorpInfo_Click()
+    Dim CorpInfo As PBCorpInfo
+    Dim tmp As String
+    
+    Set CorpInfo = CashbillService.GetCorpInfo(txtCorpNum.Text)
+     
+    If CorpInfo Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    tmp = tmp + "ceoname (대표자 성명) : " + CorpInfo.ceoname + vbCrLf
+    tmp = tmp + "corpName (상호) : " + CorpInfo.corpName + vbCrLf
+    tmp = tmp + "addr (주소) : " + CorpInfo.addr + vbCrLf
+    tmp = tmp + "bizType (업태) : " + CorpInfo.bizType + vbCrLf
+    tmp = tmp + "bizClass (종목) : " + CorpInfo.bizClass + vbCrLf
+    
+    MsgBox tmp
+End Sub
+
+'=========================================================================
+' 연동회원의 회사정보를 수정합니다
+'=========================================================================
+Private Sub btnUpdateCorpInfo_Click()
+    Dim CorpInfo As New PBCorpInfo
+    Dim Response As PBResponse
+    
+    '대표자명, 최대 100자
+    CorpInfo.ceoname = "대표자"
+    
+    '상호, 최대 200자
+    CorpInfo.corpName = "상호"
+    
+    '주소, 최대 300자
+    CorpInfo.addr = "서울특별시"
+    
+    '업태, 최대 100자
+    CorpInfo.bizType = "업태"
+    
+    '종목, 최대 100자
+    CorpInfo.bizClass = "종목"
+    
+    Set Response = CashbillService.UpdateCorpInfo(txtCorpNum.Text, CorpInfo)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
 
 '=========================================================================
 ' 연동회원의 잔여포인트를 확인합니다.
 ' - 과금방식이 파트너과금인 경우 파트너 잔여포인트(GetPartnerBalance API)
 '   를 통해 확인하시기 바랍니다.
 '=========================================================================
-
 Private Sub btnGetBalance_Click()
     Dim balance As Double
     
@@ -782,101 +934,346 @@ Private Sub btnGetBalance_Click()
     End If
     
     MsgBox "잔여포인트 : " + CStr(balance)
-    
-    
 End Sub
 
 '=========================================================================
-' 연동회원의 현금영수증 API 서비스 과금정보를 확인합니다.
-'=========================================================================
-
-Private Sub btnGetChargeInfo_Click()
-    Dim ChargeInfo As PBChargeInfo
-    
-    Set ChargeInfo = CashbillService.GetChargeInfo(txtCorpNum.Text)
-     
-    If ChargeInfo Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    Dim tmp As String
-    
-    tmp = tmp + "unitCost (발행단가) : " + ChargeInfo.unitCost + vbCrLf
-    tmp = tmp + "chargeMethod (과금유형) : " + ChargeInfo.chargeMethod + vbCrLf
-    tmp = tmp + "rateSystem (과금제도) : " + ChargeInfo.rateSystem + vbCrLf
-    
-    MsgBox tmp
-End Sub
-
-
-
-'=========================================================================
-' 현금영수증 1건의 상세정보를 조회합니다.
-' - 응답항목에 대한 자세한 사항은 "[현금영수증 API 연동매뉴얼] > 4.1.
-'   현금영수증 구성" 을 참조하시기 바랍니다.
-'=========================================================================
-
-Private Sub btnGetDetailInfo_Click()
-
-    Dim cbDetailInfo As PBCashbill
-   
-    
-    Set cbDetailInfo = CashbillService.GetDetailInfo(txtCorpNum.Text, txtMgtKey.Text)
-     
-    If cbDetailInfo Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    Dim tmp As String
-    
-    tmp = tmp + "mgtKey (관리번호) : " + cbDetailInfo.mgtKey + vbCrLf
-    tmp = tmp + "confirmNum (국세청승인번호) : " + cbDetailInfo.confirmNum + vbCrLf
-    tmp = tmp + "orgConfirmNum (원본현금영수증 국세청승인번호) : " + cbDetailInfo.orgConfirmNum + vbCrLf
-    tmp = tmp + "orgTradeDate (원본현금영수증 거래일자) : " + cbDetailInfo.orgTradeDate + vbCrLf
-    tmp = tmp + "tradeDate (거래일자) : " + cbDetailInfo.tradeDate + vbCrLf
-    tmp = tmp + "tradeType (문서형태) : " + cbDetailInfo.tradeType + vbCrLf
-    tmp = tmp + "tradeUsage (거래구분) : " + cbDetailInfo.tradeUsage + vbCrLf
-    tmp = tmp + "tradeOpt (거래유형) : " + cbDetailInfo.tradeOpt + vbCrLf
-    tmp = tmp + "taxationType (과세형태) : " + cbDetailInfo.taxationType + vbCrLf
-    tmp = tmp + "totalAmount (거래금액) : " + cbDetailInfo.totalAmount + vbCrLf
-    tmp = tmp + "supplyCost (공급가액) : " + cbDetailInfo.supplyCost + vbCrLf
-    tmp = tmp + "tax (부가세) : " + cbDetailInfo.tax + vbCrLf
-    tmp = tmp + "serviceFee (봉사료) : " + cbDetailInfo.serviceFee + vbCrLf
-    tmp = tmp + "franchiseCorpNum (가맹점 사업자번호) : " + cbDetailInfo.franchiseCorpNum + vbCrLf
-    tmp = tmp + "franchiseCorpName (가맹점 상호) : " + cbDetailInfo.franchiseCorpName + vbCrLf
-    tmp = tmp + "franchiseCEOName (가맹점 대표자 성명) : " + cbDetailInfo.franchiseCEOName + vbCrLf
-    tmp = tmp + "franchiseAddr (가맹점 주소) : " + cbDetailInfo.franchiseAddr + vbCrLf
-    tmp = tmp + "franchiseTEL (가맹점 전화번호) : " + cbDetailInfo.franchiseTEL + vbCrLf
-    tmp = tmp + "identityNum (식별번호) : " + cbDetailInfo.identityNum + vbCrLf
-    tmp = tmp + "customerName (주문자명) : " + cbDetailInfo.customerName + vbCrLf
-    tmp = tmp + "itemName (주문상품명) : " + cbDetailInfo.itemName + vbCrLf
-    tmp = tmp + "orderNumber (주문번호) : " + cbDetailInfo.orderNumber + vbCrLf
-    tmp = tmp + "email (주문자 이메일) : " + cbDetailInfo.email + vbCrLf
-    tmp = tmp + "hp (주문자 휴대폰) : " + cbDetailInfo.hp + vbCrLf
-    tmp = tmp + "smssendYN (알림문자 전송여부) : " + CStr(cbDetailInfo.smssendYN) + vbCrLf
-    tmp = tmp + "cancelType (취소사유) : " + CStr(cbDetailInfo.cancelType) + vbCrLf
-    
-    MsgBox tmp
-    
-End Sub
-
-'=========================================================================
-' 현금영수증 인쇄(공급받는자) URL을 반환합니다.
+' 연동회원 포인트 충전 URL을 반환합니다.
 ' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
 '=========================================================================
-
-Private Sub btnGetEPrintUrl_Click()
+Private Sub btnGetChargeURL_Click()
     Dim url As String
-    
-    url = CashbillService.GetEPrintURL(txtCorpNum.Text, txtMgtKey.Text)
+     
+    url = CashbillService.GetChargeURL(txtCorpNum.Text, txtUserID.Text)
     
     If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
+    
     MsgBox "URL : " + vbCrLf + url
+End Sub
+
+'=========================================================================
+'파트너 잔여포인트 확인합니다.
+'=========================================================================
+Private Sub btnGetPartnerBalance_Click()
+    Dim balance As Double
+    
+    balance = CashbillService.GetPartnerBalance(txtCorpNum.Text)
+    
+    If balance < 0 Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "파트너 잔여포인트 : " + CStr(balance)
+End Sub
+
+'=========================================================================
+' 파트너 포인트 충전 URL을 반환합니다.
+' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+'=========================================================================
+Private Sub btnGetPartnerURL_CHRG_Click()
+    Dim url As String
+    
+    url = CashbillService.GetPartnerURL(txtCorpNum.Text, "CHRG")
+    
+    If url = "" Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "URL : " + vbCrLf + url
+End Sub
+
+'=========================================================================
+' 현금영수증 관리번호 중복여부를 확인합니다.
+' - 관리번호는 1~24자리로 숫자, 영문 '-', '_' 조합으로 구성할 수 있습니다.
+'=========================================================================
+Private Sub btnCheckMgtKeyInUse_Click()
+    Dim Response As PBResponse
+      
+    Set Response = CashbillService.CheckMgtKeyInUse(txtCorpNum.Text, txtMgtKey.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 1건의 현금영수증을 즉시발행합니다.
+' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
+'   전송결과를 확인할 수 있습니다.
+' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
+'   > 1.3. 국세청 전송정책"을 참조하시기 바랍니다.
+' - 취소현금영수증 작성방법 안내 - http://blog.linkhub.co.kr/702
+'=========================================================================
+Private Sub btnRegistIssue_Click()
+    Dim Cashbill As New PBCashbill
+    Dim Response As PBResponse
+    
+    '현금영수증 관리번호, 1~24자리 영문,숫자조합으로 사업자별로 중복되지 않도록 구성
+    Cashbill.mgtKey = txtMgtKey.Text
+    
+    '[취소거래시 필수] 원본 국세청승인번호
+    '문서정보(GetInfo API)의 응답항목중 국세청승인번호(confirmNum)를 확인하여 기재
+    Cashbill.orgConfirmNum = ""
+    
+    '[취소거래시 필수] 원본 거래일자
+    '문서정보(GetInfo API)의 응답항목중 거래일자(tradeDate)를 확인하여 기재
+    Cashbill.orgTradeDate = ""
+    
+    '문서형태, [승인거래, 취소거래] 중 기재
+    Cashbill.tradeType = "승인거래"
+    
+    '거래구분, [소득공제용, 지출증빙용] 중 기재
+    Cashbill.tradeUsage = "소득공제용"
+    
+    '거래유형, [일반, 도서공연, 대중교통] 중 기재
+    Cashbill.tradeOpt = "일반"
+    
+    '과세형태, [과세, 비과세] 중 기재
+    Cashbill.taxationType = "과세"
+    
+    '거래금액, 공급가액 + 봉사료 + 세액
+    Cashbill.totalAmount = "11000"
+    
+    '공급가액
+    Cashbill.supplyCost = "10000"
+    
+    '부가세
+    Cashbill.tax = "1000"
+    
+    '봉사료
+    Cashbill.serviceFee = "0"
+    
+    '가맹점 사업자번호, "-" 제외 10자리
+    Cashbill.franchiseCorpNum = "1234567890"
+    
+    '가맹점 상호
+    Cashbill.franchiseCorpName = "발행자 상호"
+    
+    '가맹점 대표자 성명
+    Cashbill.franchiseCEOName = "발행자 대표자"
+    
+    '가맹점 주소
+    Cashbill.franchiseAddr = "발행자 주소"
+    
+    '가맹점 전화번호
+    Cashbill.franchiseTEL = "070-1234-1234"
+        
+    '식별번호, 거래구분에 따라 작성
+    '소득공제용 - 주민등록/휴대폰/카드번호 기재가능
+    '지출증빙용 - 사업자번호/주민등록/휴대폰/카드번호 기재가능
+    Cashbill.identityNum = "0101112222"
+        
+    '주문자명
+    Cashbill.customerName = "주문자명"
+    
+    '주문상품명
+    Cashbill.itemName = "주문상품명"
+    
+    '주문번호
+    Cashbill.orderNumber = "주문번호"
+    
+    '주문자 이메일
+    Cashbill.email = "test@test.com"
+    
+    '주문자 휴대폰
+    Cashbill.hp = "010-111-222"
+    
+    '현금영수증 발행 알림문자 전송여부
+    Cashbill.smssendYN = False
+              
+    Set Response = CashbillService.RegistIssue(txtCorpNum.Text, Cashbill)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' [발행완료] 상태의 현금영수증을 [발행취소] 합니다.
+' - 공급자 발행취소는 현금영수증을 국세청에 신고하기 전까지 가능합니다.
+' - 발행취소된 형금영수증은 국세청에 전송되지 않습니다.
+'=========================================================================
+Private Sub btnCancelIssue_sub_Click()
+    Dim Response As PBResponse
+    Dim memo As String
+    
+    '메모
+    memo = "발행취소 메모"
+    
+    Set Response = CashbillService.CancelIssue(txtCorpNum.Text, txtMgtKey.Text, memo)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 1건의 현금영수증을 삭제합니다.
+' - 현금영수증을 삭제하면 사용된 문서관리번호(mgtKey)를 재사용할 수 있습니다.
+' - 삭제가능한 문서 상태 : [임시저장], [발행취소]
+'=========================================================================
+Private Sub btnDelete_sub_Click()
+    Dim Response As PBResponse
+    
+    Set Response = CashbillService.Delete(txtCorpNum.Text, txtMgtKey.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 1건의 취소현금영수증을 즉시발행합니다.
+' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
+'   전송결과를 확인할 수 있습니다.
+' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
+'   > 1.3. 국세청 전송정책"을 참조하시기 바랍니다.
+' - 취소현금영수증 작성방법 안내 - http://blog.linkhub.co.kr/702
+'=========================================================================
+Private Sub btnRevokeRegistIssue_Click()
+    Dim Response As PBResponse
+    Dim orgConfirmNum As String
+    Dim orgTradeDate As String
+    Dim smssendYN As Boolean
+    Dim memo As String
+    
+    '원본현금영수증 승인번호
+    orgConfirmNum = "816483090"
+    
+    '원본현금영수증 거래일자
+    orgTradeDate = "20190129"
+    
+    '발행안내문자 전송여부
+    smssendYN = True
+    
+    '메모
+    memo = "취소현금영수증 즉시발행"
+    
+    Set Response = CashbillService.RevokeRegistIssue(txtCorpNum.Text, txtMgtKey.Text, orgConfirmNum, orgTradeDate, smssendYN, memo, txtUserID.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 1건의 (부분) 취소현금영수증을 즉시발행합니다.
+' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
+'   전송결과를 확인할 수 있습니다.
+' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
+'   > 1.3. 국세청 전송정책"을 참조하시기 바랍니다.
+'=========================================================================
+Private Sub btnRegistIssue_part_Click()
+    Dim Response As PBResponse
+    Dim orgConfirmNum As String
+    Dim orgTradeDate As String
+    Dim smssendYN As Boolean
+    Dim memo As String
+    Dim isPartCancel As Boolean
+    Dim cancelType As Integer
+    Dim supplyCost As String
+    Dim tax As String
+    Dim serviceFee As String
+    Dim totalAmount As String
+    
+    '원본현금영수증 승인번호
+    orgConfirmNum = "709328269"
+    
+    '원본현금영수증 거래일자
+    orgTradeDate = "20190207"
+    
+    '발행안내문자 전송여부
+    smssendYN = True
+    
+    '메모
+    memo = "취소현금영수증 즉시발행"
+    
+    '부분취소 여부, True-부분취소/False-전체취소
+    isPartCancel = True
+    
+    '취소사유, 1-거래취소, 2-오류발급취소, 3-기타
+    cancelType = 1
+    
+    '[취소] 공급가액
+    supplyCost = "7000"
+    
+    '[취소] 세액
+    tax = "700"
+    
+    '[취소] 봉사료
+    serviceFee = "0"
+    
+    '[취소] 합계금액
+    totalAmount = "7700"
+    
+    Set Response = CashbillService.RevokeRegistIssue(txtCorpNum.Text, txtMgtKey.Text, orgConfirmNum, orgTradeDate, smssendYN, memo, txtUserID.Text, _
+        isPartCancel, cancelType, supplyCost, tax, serviceFee, totalAmount)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' [발행완료] 상태의 현금영수증을 [발행취소] 합니다.
+' - 공급자 발행취소는 현금영수증을 국세청에 신고하기 전까지 가능합니다.
+' - 발행취소된 형금영수증은 국세청에 전송되지 않습니다.
+'=========================================================================
+Private Sub btnCancelIssue_Click()
+    Dim Response As PBResponse
+    Dim memo As String
+    
+    '메모
+    memo = "발행 취소 메모"
+    
+    Set Response = CashbillService.CancelIssue(txtCorpNum.Text, txtMgtKey.Text, memo)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 1건의 현금영수증을 삭제합니다.
+' - 현금영수증을 삭제하면 사용된 문서관리번호(mgtKey)를 재사용할 수 있습니다.
+' - 삭제가능한 문서 상태 : [임시저장], [발행취소]
+'=========================================================================
+Private Sub btnDelete_Click()
+    Dim Response As PBResponse
+    
+    Set Response = CashbillService.Delete(txtCorpNum.Text, txtMgtKey.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
 '=========================================================================
@@ -884,10 +1281,10 @@ End Sub
 ' - 응답항목에 대한 자세한 정보는 "[현금영수증 API 연동매뉴얼] > 4.2.
 '   현금영수증 상태정보 구성"을 참조하시기 바랍니다.
 '=========================================================================
-
 Private Sub btnGetInfo_Click()
     Dim cbInfo As PBCbInfo
- 
+    Dim tmp As String
+    
     Set cbInfo = CashbillService.GetInfo(txtCorpNum.Text, txtMgtKey.Text)
      
     If cbInfo Is Nothing Then
@@ -895,10 +1292,8 @@ Private Sub btnGetInfo_Click()
         Exit Sub
     End If
     
-    Dim tmp As String
-    
-    tmp = tmp + "itemKey (아이템키) : " + cbInfo.itemKey + vbCrLf
-    tmp = tmp + "mgtKey (문서관리번호) : " + cbInfo.mgtKey + vbCrLf
+    tmp = tmp + "itemKey (팝빌 관리번호) : " + cbInfo.itemKey + vbCrLf
+    tmp = tmp + "mgtKey (관리번호) : " + cbInfo.mgtKey + vbCrLf
     tmp = tmp + "tradeDate (거래일자) : " + cbInfo.tradeDate + vbCrLf
     tmp = tmp + "tradeType (문서형태) : " + cbInfo.tradeType + vbCrLf
     tmp = tmp + "tradeUsage (거래구분) : " + cbInfo.tradeUsage + vbCrLf
@@ -914,35 +1309,33 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "itemName (주문상품명) : " + cbInfo.itemName + vbCrLf
     tmp = tmp + "customerName (주문자명) : " + cbInfo.customerName + vbCrLf
     tmp = tmp + "confirmNum (국세청승인번호) : " + cbInfo.confirmNum + vbCrLf
+    tmp = tmp + "orgConfirmNum (원본 현금영수증 국세청승인번호) : " + cbInfo.orgConfirmNum + vbCrLf
+    tmp = tmp + "orgTradeDate (원본 현금영수증 거래일자) : " + cbInfo.orgTradeDate + vbCrLf
     tmp = tmp + "ntssendDT (국세청 전송일시) : " + cbInfo.ntssendDT + vbCrLf
     tmp = tmp + "ntsresultDT (국세청 처리결과 수신일시) : " + cbInfo.ntsresultDT + vbCrLf
     tmp = tmp + "ntsresultCode (국세청 처리결과 상태코드) : " + cbInfo.ntsresultCode + vbCrLf
     tmp = tmp + "ntsresultMessage (국세청 처리결과 메시지) : " + cbInfo.ntsresultMessage + vbCrLf
-    tmp = tmp + "orgConfirmNum (원본 현금영수증 국세청승인번호) : " + cbInfo.orgConfirmNum + vbCrLf
-    tmp = tmp + "orgTradeDate (원본 현금영수증 거래일자) : " + cbInfo.orgTradeDate + vbCrLf
-    
     tmp = tmp + "printYN (인쇄여부) : " + CStr(cbInfo.printYN) + vbCrLf
-   
+    
     MsgBox tmp
-    
-    
 End Sub
 
 '=========================================================================
-' 다수건의 현금영수증 상태/요약 정보를 확인합니다.
+' 대량의 현금영수증 상태/요약 정보를 확인합니다.
 ' - 응답항목에 대한 자세한 정보는 "[현금영수증 API 연동매뉴얼] > 4.2.
 '   현금영수증 상태정보 구성"을 참조하시기 바랍니다.
 '=========================================================================
-
 Private Sub btnGetInfos_Click()
     Dim resultList As Collection
     Dim KeyList As New Collection
+    Dim tmp As String
+    Dim info As PBCbInfo
     
-    '현금영수증 관리번호 배열, 최대 1000건
-    KeyList.Add "20181011-01"
-    KeyList.Add "20181011-02"
-    KeyList.Add "20181011-03"
-    KeyList.Add "20181011-04"
+    '현금영수증 문서관리번호배열, 최대 1000건
+    KeyList.Add "20190115-001"
+    KeyList.Add "20190115-002"
+    KeyList.Add "20190115-003"
+    KeyList.Add "20190115-004"
     
     Set resultList = CashbillService.GetInfos(txtCorpNum.Text, KeyList)
      
@@ -951,14 +1344,185 @@ Private Sub btnGetInfos_Click()
         Exit Sub
     End If
     
-    Dim tmp As String
-    
-    tmp = "ItemKey | StateCode | TaxType | WriteDate | RegDT" + vbCrLf
-    
-    Dim info As PBCbInfo
+    tmp = "itemKey (팝빌 관리번호) | mgtKey (관리번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
+          "taxationType (과세형태) | totalAmount (거래금액) | issueDT (발행일시) | regDT (등록일시) | stateMemo (상태메모) | stateCode (상태코드)  " + _
+          "stateDT (상태변경일시) | identityNum (식별번호) | itemName (주문상품명) | customerName (주문자명) | confirmNum (국세청승인번호)  " + _
+          "orgConfirmNum (원본 현금영수증 국세청승인번호) | orgTradeDate (원본 현금영수증 거래일자) | ntssendDT (국세청 전송일시)  " + _
+          "ntsresultDT (국세청 처리결과 수신일시) | ntsresultCode (국세청 처리결과 상태코드) | ntsresultMessage (국세청 처리결과 메시지) | printYN (인쇄여부) " + vbCrLf + vbCrLf
     
     For Each info In resultList
-        tmp = tmp + info.itemKey + " | " + CStr(info.stateCode) + " | " + info.taxationType + " | " + info.tradeDate + " | " + info.confirmNum + vbCrLf
+        tmp = tmp + info.itemKey + " | " + info.mgtKey + " | " + info.tradeDate + " | " + info.tradeType + " | " + info.tradeUsage + " | " + info.tradeOpt + " | " + info.taxationType + " | "
+        tmp = tmp + info.totalAmount + " | " + info.issueDT + " | " + info.regDT + " | " + info.stateMemo + " | " + CStr(info.stateCode) + " | " + info.stateDT + " | " + info.identityNum + " | "
+        tmp = tmp + info.itemName + " | " + info.customerName + " | " + info.confirmNum + " | " + info.orgConfirmNum + " | " + info.orgTradeDate + " | " + info.ntssendDT + " | " + info.ntsresultDT + " | "
+        tmp = tmp + info.ntsresultCode + " | " + info.ntsresultMessage + " | " + CStr(info.printYN) + vbCrLf
+                
+    Next
+    
+    MsgBox tmp
+End Sub
+
+'=========================================================================
+' 현금영수증 1건의 상세정보를 조회합니다.
+' - 응답항목에 대한 자세한 사항은 "[현금영수증 API 연동매뉴얼] > 4.1.
+'   현금영수증 구성" 을 참조하시기 바랍니다.
+'=========================================================================
+Private Sub btnGetDetailInfo_Click()
+    Dim cbDetailInfo As PBCashbill
+    Dim tmp As String
+    
+    Set cbDetailInfo = CashbillService.GetDetailInfo(txtCorpNum.Text, txtMgtKey.Text)
+     
+    If cbDetailInfo Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    tmp = tmp + "mgtKey (문서관리번호) : " + cbDetailInfo.mgtKey + vbCrLf
+    tmp = tmp + "confirmNum (국세청승인번호) : " + cbDetailInfo.confirmNum + vbCrLf
+    tmp = tmp + "tradeDate (거래일자) : " + cbDetailInfo.tradeDate + vbCrLf
+    tmp = tmp + "tradeUsage (거래구분) : " + cbDetailInfo.tradeUsage + vbCrLf
+    tmp = tmp + "tradeOpt (거래유형) : " + cbDetailInfo.tradeOpt + vbCrLf
+    tmp = tmp + "tradeType (문서형태) : " + cbDetailInfo.tradeType + vbCrLf
+    tmp = tmp + "taxationType (과세형태) : " + cbDetailInfo.taxationType + vbCrLf
+    tmp = tmp + "supplyCost (공급가액) : " + cbDetailInfo.supplyCost + vbCrLf
+    tmp = tmp + "tax (부가세) : " + cbDetailInfo.tax + vbCrLf
+    tmp = tmp + "serviceFee (봉사료) : " + cbDetailInfo.serviceFee + vbCrLf
+    tmp = tmp + "totalAmount (거래금액) : " + cbDetailInfo.totalAmount + vbCrLf
+    tmp = tmp + "orgConfirmNum (원본현금영수증 국세청승인번호) : " + cbDetailInfo.orgConfirmNum + vbCrLf
+    tmp = tmp + "orgTradeDate (원본현금영수증 거래일자) : " + cbDetailInfo.orgTradeDate + vbCrLf
+    tmp = tmp + "cancelType (취소사유) : " + CStr(cbDetailInfo.cancelType) + vbCrLf
+    tmp = tmp + "franchiseCorpNum (가맹점 사업자번호) : " + cbDetailInfo.franchiseCorpNum + vbCrLf
+    tmp = tmp + "franchiseCorpName (가맹점 상호) : " + cbDetailInfo.franchiseCorpName + vbCrLf
+    tmp = tmp + "franchiseCEOName (가맹점 대표자 성명) : " + cbDetailInfo.franchiseCEOName + vbCrLf
+    tmp = tmp + "franchiseAddr (가맹점 주소) : " + cbDetailInfo.franchiseAddr + vbCrLf
+    tmp = tmp + "franchiseTEL (가맹점 전화번호) : " + cbDetailInfo.franchiseTEL + vbCrLf
+    tmp = tmp + "identityNum (식별번호) : " + cbDetailInfo.identityNum + vbCrLf
+    tmp = tmp + "customerName (주문자명) : " + cbDetailInfo.customerName + vbCrLf
+    tmp = tmp + "itemName (주문상품명) : " + cbDetailInfo.itemName + vbCrLf
+    tmp = tmp + "orderNumber (주문번호) : " + cbDetailInfo.orderNumber + vbCrLf
+    tmp = tmp + "email (주문자 이메일) : " + cbDetailInfo.email + vbCrLf
+    tmp = tmp + "hp (주문자 휴대폰) : " + cbDetailInfo.hp + vbCrLf
+    
+    tmp = tmp + "smssendYN (발행안내문자 전송여부) : " + CStr(cbDetailInfo.smssendYN) + vbCrLf
+        
+    MsgBox tmp
+End Sub
+
+'=========================================================================
+' 검색조건을 사용하여 현금영수증 목록을 조회합니다.
+' - 응답항목에 대한 자세한 사항은 "[현금영수증 API 연동매뉴얼] >
+'   4.2. 현금영수증 상태정보 구성" 을 참조하시기 바랍니다.
+'=========================================================================
+Private Sub btnSearch_Click()
+    Dim cbSearchList As PBCBSearchList
+    Dim DType As String
+    Dim SDate As String
+    Dim EDate As String
+    Dim state As New Collection
+    Dim tradeType As New Collection
+    Dim tradeUsage As New Collection
+    Dim tradeOpt As New Collection
+    Dim taxationType As New Collection
+    Dim Page As Integer
+    Dim PerPage As Integer
+    Dim Order As String
+    Dim QString As String
+    
+    '[필수] 일자유형, R-등록일자, T-거래일자 I-발행일자
+    DType = "T"
+    
+    '[필수] 시작일자, 형식(yyyyMMdd)
+    SDate = "20190101"
+    
+    '[필수] 종료일자, 형식(yyyyMMdd)
+    EDate = "20190201"
+    
+    '상태코드 배열, 미기재시 전체 상태조회, 상태코드(stateCode)값 3자리의 배열, 2,3번째 자리에 와일드카드 가능
+    '상태코드에 대한 자세한 사항은 "[현금영수증 API 연동매뉴얼] > 5.1 현금영수증 상태코드" 를 참조하시기 바랍니다.
+    state.Add "2**"
+    state.Add "3**"
+    state.Add "4**"
+    
+    '문서형태 배열, N-일반 현금영수증, C-취소 현금영수증
+    tradeType.Add "N"
+    tradeType.Add "C"
+        
+    '거래구분 배열, P-소득공제용, C-지출증빙용
+    tradeUsage.Add "P"
+    tradeUsage.Add "C"
+    
+    '거래유형 배열, N-일반, B-도서공연, T-대중교통
+    tradeOpt.Add "N"
+    tradeOpt.Add "B"
+    tradeOpt.Add "T"
+    
+    '과세형태 배열, T-과세, N-비과세
+    taxationType.Add "T"
+    taxationType.Add "N"
+                
+    '페이지 번호, 기본값 1
+    Page = 1
+    
+    '페이지당 목록갯수, 기본값 500
+    PerPage = 30
+    
+    '정렬방향 D-내림차순(기본값), A-오름차순
+    Order = "D"
+    
+    '현금영수증 식별번호 조회, 미기재시 전체조회
+    QString = ""
+    
+    
+    Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, state, tradeType, tradeUsage, taxationType, Page, PerPage, Order, QString, tradeOpt)
+     
+    If cbSearchList Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    Dim tmp As String
+    
+    tmp = "code (응답코드) : " + CStr(cbSearchList.code) + vbCrLf
+    tmp = tmp + "total (검색결과 건수) : " + CStr(cbSearchList.total) + vbCrLf
+    tmp = tmp + "perPage (페이지당 검색개수) : " + CStr(cbSearchList.PerPage) + vbCrLf
+    tmp = tmp + "pageNum (페이지 번호) : " + CStr(cbSearchList.pageNum) + vbCrLf
+    tmp = tmp + "pageCount (페이지 개수) : " + CStr(cbSearchList.pageCount) + vbCrLf
+    tmp = tmp + "message (응답메시지) : " + cbSearchList.message + vbCrLf + vbCrLf + vbCrLf
+    
+    tmp = "itemKey (팝빌 관리번호) | mgtKey (관리번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
+         "taxationType (과세형태) | totalAmount (거래금액) | issueDT (발행일시) | regDT (등록일시) | stateMemo (상태메모) | stateCode (상태코드)  " + _
+         "stateDT (상태변경일시) | identityNum (식별번호) | itemName (주문상품명) | customerName (주문자명) | confirmNum (국세청승인번호)  " + _
+         "orgConfirmNum (원본 현금영수증 국세청승인번호) | orgTradeDate (원본 현금영수증 거래일자) | ntssendDT (국세청 전송일시)  " + _
+         "ntsresultDT (국세청 처리결과 수신일시) | ntsresultCode (국세청 처리결과 상태코드) | ntsresultMessage (국세청 처리결과 메시지) | printYN (인쇄여부) " + vbCrLf + vbCrLf
+          
+    Dim info As PBCbInfo
+    
+    For Each info In cbSearchList.list
+        tmp = tmp + info.itemKey + " | "
+        tmp = tmp + info.mgtKey + " | "
+        tmp = tmp + info.tradeDate + " | "
+        tmp = tmp + info.tradeType + " | "
+        tmp = tmp + info.tradeUsage + " | "
+        tmp = tmp + info.tradeOpt + " | "
+        tmp = tmp + info.taxationType + " | "
+        tmp = tmp + info.totalAmount + " | "
+        tmp = tmp + info.issueDT + " | "
+        tmp = tmp + info.regDT + " | "
+        tmp = tmp + info.stateMemo + " | "
+        tmp = tmp + CStr(info.stateCode) + " | "
+        tmp = tmp + info.stateDT + " | "
+        tmp = tmp + info.identityNum + " | "
+        tmp = tmp + info.itemName + " | "
+        tmp = tmp + info.customerName + " | "
+        tmp = tmp + info.confirmNum + " | "
+        tmp = tmp + info.orgConfirmNum + " | "
+        tmp = tmp + info.orgTradeDate + " | "
+        tmp = tmp + info.ntssendDT + " | "
+        tmp = tmp + info.ntsresult + " | "
+        tmp = tmp + info.ntsresultDT + " | "
+        tmp = tmp + info.ntsresultCode + " | "
+        tmp = tmp + info.ntsresultMessage + " | "
+        tmp = tmp + CStr(info.printYN) + vbCrLf
     Next
     
     MsgBox tmp
@@ -970,9 +1534,10 @@ End Sub
 '   "[현금영수증 API 연동매뉴얼] > 3.4.4 상태 변경이력 확인"
 '   을 참조하시기 바랍니다.
 '=========================================================================
-
 Private Sub btnGetLogs_Click()
     Dim resultList As Collection
+    Dim tmp As String
+    Dim log As PBCbLog
     
     Set resultList = CashbillService.GetLogs(txtCorpNum.Text, txtMgtKey.Text)
      
@@ -981,11 +1546,7 @@ Private Sub btnGetLogs_Click()
         Exit Sub
     End If
     
-    Dim tmp As String
-    
-    tmp = "DocLogType | Log | ProcType | ProcMemo | RegDT | IP" + vbCrLf
-    
-    Dim log As PBCbLog
+    tmp = "DocLogType(로그타입) | Log(이력정보) | ProcType(처리형태) | ProcMemo(처리메모) | RegDT(등록일시) | IP(아이피)" + vbCrLf
     
     For Each log In resultList
         tmp = tmp + CStr(log.docLogType) + " | " + log.log + " | " + log.procType + " | " + log.procMemo + " | " + log.regDT + " | " + log.ip + vbCrLf
@@ -995,202 +1556,47 @@ Private Sub btnGetLogs_Click()
 End Sub
 
 '=========================================================================
-' 공급받는자 메일링크 URL을 반환합니다.
-' - 메일링크 URL은 유효시간이 존재하지 않습니다.
+' 현금영수증 발행 안내메일을 재전송합니다.
 '=========================================================================
-
-Private Sub btnGetMailURL_Click()
-    Dim url As String
+Private Sub btnSendEmail_Click()
+    Dim Response As PBResponse
+    Dim receiverEmail As String
     
-    url = CashbillService.GetMailURL(txtCorpNum.Text, txtMgtKey.Text)
+    '수신메일 주소
+    receiverEmail = "test@test.com"
     
-    If url = "" Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-End Sub
-
-'=========================================================================
-' 다수건의 현금영수증 인쇄팝업 URL을 반환합니다.
-' 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
-'=========================================================================
-
-Private Sub btnGetMassPrintURL_Click()
-    Dim url As String
-    Dim KeyList As New Collection
+    Set Response = CashbillService.SendEmail(txtCorpNum.Text, txtMgtKey.Text, receiverEmail)
     
-    KeyList.Add "20161011-01"
-    KeyList.Add "20161011-02"
-    KeyList.Add "20161011-03"
-    KeyList.Add "20161011-04"
-    
-    url = CashbillService.GetMassPrintURL(txtCorpNum.Text, KeyList)
-    
-    If url = "" Then
+    If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
-    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
 End Sub
 
 '=========================================================================
-' 파트너의 잔여포인트를 확인합니다.
-' - 과금방식이 연동과금인 경우 연동회원 잔여포인트(GetBalance API)를
-'   이용하시기 바랍니다.
-'=========================================================================
-
-Private Sub btnGetPartnerBalance_Click()
-    Dim balance As Double
-    
-    balance = CashbillService.GetPartnerBalance(txtCorpNum.Text)
-    
-    If balance < 0 Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox "잔여포인트 : " + CStr(balance)
-    
-End Sub
-
-'=========================================================================
-' 파트너 포인트충전 URL을 반환합니다.
-' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
-'=========================================================================
-
-Private Sub btnGetPartnerURL_CHRG_Click()
-    Dim url As String
-    
-    url = CashbillService.GetPartnerURL(txtCorpNum.Text, "CHRG")
-    
-    If url = "" Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-End Sub
-
-'=========================================================================
-' 팝빌(www.popbill.com)에 로그인된 팝빌 URL을 반환합니다.
-' - 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
-'=========================================================================
-Private Sub btnGetAccessURL_Click()
-
-    Dim url As String
-    
-    url = CashbillService.GetAccessURL(txtCorpNum.Text, txtUserID.Text)
-    
-    If url = "" Then
-         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-End Sub
-
-'=========================================================================
-' 1건의 현금영수증 보기 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
-'=========================================================================
-
-Private Sub btnGetPopUpURL_Click()
-    Dim url As String
-    
-    url = CashbillService.GetPopUpURL(txtCorpNum.Text, txtMgtKey.Text)
-    
-    If url = "" Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-End Sub
-
-'=========================================================================
-' 1건의 현금영수증 인쇄팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
-'=========================================================================
-
-Private Sub btnGetPrintURL_Click()
-    Dim url As String
-    
-    url = CashbillService.GetPrintURL(txtCorpNum.Text, txtMgtKey.Text)
-    
-    If url = "" Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-End Sub
-
-'=========================================================================
-' 팝빌 > 현금영수증 > 발행문서함 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
-'=========================================================================
-
-Private Sub btnGetURL_SBOX_Click()
-    Dim url As String
-    
-    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "PBOX")
-    
-    If url = "" Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-End Sub
-
-'=========================================================================
-' 팝빌 > 현금영수증 > 임시(연동)문서함 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
-'=========================================================================
-
-Private Sub btnGetURL_TBOX_Click()
-    Dim url As String
-    
-    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "TBOX")
-    
-    If url = "" Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-End Sub
-
-'=========================================================================
-' 팝빌 > 현금영수증 > 현금영수증 작성 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
-'=========================================================================
-
-Private Sub btnGetURL_WRITE_Click()
-    Dim url As String
-    
-    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "WRITE")
-    
-    If url = "" Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    MsgBox "URL : " + vbCrLf + url
-End Sub
-
-'=========================================================================
-' 1건의 임시저장 현금영수증을 발행처리합니다.
-' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
+' 알림문자를 전송합니다. (단문/SMS- 한글 최대 45자)
+' - 알림문자 전송시 포인트가 차감됩니다. (전송실패시 환불처리)
+' - 전송내역 확인은 "팝빌 로그인" > [문자 팩스] > [문자] > [전송내역] 탭에서
 '   전송결과를 확인할 수 있습니다.
-' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
-'   > 1.4. 국세청 전송정책"을 참조하시기 바랍니다.
 '=========================================================================
-
-Private Sub btnIssue_Click()
+Private Sub btnSendSMS_Click()
     Dim Response As PBResponse
-    Dim memo As String
+    Dim sendNum As String
+    Dim receiveNum As String
+    Dim Contents As String
     
-    '메모
-    memo = "발행메모"
+    '발신번호
+    sendNum = "07043042991"
     
-    Set Response = CashbillService.Issue(txtCorpNum.Text, txtMgtKey.Text, memo)
+    '수신번호
+    receiveNum = "010-111-222"
+    
+    ' 메시지 내용, 최대 90Byte (한글 45자), 길이를 초과한 내용은 삭제되어 전송됩니다.
+    Contents = "알림 문자 내용, 최대 90Byte"
+    
+    Set Response = CashbillService.SendSMS(txtCorpNum.Text, txtMgtKey.Text, sendNum, receiveNum, Contents)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -1198,57 +1604,26 @@ Private Sub btnIssue_Click()
     End If
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-    
 End Sub
 
-
-Private Sub btnJoinMember_Click()
-    Dim joinData As New PBJoinForm
+'=========================================================================
+' 현금영수증을 팩스전송합니다.
+' - 팩스 전송 요청시 포인트가 차감됩니다. (전송실패시 환불처리)
+' - 전송내역 확인은 "팝빌 로그인" > [문자 팩스] > [팩스] > [전송내역]
+'   메뉴에서 전송결과를 확인할 수 있습니다.
+'=========================================================================
+Private Sub btnSendFAX_Click()
     Dim Response As PBResponse
+    Dim sendNum As String
+    Dim receiveNum As String
     
-    '링크 아이디
-    joinData.LinkID = LinkID
+    '발신번호
+    sendNum = "07043042991"
     
-    '사업자번호, '-'제외, 10자리
-    joinData.CorpNum = "6748500389"
+    '수신번호
+    receiveNum = "010-111-222"
     
-    '대표자성명, 최대 30자
-    joinData.ceoname = "대표자성명"
-    
-    '상호명, 최대 70자
-    joinData.corpName = "회원상호"
-    
-    '주소, 최대 300자
-    joinData.addr = "주소"
-    
-    '업태, 최대 40자
-    joinData.bizType = "업태"
-    
-    '종목, 최대 40자
-    joinData.bizClass = "종목"
-    
-    '아이디, 6자이상 20자 미만
-    joinData.id = "testkorea_1011"
-    
-    '비밀번호, 6자이상 20자 미만
-    joinData.pwd = "pwd_must_be_long_enough"
-    
-    '담당자명, 최대 30자
-    joinData.ContactName = "담당자성명"
-    
-    '담당자 연락처, 최대 20자
-    joinData.ContactTEL = "02-999-9999"
-    
-    '담당자 휴대폰번호, 최대 20자
-    joinData.ContactHP = "010-1234-5678"
-    
-    '담당자 팩스번호, 최대 20자
-    joinData.ContactFAX = "02-999-9998"
-    
-    '담당자 메일, 최대 70자
-    joinData.ContactEmail = "test@test.com"
-    
-    Set Response = CashbillService.JoinMember(joinData)
+    Set Response = CashbillService.SendFax(txtCorpNum.Text, txtMgtKey.Text, sendNum, receiveNum)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -1256,62 +1631,8 @@ Private Sub btnJoinMember_Click()
     End If
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-    
-    
 End Sub
 
-'=========================================================================
-' 연동회원의 담당자 목록을 확인합니다.
-'=========================================================================
-
-Private Sub btnListContact_Click()
-    Dim resultList As Collection
-        
-    Set resultList = CashbillService.ListContact(txtCorpNum.Text)
-     
-    If resultList Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    Dim tmp As String
-    
-    tmp = "id | email | hp | personName | searchAllAllowYN | tel | fax | mgrYN | regDT | state" + vbCrLf
-    
-    Dim info As PBContactInfo
-    
-    For Each info In resultList
-        tmp = tmp + info.id + " | " + info.email + " | " + info.hp + " | " + info.personName + " | " + CStr(info.searchAllAllowYN) _
-                + info.tel + " | " + info.fax + " | " + CStr(info.mgrYN) + " | " + info.regDT + " | " + CStr(info.state) + vbCrLf
-    Next
-    
-    MsgBox tmp
-End Sub
-
-'=========================================================================
-' 연동회원의 회사정보를 확인합니다.
-'=========================================================================
-
-Private Sub btnListCorpInfo_Click()
-    Dim CorpInfo As PBCorpInfo
-    
-    Set CorpInfo = CashbillService.GetCorpInfo(txtCorpNum.Text)
-     
-    If CorpInfo Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    Dim tmp As String
-    
-    tmp = tmp + "ceoname(대표자성명) : " + CorpInfo.ceoname + vbCrLf
-    tmp = tmp + "corpName(회사명) : " + CorpInfo.corpName + vbCrLf
-    tmp = tmp + "addr(주소) : " + CorpInfo.addr + vbCrLf
-    tmp = tmp + "bizType(업태) : " + CorpInfo.bizType + vbCrLf
-    tmp = tmp + "bizClass(종목) : " + CorpInfo.bizClass + vbCrLf
-    
-    MsgBox tmp
-End Sub
 '=========================================================================
 ' 현금영수증 관련 메일전송 항목에 대한 전송여부를 목록으로 반환합니다
 '=========================================================================
@@ -1347,6 +1668,7 @@ Private Sub btnListemailconfig_Click()
     MsgBox tmp
 
 End Sub
+
 '=========================================================================
 ' 현금영수증 관련 메일전송 항목에 대한 전송여부를 수정합니다.
 '=========================================================================
@@ -1372,726 +1694,147 @@ Private Sub btnUpdateemailconfig_Click()
 End Sub
 
 '=========================================================================
-' 연동회원 포인트 충전 URL을 반환합니다.
-' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+' 1건의 현금영수증 보기 팝업 URL을 반환합니다.
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
 '=========================================================================
-Private Sub btnGetChargeURL_Click()
-
+Private Sub btnGetPopUpURL_Click()
     Dim url As String
     
-    url = CashbillService.GetChargeURL(txtCorpNum.Text, txtUserID.Text)
+    url = CashbillService.GetPopUpURL(txtCorpNum.Text, txtMgtKey.Text)
     
     If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
+    
     MsgBox "URL : " + vbCrLf + url
 End Sub
 
 '=========================================================================
-' 연동회원의 담당자를 신규로 등록합니다.
+' 1건의 현금영수증 인쇄(공급자) URL을 반환합니다.
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
 '=========================================================================
-
-Private Sub btnRegistContact_Click()
-    Dim joinData As New PBContactInfo
-    Dim Response As PBResponse
+Private Sub btnGetPrintURL_Click()
+    Dim url As String
     
-    '담당자 아이디, 6자 이상 20자 미만
-    joinData.id = "testkorea_20161010"
+    url = CashbillService.GetPrintURL(txtCorpNum.Text, txtMgtKey.Text)
     
-    '비밀번호, 6자 이상 20자 미만
-    joinData.pwd = "test@test.com"
-    
-    '담당자명, 최대 30자
-    joinData.personName = "담당자명"
-    
-    '담당자 연락처
-    joinData.tel = "070-1234-1234"
-    
-    '담당자 휴대폰번호
-    joinData.hp = "010-1234-1234"
-    
-    '담당자 메일주소
-    joinData.email = "test@test.com"
-    
-    '담당자 팩스번호
-    joinData.fax = "070-1234-1234"
-    
-    '회사조회 권한여부, true-회사조회 / false-개인조회
-    joinData.searchAllAllowYN = True
-    
-    '관리자 권한여부
-    joinData.mgrYN = False
-        
-    Set Response = CashbillService.RegistContact(txtCorpNum.Text, joinData)
-    
-    If Response Is Nothing Then
+    If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox "URL : " + vbCrLf + url
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증을 임시저장 합니다.
-' - [임시저장] 상태의 현금영수증은 발행(Issue API)을 호출해야만 국세청에
-'   전송됩니다.
-' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
-'   전송결과를 확인할 수 있습니다.
-' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
-'   > 1.4. 국세청 전송정책"을 참조하시기 바랍니다.
-' - 취소현금영수증 작성방법 안내 - http://blog.linkhub.co.kr/702
+' 1건의 현금영수증 인쇄(공급받는자) URL을 반환합니다.
+' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
 '=========================================================================
-
-Private Sub btnRegister_Click()
-    Dim Cashbill As New PBCashbill
+Private Sub btnGetEPrintUrl_Click()
+    Dim url As String
     
-    '현금영수증 관리번호, 1~24자리 영문,숫자조합으로 사업자별로 중복되지 않도록 구성
-    Cashbill.mgtKey = txtMgtKey.Text
+    url = CashbillService.GetEPrintURL(txtCorpNum.Text, txtMgtKey.Text)
     
-    '현금영수증 형태, [승인거래, 취소거래] 중 기재
-    Cashbill.tradeType = "승인거래"
-    
-    '[취소거래시 필수] 원본 국세청승인번호
-    '문서정보(GetInfo API)의 응답항목중 국세청승인번호(confirmNum)를 확인하여 기재
-    Cashbill.orgConfirmNum = ""
-    
-    '[취소거래시 필수] 원본 현금영수증 거래일자
-    '문서정보(GetInfo API)의 응답항목중 거래일자(tradeDate)를 확인하여 기재
-    Cashbill.orgTradeDate = ""
-    
-    '발행자 사업자번호, "-" 제외 10자리
-    Cashbill.franchiseCorpNum = "1234567890"
-    
-    '발행자 상호명
-    Cashbill.franchiseCorpName = "발행자 상호"
-    
-    '발행자 대표자 성명
-    Cashbill.franchiseCEOName = "발행자 대표자"
-    
-    '발행자 주소
-    Cashbill.franchiseAddr = "발행자 주소"
-    
-    '발행자 연락처
-    Cashbill.franchiseTEL = "070-1234-1234"
-    
-    '거래유형, [소득공제용, 지출증빙용] 중 기재
-    Cashbill.tradeUsage = "소득공제용"
-    
-    '거래처 식별번호, 거래유형에 따라 작성
-    '소득공제용 - 주민등록/휴대폰/카드번호 기재가능
-    '지출증빙용 - 사업자번호/주민등록/휴대폰/카드번호 기재가능
-    Cashbill.identityNum = "0101112222"
-    
-    '과세형태, [과세, 비과세] 중 기재
-    Cashbill.taxationType = "과세"
-    
-    '공급가액
-    Cashbill.supplyCost = "10000"
-    
-    '봉사료
-    Cashbill.serviceFee = "0"
-    
-    '세액
-    Cashbill.tax = "1000"
-    
-    '합계금액, 공급가액 + 봉사료 + 세액
-    Cashbill.totalAmount = "11000"
-    
-    '주문고객명
-    Cashbill.customerName = "고객명"
-    
-    '상품명
-    Cashbill.itemName = "상품명"
-    
-    '주문번호
-    Cashbill.orderNumber = "주문번호"
-    
-    '고객이메일
-    Cashbill.email = "test@test.com"
-    
-    '고객휴대폰번호
-    Cashbill.hp = "010-111-222"
-    
-    '현금영수증 발행 알림문자 전송여부
-    Cashbill.smssendYN = False
-    
-    Dim Response As PBResponse
-    
-    Set Response = CashbillService.Register(txtCorpNum.Text, Cashbill)
-    
-    If Response Is Nothing Then
+    If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-    
-
+    MsgBox "URL : " + vbCrLf + url
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증을 즉시발행합니다.
-' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
-'   전송결과를 확인할 수 있습니다.
-' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
-'   > 1.4. 국세청 전송정책"을 참조하시기 바랍니다.
-' - 취소현금영수증 작성방법 안내 - http://blog.linkhub.co.kr/702
+' 대량의 현금영수증 인쇄팝업 URL을 반환합니다.
+' 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
 '=========================================================================
-
-Private Sub btnRegistIssue_Click()
-    Dim Cashbill As New PBCashbill
+Private Sub btnGetMassPrintURL_Click()
+    Dim url As String
+    Dim KeyList As New Collection
     
-    '현금영수증 관리번호, 1~24자리 영문,숫자조합으로 사업자별로 중복되지 않도록 구성
-    Cashbill.mgtKey = txtMgtKey.Text
+    '문서관리번호 배열, 최대 100건
+    KeyList.Add "20190211-01"
+    KeyList.Add "20190211-02"
+    KeyList.Add "20190211-03"
+    KeyList.Add "20190211-04"
     
-    '[취소거래시 필수] 원본 국세청승인번호
-    '문서정보(GetInfo API)의 응답항목중 국세청승인번호(confirmNum)를 확인하여 기재
-    Cashbill.orgConfirmNum = ""
-    
-    '[취소거래시 필수] 원본 현금영수증 거래일자
-    '문서정보(GetInfo API)의 응답항목중 거래일자(tradeDate)를 확인하여 기재
-    Cashbill.orgTradeDate = ""
-    
-    '문서형태, [승인거래, 취소거래] 중 기재
-    Cashbill.tradeType = "승인거래"
-    
-    '거래구분, [소득공제용, 지출증빙용] 중 기재
-    Cashbill.tradeUsage = "소득공제용"
-    
-    '거래유형, [일반, 도서공연, 대중교통] 중 기재
-    Cashbill.tradeOpt = "일반"
-      
-    '과세형태, [과세, 비과세] 중 기재
-    Cashbill.taxationType = "과세"
-    
-    '거래금액, 공급가액 + 봉사료 + 세액
-    Cashbill.totalAmount = "11000"
-    
-    '공급가액
-    Cashbill.supplyCost = "10000"
-    
-    '부가세
-    Cashbill.tax = "1000"
-    
-    '봉사료
-    Cashbill.serviceFee = "0"
-    
-    '가맹점 사업자번호, "-" 제외 10자리
-    Cashbill.franchiseCorpNum = txtCorpNum.Text
-    
-    '가맹점 상호명
-    Cashbill.franchiseCorpName = "발행자 상호"
-    
-    '가맹점 대표자 성명
-    Cashbill.franchiseCEOName = "발행자 대표자"
-    
-    '가맹점 주소
-    Cashbill.franchiseAddr = "발행자 주소"
-    
-    '가맹점 연락처
-    Cashbill.franchiseTEL = "070-1234-1234"
-        
-    '식별번호, 거래구분에 따라 작성
-    '소득공제용 - 주민등록/휴대폰/카드번호 기재가능
-    '지출증빙용 - 사업자번호/주민등록/휴대폰/카드번호 기재가능
-    Cashbill.identityNum = "0101112222"
-    
-    '주문자명
-    Cashbill.customerName = "주문자명"
-    
-    '주문상품명
-    Cashbill.itemName = "주문상품명"
-    
-    '주문번호
-    Cashbill.orderNumber = "주문번호"
-    
-    '주문자 이메일
-    Cashbill.email = "test@test.com"
-    
-    '주문자 휴대폰
-    Cashbill.hp = "010-111-222"
-    
-    '현금영수증 발행 알림문자 전송여부
-    Cashbill.smssendYN = False
-        
-    Dim Response As PBResponse
-    
-    Set Response = CashbillService.RegistIssue(txtCorpNum.Text, Cashbill)
-    
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-    
-End Sub
-
-'=========================================================================
-' 1건의 취소현금영수증을 즉시발행합니다.
-' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
-'   전송결과를 확인할 수 있습니다.
-' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
-'   > 1.4. 국세청 전송정책"을 참조하시기 바랍니다.
-' - 취소현금영수증 작성방법 안내 - http://blog.linkhub.co.kr/702
-'=========================================================================
-
-Private Sub btnRevokeRegistIssue_Click()
-    Dim Response As PBResponse
-    Dim orgConfirmNum As String
-    Dim orgTradeDate As String
-    
-    
-    '원본현금영수증 승인번호
-    orgConfirmNum = "820116333"
-    
-    '원본현금영수증 거래일자
-    orgTradeDate = "20170711"
-    
-    Set Response = CashbillService.RevokeRegistIssue(txtCorpNum.Text, txtMgtKey.Text, orgConfirmNum, orgTradeDate)
-    
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-End Sub
-
-'=========================================================================
-' 1건의 (부분 취소현금영수증을 즉시발행합니다.
-' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
-'   전송결과를 확인할 수 있습니다.
-' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
-'   > 1.4. 국세청 전송정책"을 참조하시기 바랍니다.
-' - 취소현금영수증 작성방법 안내 - http://blog.linkhub.co.kr/702
-'=========================================================================
-
-Private Sub btnRevokeRegistIssue_part_Click()
-    Dim Response As PBResponse
-    Dim orgConfirmNum As String
-    Dim orgTradeDate As String
-    Dim smssendYN As Boolean
-    Dim memo As String
-    Dim isPartCancel As Boolean
-    Dim cancelType As Integer
-    Dim supplyCost As String
-    Dim tax As String
-    Dim serviceFee As String
-    Dim totalAmount As String
-    
-    '원본현금영수증 승인번호
-    orgConfirmNum = "820116333"
-    
-    '원본현금영수증 거래일자
-    orgTradeDate = "20170711"
-    
-    '안내문자 전송여부
-    smssendYN = False
-    
-    '메모
-    memo = "즉시발행 메모"
-    
-    '부분취소여부, True-부분취소, False-전체취소
-    isPartCancel = True
-    
-    '취소사유(Integer), 1-거래취소, 2-오류발급취소, 3-기타
-    cancelType = 1
-    
-    '[취소] 공급가액
-    supplyCost = "3000"
-    
-    '[취소] 세액
-    tax = "300"
-    
-    '[취소] 봉사료
-    serviceFee = "0"
-    
-    '[취소] 합계금액
-    totalAmount = "3300"
-    
-    Set Response = CashbillService.RevokeRegistIssue(txtCorpNum.Text, txtMgtKey.Text, orgConfirmNum, orgTradeDate, smssendYN, memo, txtUserID.Text, _
-        isPartCancel, cancelType, supplyCost, tax, serviceFee, totalAmount)
-    
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-End Sub
-
-'=========================================================================
-' 검색조건을 사용하여 현금영수증 목록을 조회합니다.
-' - 응답항목에 대한 자세한 사항은 "[현금영수증 API 연동매뉴얼] >
-'   4.2. 현금영수증 상태정보 구성" 을 참조하시기 바랍니다.
-'=========================================================================
-
-Private Sub btnSearch_Click()
-    Dim cbSearchList As PBCBSearchList
-    Dim DType As String
-    Dim SDate As String
-    Dim EDate As String
-    Dim state As New Collection
-    Dim tradeType As New Collection
-    Dim tradeUsage As New Collection
-    Dim taxationType As New Collection
-    Dim Page As Integer
-    Dim PerPage As Integer
-    Dim QString As String
-    Dim Order As String
-    Dim tradeOpt As New Collection
-    
-    '[필수] 일자유형, R-등록일자, T-거래일자 I-발행일자
-    DType = "T"
-    
-    '[필수] 시작일자, 형식(yyyyMMdd)
-    SDate = "20180801"
-    
-    '[필수] 종료일자, 형식(yyyyMMdd)
-    EDate = "20180820"
-    
-    '전송상태코드 배열, 미기재시 전체조회, 2,3번째 자리 와일드카드(*) 가능
-    '[참조] 현금영수증 API 연동매뉴열 "5.1. 현금영수증 상태코드"
-    state.Add "2**"
-    state.Add "3**"
-    state.Add "4**"
-    
-    '문서형태 배열, N-일반 현금영수증, C-취소 현금영수증
-    tradeType.Add "N"
-    tradeType.Add "C"
-    
-    '거래구분 배열, P-소득공제, C-제출증빙
-    tradeUsage.Add "P"
-    tradeUsage.Add "C"
-    
-    '거래유형 배열, N-일반, B-도서공연, T-대중교통
-    tradeOpt.Add "N"
-    tradeOpt.Add "B"
-    tradeOpt.Add "T"
-    
-    '과세형태 배열, T-과세, N-비과세
-    taxationType.Add "T"
-    taxationType.Add "N"
-                
-    '페이지 번호, 기본값 1
-    Page = 1
-    
-    '페이지당 목록갯수, 기본값 500
-    PerPage = 30
-    
-    '정렬방향 D-내림차순(기본값), A-오름차순
-    Order = "D"
-    
-    '현금영수증 식별번호 조회, 미기재시 전체조회
-    QString = ""
-    
-    Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, state, tradeType, _
-                                tradeUsage, taxationType, Page, PerPage, Order, QString, tradeOpt)
+    url = CashbillService.GetMassPrintURL(txtCorpNum.Text, KeyList)
      
-    If cbSearchList Is Nothing Then
+    If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    Dim tmp As String
-    
-    tmp = "code (응답코드)  : " + CStr(cbSearchList.code) + vbCrLf
-    tmp = tmp + "message (응답메시지) : " + cbSearchList.message + vbCrLf + vbCrLf + vbCrLf
-    tmp = tmp + "total (총 검색결과 건수) : " + CStr(cbSearchList.total) + vbCrLf
-    tmp = tmp + "perPage (페이지당 검색개수) : " + CStr(cbSearchList.PerPage) + vbCrLf
-    tmp = tmp + "pageNum (페이지 번호) : " + CStr(cbSearchList.pageNum) + vbCrLf
-    tmp = tmp + "pageCount (페이지 개수) : " + CStr(cbSearchList.pageCount) + vbCrLf
-    
-    tmp = tmp + "ItemKey | MgtKey | TradeDate | TradeUsage | TradeOpt | IssueDT | CustomerName | ItemName | IdentityNum | TaxationType | TotalAmount | tradeType | StateCode | stateMemo | TxationType | TradeDate | confirmNum" + vbCrLf
-    
-    Dim info As PBCbInfo
-    
-    For Each info In cbSearchList.list
-        tmp = tmp + info.itemKey + " | "
-        tmp = tmp + info.mgtKey + " | "
-        tmp = tmp + info.tradeDate + " | "
-        tmp = tmp + info.tradeUsage + " | "
-        tmp = tmp + info.tradeOpt + " | "
-        tmp = tmp + info.issueDT + " | "
-        tmp = tmp + info.customerName + " | "
-        tmp = tmp + info.itemName + " | "
-        tmp = tmp + info.identityNum + " | "
-        tmp = tmp + info.taxationType + " | "
-        tmp = tmp + info.totalAmount + " | "
-        tmp = tmp + info.tradeType + " | "
-        tmp = tmp + info.stateMemo + " | "
-        tmp = tmp + CStr(info.stateCode) + " | "
-        tmp = tmp + info.taxationType + " | "
-        tmp = tmp + info.tradeDate + " | "
-        tmp = tmp + info.confirmNum + vbCrLf
-    Next
-    
-    MsgBox tmp
+    MsgBox "URL : " + vbCrLf + url
 End Sub
 
 '=========================================================================
-' 발행 안내메일을 재전송합니다.
+' 공급받는자 메일링크 URL을 반환합니다.
+' - 메일링크 URL은 유효시간이 존재하지 않습니다.
 '=========================================================================
-
-Private Sub btnSendEmail_Click()
-    Dim Response As PBResponse
-    Dim receiveEmail As String
+Private Sub btnGetMailURL_Click()
+    Dim url As String
     
-    '수신메일주소
-    receiveEmail = "test@test.com"
+    url = CashbillService.GetMailURL(txtCorpNum.Text, txtMgtKey.Text)
     
-    Set Response = CashbillService.SendEmail(txtCorpNum.Text, txtMgtKey.Text, receiveEmail)
-    
-    If Response Is Nothing Then
+    If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox "URL : " + vbCrLf + url
 End Sub
 
 '=========================================================================
-' 현금영수증을 팩스전송합니다.
-' - 팩스 전송 요청시 포인트가 차감됩니다. (전송실패시 환불처리)
-' - 전송내역 확인은 "팝빌 로그인" > [문자 팩스] > [팩스] > [전송내역]
-'   메뉴에서 전송결과를 확인할 수 있습니다.
+' 팝빌 > 현금영수증 > 임시(연동)문서함 팝업 URL을 반환합니다.
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
 '=========================================================================
-
-Private Sub btnSendFAX_Click()
-    Dim Response As PBResponse
-    Dim senderNum As String
-    Dim receiveNum As String
+Private Sub btnGetURL_TBOX_Click()
+    Dim url As String
     
-    '발신번호
-    senderNum = "07043042991"
+    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "TBOX")
     
-    '수신번호
-    receiveNum = "010-111-222"
-    
-    Set Response = CashbillService.SendFax(txtCorpNum.Text, txtMgtKey.Text, senderNum, receiveNum)
-    
-    If Response Is Nothing Then
+    If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox "URL : " + vbCrLf + url
 End Sub
 
 '=========================================================================
-' 알림문자를 전송합니다. (단문/SMS- 한글 최대 45자)
-' - 알림문자 전송시 포인트가 차감됩니다. (전송실패시 환불처리)
-' - 전송내역 확인은 "팝빌 로그인" > [문자 팩스] > [전송내역] 탭에서
-'   전송결과를 확인할 수 있습니다.
+' 팝빌 > 현금영수증 > 발행문서함 팝업 URL을 반환합니다.
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
 '=========================================================================
-
-Private Sub btnSendSMS_Click()
-    Dim Response As PBResponse
-    Dim senderNum As String
-    Dim receiveNum As String
-    Dim Contents As String
+Private Sub btnGetURL_PBOX_Click()
+    Dim url As String
     
-    '발신번호
-    senderNum = "07075103710"
+    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "PBOX")
     
-    '수신번호
-    receiveNum = "010-111-222"
-    
-    '문자메시지 내용, 90Byte를 초과한 내용은 삭제되어 전송됨
-    Contents = "알림 문자 내용, 최대 90Byte"
-      
-    Set Response = CashbillService.SendSMS(txtCorpNum.Text, txtMgtKey.Text, senderNum, receiveNum, Contents)
-    
-    If Response Is Nothing Then
+    If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox "URL : " + vbCrLf + url
 End Sub
 
 '=========================================================================
-' 현금영수증 발행단가를 확인합니다.
+' 팝빌 > 현금영수증 > 현금영수증 작성 팝업 URL을 반환합니다.
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
 '=========================================================================
-
-Private Sub btnUnitCost_Click()
-    Dim unitCost As Double
+Private Sub btnGetURL_WRITE_Click()
+    Dim url As String
     
-    unitCost = CashbillService.GetUnitCost(txtCorpNum.Text)
+    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "WRITE")
     
-    If unitCost < 0 Then
+    If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "발행단가 : " + CStr(unitCost)
+    MsgBox "URL : " + vbCrLf + url
 End Sub
-
-'=========================================================================
-' 1건의 현금영수증을 수정합니다.
-' - [임시저장] 상태의 현금영수증만 수정할 수 있습니다.
-' - 국세청에 신고된 현금영수증은 수정할 수 없으며, 취소 현금영수증을 발행하여
-'   취소처리 할 수 있습니다.
-' - 취소현금영수증 작성방법 안내 - http://blog.linkhub.co.kr/702
-'=========================================================================
-
-Private Sub btnUpdate_Click()
-    Dim Cashbill As New PBCashbill
-    Dim Response As PBResponse
-    
-    '현금영수증 관리번호, 1~24자리 영문,숫자조합으로 사업자별로 중복되지 않도록 구성
-    Cashbill.mgtKey = txtMgtKey.Text
-    
-    '현금영수증 형태, [승인거래, 취소거래] 중 기재
-    Cashbill.tradeType = "승인거래"
-    
-    '발행자 사업자번호, "-" 제외 10자리
-    Cashbill.franchiseCorpNum = "1234567890"
-    
-    '발행자 상호명
-    Cashbill.franchiseCorpName = "발행자 상호_수정"
-    
-    '발행자 대표자 성명
-    Cashbill.franchiseCEOName = "발행자 대표자_수정"
-    
-    '발행자 주소
-    Cashbill.franchiseAddr = "발행자 주소"
-    
-    '발행자 연락처
-    Cashbill.franchiseTEL = "070-1234-1234"
-    
-    '거래유형, [소득공제용, 지출증빙용] 중 기재
-    Cashbill.tradeUsage = "소득공제용"
-    
-    '거래처 식별번호, 거래유형에 따라 작성
-    '소득공제용 - 주민등록/휴대폰/카드번호 기재가능
-    '지출증빙용 - 사업자번호/주민등록/휴대폰/카드번호 기재가능
-    Cashbill.identityNum = "01041680206"
-    
-    '과세형태, [과세, 비과세] 중 기재
-    Cashbill.taxationType = "과세"
-    
-    '공급가액
-    Cashbill.supplyCost = "10000"
-    
-    '봉사료
-    Cashbill.serviceFee = "0"
-    
-    '세액
-    Cashbill.tax = "1000"
-    
-    '합계금액, 공급가액 + 봉사료 + 세액
-    Cashbill.totalAmount = "11000"
-    
-    '주문고객명
-    Cashbill.customerName = "고객명"
-    
-    '상품명
-    Cashbill.itemName = "상품명"
-    
-    '주문번호
-    Cashbill.orderNumber = "주문번호"
-    
-    '고객이메일
-    Cashbill.email = "test@test.com"
-    
-    '고객휴대폰번호
-    Cashbill.hp = "010-111-222"
-    
-    '현금영수증 발행 알림문자 전송여부
-    Cashbill.smssendYN = False
-    
-    Set Response = CashbillService.Update(txtCorpNum.Text, txtMgtKey.Text, Cashbill)
-    
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-End Sub
-
-'=========================================================================
-' 연동회원의 담당자 정보를 수정합니다.
-'=========================================================================
-
-Private Sub btnUpdateContact_Click()
-    Dim joinData As New PBContactInfo
-    Dim Response As PBResponse
-    
-    '담당자 아이디
-    joinData.id = txtUserID.Text
-    
-    '담당자명
-    joinData.personName = "담당자명_수정"
-    
-    '연락처
-    joinData.tel = "070-1234-1234"
-    
-    '휴대폰번호
-    joinData.hp = "010-1234-1234"
-    
-    '이메일 주소
-    joinData.email = "test@test.com"
-    
-    '팩스번호
-    joinData.fax = "070-1234-1234"
-    
-    '전체조회여부, Ture-회사조회, False-개인조
-    joinData.searchAllAllowYN = True
-    
-    '관리자 권한여부
-    joinData.mgrYN = False
-
-                
-    Set Response = CashbillService.UpdateContact(txtCorpNum.Text, joinData, txtUserID.Text)
-    
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-End Sub
-
-'=========================================================================
-' 연동회원의 회사정보를 수정합니다
-'=========================================================================
-
-Private Sub btnUpdateCorpInfo_Click()
-    Dim CorpInfo As New PBCorpInfo
-    Dim Response As PBResponse
-    
-    '대표자성명, 최대 30자
-    CorpInfo.ceoname = "대표자"
-    
-    '상호, 최대 70자
-    CorpInfo.corpName = "상호"
-    
-    ' 주소, 최대 300자
-    CorpInfo.addr = "서울특별시"
-    
-    '업태, 최대 40자
-    CorpInfo.bizType = "업태"
-    
-    '종목, 최대 40자
-    CorpInfo.bizClass = "종목"
-    
-    Set Response = CashbillService.UpdateCorpInfo(txtCorpNum.Text, CorpInfo)
-    
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-End Sub
-
-
-
 
 Private Sub Form_Load()
     CashbillService.Initialize LinkID, SecretKey
