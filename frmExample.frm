@@ -1428,7 +1428,7 @@ Private Sub btnSearch_Click()
     Dim Order As String
     Dim QString As String
     
-    '[필수] 일자유형, R-등록일자, T-거래일자 I-발행일자
+    '[필수] 일자유형, R-등록일자, T-거래일자 I-발행일시
     DType = "T"
     
     '[필수] 시작일자, 형식(yyyyMMdd)
