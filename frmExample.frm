@@ -116,7 +116,7 @@ Begin VB.Form frmExample
          Begin VB.CommandButton btnGetMailURL 
             Caption         =   "현금영수증 메일링크 URL"
             Height          =   390
-            Left            =   210
+            Left            =   240
             TabIndex        =   33
             Top             =   2160
             Width           =   2745
@@ -1769,8 +1769,8 @@ Private Sub btnGetMassPrintURL_Click()
 End Sub
 
 '=========================================================================
-' 공급받는자 메일링크 URL을 반환합니다.
-' - 메일링크 URL은 유효시간이 존재하지 않습니다.
+' 현금영수증 수신메일 링크URL 을 반환합니다.
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
 '=========================================================================
 Private Sub btnGetMailURL_Click()
     Dim url As String
