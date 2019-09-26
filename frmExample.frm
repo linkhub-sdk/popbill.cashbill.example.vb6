@@ -1844,5 +1844,8 @@ Private Sub Form_Load()
     
     '연동환경 설정값 True-테스트용, False-상업용
     CashbillService.IsTest = True
+    
+    '인증토큰 IP제한기능 사용여부, True-권장
+    CashbillService.IPRestrictOnOff = True
 End Sub
 
