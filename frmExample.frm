@@ -578,7 +578,7 @@ Attribute VB_Exposed = False
 ' 팝빌 현금영수증 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 :
-' - 업데이트 일자 : 2019-02-11
+' - 업데이트 일자 : 2019-12-02
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -1009,11 +1009,11 @@ End Sub
 '   전송결과를 확인할 수 있습니다.
 ' - 현금영수증 국세청 전송 정책에 대한 정보는 "[현금영수증 API 연동매뉴얼]
 '   > 1.3. 국세청 전송정책"을 참조하시기 바랍니다.
-' - 취소현금영수증 작성방법 안내 - http://blog.linkhub.co.kr/702
 '=========================================================================
 Private Sub btnRegistIssue_Click()
     Dim Cashbill As New PBCashbill
     Dim Response As PBResponse
+    Dim emailSubject As String
     
     '현금영수증 관리번호, 1~24자리 영문,숫자조합으로 사업자별로 중복되지 않도록 구성
     Cashbill.mgtKey = txtMgtKey.Text
@@ -1087,8 +1087,11 @@ Private Sub btnRegistIssue_Click()
     
     '현금영수증 발행 알림문자 전송여부
     Cashbill.smssendYN = False
-              
-    Set Response = CashbillService.RegistIssue(txtCorpNum.Text, Cashbill)
+    
+    '안내메일 제목, 미기재시 기본양식으로 전송.
+    emailSubject = ""
+            
+    Set Response = CashbillService.RegistIssue(txtCorpNum.Text, Cashbill, txtUserID.Text, emailSubject)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
