@@ -987,8 +987,8 @@ Private Sub btnGetPartnerURL_CHRG_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증 관리번호 중복여부를 확인합니다.
-' - 관리번호는 1~24자리로 숫자, 영문 '-', '_' 조합으로 구성할 수 있습니다.
+' 현금영수증 문서번호 중복여부를 확인합니다.
+' - 문서번호는 1~24자리로 숫자, 영문 '-', '_' 조합으로 구성할 수 있습니다.
 '=========================================================================
 Private Sub btnCheckMgtKeyInUse_Click()
     Dim Response As PBResponse
@@ -1015,7 +1015,7 @@ Private Sub btnRegistIssue_Click()
     Dim Response As PBResponse
     Dim emailSubject As String
     
-    '현금영수증 관리번호, 1~24자리 영문,숫자조합으로 사업자별로 중복되지 않도록 구성
+    '현금영수증 문서번호, 1~24자리 영문,숫자조합으로 사업자별로 중복되지 않도록 구성
     Cashbill.mgtKey = txtMgtKey.Text
     
     '[취소거래시 필수] 원본 국세청승인번호
@@ -1080,6 +1080,8 @@ Private Sub btnRegistIssue_Click()
     Cashbill.orderNumber = "주문번호"
     
     '주문자 이메일
+    '팝빌 개발환경에서 테스트하는 경우에도 안내 메일이 전송되므로,
+    '실제 거래처의 메일주소가 기재되지 않도록 주의
     Cashbill.email = "test@test.com"
     
     '주문자 휴대폰
@@ -1125,7 +1127,7 @@ End Sub
 
 '=========================================================================
 ' 1건의 현금영수증을 삭제합니다.
-' - 현금영수증을 삭제하면 사용된 문서관리번호(mgtKey)를 재사용할 수 있습니다.
+' - 현금영수증을 삭제하면 사용된 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - 삭제가능한 문서 상태 : [임시저장], [발행취소]
 '=========================================================================
 Private Sub btnDelete_sub_Click()
@@ -1263,7 +1265,7 @@ End Sub
 
 '=========================================================================
 ' 1건의 현금영수증을 삭제합니다.
-' - 현금영수증을 삭제하면 사용된 문서관리번호(mgtKey)를 재사용할 수 있습니다.
+' - 현금영수증을 삭제하면 사용된 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - 삭제가능한 문서 상태 : [임시저장], [발행취소]
 '=========================================================================
 Private Sub btnDelete_Click()
@@ -1295,8 +1297,8 @@ Private Sub btnGetInfo_Click()
         Exit Sub
     End If
     
-    tmp = tmp + "itemKey (팝빌 관리번호) : " + cbInfo.itemKey + vbCrLf
-    tmp = tmp + "mgtKey (관리번호) : " + cbInfo.mgtKey + vbCrLf
+    tmp = tmp + "itemKey (팝빌 문서번호) : " + cbInfo.itemKey + vbCrLf
+    tmp = tmp + "mgtKey (문서번호) : " + cbInfo.mgtKey + vbCrLf
     tmp = tmp + "tradeDate (거래일자) : " + cbInfo.tradeDate + vbCrLf
     tmp = tmp + "tradeType (문서형태) : " + cbInfo.tradeType + vbCrLf
     tmp = tmp + "tradeUsage (거래구분) : " + cbInfo.tradeUsage + vbCrLf
@@ -1334,7 +1336,7 @@ Private Sub btnGetInfos_Click()
     Dim tmp As String
     Dim info As PBCbInfo
     
-    '현금영수증 문서관리번호배열, 최대 1000건
+    '현금영수증 문서번호배열, 최대 1000건
     KeyList.Add "20190115-001"
     KeyList.Add "20190115-002"
     KeyList.Add "20190115-003"
@@ -1347,7 +1349,7 @@ Private Sub btnGetInfos_Click()
         Exit Sub
     End If
     
-    tmp = "itemKey (팝빌 관리번호) | mgtKey (관리번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
+    tmp = "itemKey (팝빌 문서번호) | mgtKey (문서번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
           "taxationType (과세형태) | totalAmount (거래금액) | issueDT (발행일시) | regDT (등록일시) | stateMemo (상태메모) | stateCode (상태코드)  " + _
           "stateDT (상태변경일시) | identityNum (식별번호) | itemName (주문상품명) | customerName (주문자명) | confirmNum (국세청승인번호)  " + _
           "orgConfirmNum (원본 현금영수증 국세청승인번호) | orgTradeDate (원본 현금영수증 거래일자) | ntssendDT (국세청 전송일시)  " + _
@@ -1380,7 +1382,7 @@ Private Sub btnGetDetailInfo_Click()
         Exit Sub
     End If
     
-    tmp = tmp + "mgtKey (문서관리번호) : " + cbDetailInfo.mgtKey + vbCrLf
+    tmp = tmp + "mgtKey (문서번호) : " + cbDetailInfo.mgtKey + vbCrLf
     tmp = tmp + "confirmNum (국세청승인번호) : " + cbDetailInfo.confirmNum + vbCrLf
     tmp = tmp + "tradeDate (거래일자) : " + cbDetailInfo.tradeDate + vbCrLf
     tmp = tmp + "tradeUsage (거래구분) : " + cbDetailInfo.tradeUsage + vbCrLf
@@ -1492,7 +1494,7 @@ Private Sub btnSearch_Click()
     tmp = tmp + "pageCount (페이지 개수) : " + CStr(cbSearchList.pageCount) + vbCrLf
     tmp = tmp + "message (응답메시지) : " + cbSearchList.message + vbCrLf + vbCrLf + vbCrLf
     
-    tmp = "itemKey (팝빌 관리번호) | mgtKey (관리번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
+    tmp = "itemKey (팝빌 문서번호) | mgtKey (문서번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
          "taxationType (과세형태) | totalAmount (거래금액) | issueDT (발행일시) | regDT (등록일시) | stateMemo (상태메모) | stateCode (상태코드)  " + _
          "stateDT (상태변경일시) | identityNum (식별번호) | itemName (주문상품명) | customerName (주문자명) | confirmNum (국세청승인번호)  " + _
          "orgConfirmNum (원본 현금영수증 국세청승인번호) | orgTradeDate (원본 현금영수증 거래일자) | ntssendDT (국세청 전송일시)  " + _
@@ -1758,7 +1760,7 @@ Private Sub btnGetMassPrintURL_Click()
     Dim url As String
     Dim KeyList As New Collection
     
-    '문서관리번호 배열, 최대 100건
+    '문서번호 배열, 최대 100건
     KeyList.Add "20190211-01"
     KeyList.Add "20190211-02"
     KeyList.Add "20190211-03"
