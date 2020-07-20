@@ -15,7 +15,7 @@ Begin VB.Form frmExample
       Left            =   240
       TabIndex        =   12
       Top             =   3480
-      Width           =   14490
+      Width           =   15450
       Begin VB.Frame Frame9 
          Caption         =   "즉시발행 프로세스 "
          Height          =   2415
@@ -77,7 +77,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame14 
          Caption         =   " 인쇄/보기"
          Height          =   2760
-         Left            =   5880
+         Left            =   7680
          TabIndex        =   32
          Top             =   4125
          Width           =   5250
@@ -133,7 +133,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
          Height          =   1890
-         Left            =   11280
+         Left            =   13080
          TabIndex        =   28
          Top             =   4125
          Width           =   2265
@@ -163,12 +163,20 @@ Begin VB.Form frmExample
          End
       End
       Begin VB.Frame Frame12 
-         Caption         =   " 부가 서비스"
+         Caption         =   "부가 기능"
          Height          =   2775
          Left            =   2760
          TabIndex        =   24
          Top             =   4125
-         Width           =   2895
+         Width           =   4815
+         Begin VB.CommandButton btnAssignMgtKey 
+            Caption         =   "문서번호 할당"
+            Height          =   390
+            Left            =   2760
+            TabIndex        =   64
+            Top             =   360
+            Width           =   1935
+         End
          Begin VB.CommandButton btnUpdateemailconfig 
             Caption         =   "알림메일 전송설정 수정"
             Height          =   375
@@ -613,6 +621,28 @@ Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
 
 '현금영수증 서비스 객체 생성
 Private CashbillService As New PBCBService
+
+Private Sub btnAssignMgtKey_Click()
+    Dim Response As PBResponse
+    Dim itemKey As String
+    Dim mgtKey As String
+    
+    '현금영수증 아이템키, 목록조회(Search) API의 반환항목중 ItemKey 참조
+    itemKey = "020042413523200001"
+            
+    '할당할 문서번호, 숫자, 영문, '-', '_' 조합으로
+    '1~24자리까지 사업자번호별 중복없는 고유번호 할당
+    mgtKey = "20200720-05"
+        
+    Set Response = CashbillService.AssignMgtKey(txtCorpNum.Text, itemKey, mgtKey)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
 
 '=========================================================================
 ' 해당 사업자의 파트너 연동회원 가입여부를 확인합니다.
