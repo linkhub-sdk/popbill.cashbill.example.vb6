@@ -15,7 +15,7 @@ Begin VB.Form frmExample
       Left            =   240
       TabIndex        =   12
       Top             =   3480
-      Width           =   12330
+      Width           =   14490
       Begin VB.Frame Frame9 
          Caption         =   "즉시발행 프로세스 "
          Height          =   2415
@@ -80,7 +80,15 @@ Begin VB.Form frmExample
          Left            =   5880
          TabIndex        =   32
          Top             =   4125
-         Width           =   3210
+         Width           =   5250
+         Begin VB.CommandButton btnGetPDFURL 
+            Caption         =   "PDF 다운로드 URL"
+            Height          =   390
+            Left            =   3120
+            TabIndex        =   63
+            Top             =   390
+            Width           =   1935
+         End
          Begin VB.CommandButton btnGetEPrintUrl 
             Caption         =   "공급받는자 인쇄 팝업 URL"
             Height          =   390
@@ -125,7 +133,7 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
          Height          =   1890
-         Left            =   9240
+         Left            =   11280
          TabIndex        =   28
          Top             =   4125
          Width           =   2265
@@ -578,7 +586,7 @@ Attribute VB_Exposed = False
 ' 팝빌 현금영수증 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 : https://docs.popbill.com/cashbill/tutorial/vb
-' - 업데이트 일자 : 2020-02-03
+' - 업데이트 일자 : 2020-07-20
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -639,6 +647,23 @@ Private Sub btnCheckID_Click()
     End If
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 1건의 현금영수증 PDF 다운로드 URL을 반환합니다.
+' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다
+'=========================================================================
+Private Sub btnGetPDFURL_Click()
+    Dim url As String
+    
+    url = CashbillService.GetPDFURL(txtCorpNum.Text, txtMgtKey.Text)
+    
+    If url = "" Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "URL : " + vbCrLf + url
 End Sub
 
 '=========================================================================
