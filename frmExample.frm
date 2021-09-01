@@ -622,6 +622,10 @@ Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
 '현금영수증 서비스 객체 생성
 Private CashbillService As New PBCBService
 
+'=========================================================================
+' 팝빌 사이트를 통해 발행하여 문서번호가 부여되지 않은 현금영수증에 문서번호를 할당합니다.
+' - https://docs.popbill.com/cashbill/vb/api#AssignMgtKey
+'=========================================================================
 Private Sub btnAssignMgtKey_Click()
     Dim Response As PBResponse
     Dim itemKey As String
@@ -632,7 +636,7 @@ Private Sub btnAssignMgtKey_Click()
             
     '할당할 문서번호, 숫자, 영문, '-', '_' 조합으로
     '1~24자리까지 사업자번호별 중복없는 고유번호 할당
-    mgtKey = "20200720-05"
+    mgtKey = "20210901-05"
         
     Set Response = CashbillService.AssignMgtKey(txtCorpNum.Text, itemKey, mgtKey)
     
@@ -645,7 +649,7 @@ Private Sub btnAssignMgtKey_Click()
 End Sub
 
 '=========================================================================
-' 해당 사업자의 파트너 연동회원 가입여부를 확인합니다.
+' 사업자번호를 조회하여 연동회원 가입여부를 확인합니다.
 ' - LinkID는 인증정보로 설정되어 있는 링크아이디 값입니다.
 ' - https://docs.popbill.com/cashbill/vb/api#CheckIsMember
 '=========================================================================
@@ -663,7 +667,7 @@ Private Sub btnCheckIsMember_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 회원아이디 중복여부를 확인합니다.
+' 사용하고자 하는 아이디의 중복여부를 확인합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#CheckID
 '=========================================================================
 Private Sub btnCheckID_Click()
@@ -680,8 +684,8 @@ Private Sub btnCheckID_Click()
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증 PDF 다운로드 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다
+' 현금영수증 PDF 파일을 다운 받을 수 있는 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 '=========================================================================
 Private Sub btnGetPDFURL_Click()
     Dim url As String
@@ -697,7 +701,7 @@ Private Sub btnGetPDFURL_Click()
 End Sub
 
 '=========================================================================
-' 연동회원 가입을 요청합니다.
+' 사용자를 연동회원으로 가입처리합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#JoinMember
 '=========================================================================
 Private Sub btnJoinMember_Click()
@@ -757,7 +761,7 @@ Private Sub btnJoinMember_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증 발행단가를 확인합니다.
+' 현금영수증 발행시 과금되는 포인트 단가를 확인합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetUnitCost
 '=========================================================================
 Private Sub btnUnitCost_Click()
@@ -774,7 +778,7 @@ Private Sub btnUnitCost_Click()
 End Sub
 
 '=========================================================================
-' 연동회원의 현금영수증 API 서비스 과금정보를 확인합니다.
+' 팝빌 현금영수증 API 서비스 과금정보를 확인합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetChargeInfo
 '=========================================================================
 Private Sub btnGetChargeInfo_Click()
@@ -796,8 +800,8 @@ Private Sub btnGetChargeInfo_Click()
 End Sub
 
 '=========================================================================
-' 팝빌(www.popbill.com)에 로그인된 팝빌 URL을 반환합니다.
-' - 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+' 팝빌 사이트에 로그인 상태로 접근할 수 있는 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetAccessURL
 '=========================================================================
 Private Sub btnGetAccessURL_Click()
@@ -814,7 +818,7 @@ Private Sub btnGetAccessURL_Click()
 End Sub
 
 '=========================================================================
-' 연동회원의 담당자를 신규로 등록합니다.
+' 연동회원 사업자번호에 담당자(팝빌 로그인 계정)를 추가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#RegistContact
 '=========================================================================
 Private Sub btnRegistContact_Click()
@@ -859,7 +863,7 @@ Private Sub btnRegistContact_Click()
 End Sub
 
 '=========================================================================
-' 연동회원의 담당자 목록을 확인합니다.
+' 연동회원 사업자번호에 등록된 담당자(팝빌 로그인 계정) 목록을 확인합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#ListContact
 '=========================================================================
 Private Sub btnListContact_Click()
@@ -886,7 +890,7 @@ Private Sub btnListContact_Click()
 End Sub
 
 '=========================================================================
-' 연동회원의 담당자 정보를 수정합니다.
+' 연동회원 사업자번호에 등록된 담당자(팝빌 로그인 계정) 정보를 수정합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#UpdateContact
 '=========================================================================
 Private Sub btnUpdateContact_Click()
@@ -986,8 +990,7 @@ End Sub
 
 '=========================================================================
 ' 연동회원의 잔여포인트를 확인합니다.
-' - 과금방식이 파트너과금인 경우 파트너 잔여포인트(GetPartnerBalance API)
-'   를 통해 확인하시기 바랍니다.
+' - 과금방식이 파트너과금인 경우 파트너 잔여포인트(GetPartnerBalance API)를 통해 확인하시기 바랍니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetBalance
 '=========================================================================
 Private Sub btnGetBalance_Click()
@@ -1004,8 +1007,8 @@ Private Sub btnGetBalance_Click()
 End Sub
 
 '=========================================================================
-' 연동회원 포인트 충전 URL을 반환합니다.
-' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+' 연동회원 포인트 충전을 위한 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetChargeURL
 '=========================================================================
 Private Sub btnGetChargeURL_Click()
@@ -1022,7 +1025,8 @@ Private Sub btnGetChargeURL_Click()
 End Sub
 
 '=========================================================================
-' 파트너 잔여포인트 확인합니다.
+' 파트너의 잔여포인트를 확인합니다.
+' - 과금방식이 연동과금인 경우 연동회원 잔여포인트(GetBalance API)를 이용하시기 바랍니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetPartnerBalance
 '=========================================================================
 Private Sub btnGetPartnerBalance_Click()
@@ -1039,8 +1043,8 @@ Private Sub btnGetPartnerBalance_Click()
 End Sub
 
 '=========================================================================
-' 파트너 포인트 충전 URL을 반환합니다.
-' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
+' 파트너 포인트 충전을 위한 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetPartnerURL
 '=========================================================================
 Private Sub btnGetPartnerURL_CHRG_Click()
@@ -1057,8 +1061,9 @@ Private Sub btnGetPartnerURL_CHRG_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증 문서번호 중복여부를 확인합니다.
-' - 문서번호는 1~24자리로 숫자, 영문 '-', '_' 조합으로 구성할 수 있습니다.
+' 파트너가 현금영수증 관리 목적으로 할당하는 문서번호 사용여부를 확인합니다.
+' - 이미 사용 중인 문서번호는 중복 사용이 불가하고, 현금영수증이 삭제된 경우에만 문서번호의 재사용이 가능합니다.
+' - 문서번호는 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
 ' - https://docs.popbill.com/cashbill/vb/api#CheckMgtKeyInUse
 '=========================================================================
 Private Sub btnCheckMgtKeyInUse_Click()
@@ -1075,7 +1080,8 @@ Private Sub btnCheckMgtKeyInUse_Click()
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증을 즉시발행합니다.
+' 작성된 현금영수증 데이터를 팝빌에 저장과 동시에 발행하여 "발행완료" 상태로 처리합니다.
+' - 현금영수증 국세청 전송 정책 : https://docs.popbill.com/cashbill/ntsSendPolicy?lang=vb
 ' - https://docs.popbill.com/cashbill/vb/api#RegistIssue
 '=========================================================================
 Private Sub btnRegistIssue_Click()
@@ -1172,8 +1178,8 @@ Private Sub btnRegistIssue_Click()
 End Sub
 
 '=========================================================================
-' [발행완료] 상태의 현금영수증을 [발행취소] 합니다.
-' - 발행취소는 현금영수증을 국세청에 신고하기 전까지 가능합니다.
+' 국세청 전송 이전 "발행완료" 상태의 현금영수증을 "발행취소"하고 국세청 신고 대상에서 제외합니다.
+' - Delete(삭제)함수를 호출하여 "발행취소" 상태의 현금영수증을 삭제하면, 문서번호 재사용이 가능합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#CancelIssue
 '=========================================================================
 Private Sub btnCancelIssue_sub_Click()
@@ -1194,7 +1200,8 @@ Private Sub btnCancelIssue_sub_Click()
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증을 삭제합니다.
+' 삭제 가능한 상태의 현금영수증을 삭제합니다.
+' - 삭제 가능한 상태: "임시저장", "발행취소", "전송실패"
 ' - 현금영수증을 삭제하면 사용된 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - https://docs.popbill.com/cashbill/vb/api#Delete
 '=========================================================================
@@ -1212,9 +1219,8 @@ Private Sub btnDelete_sub_Click()
 End Sub
 
 '=========================================================================
-' 1건의 취소현금영수증을 즉시발행합니다.
-' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
-'   전송결과를 확인할 수 있습니다.
+' 취소 현금영수증 데이터를 팝빌에 저장과 동시에 발행하여 "발행완료" 상태로 처리합니다.
+' - 현금영수증 국세청 전송 정책 : https://docs.popbill.com/cashbill/ntsSendPolicy?lang=vb
 ' - https://docs.popbill.com/cashbill/vb/api#RevokeRegistIssue
 '=========================================================================
 Private Sub btnRevokeRegistIssue_Click()
@@ -1228,7 +1234,7 @@ Private Sub btnRevokeRegistIssue_Click()
     orgConfirmNum = "816483090"
     
     '원본현금영수증 거래일자
-    orgTradeDate = "20190129"
+    orgTradeDate = "20210901"
     
     '발행안내문자 전송여부
     smssendYN = True
@@ -1247,9 +1253,8 @@ Private Sub btnRevokeRegistIssue_Click()
 End Sub
 
 '=========================================================================
-' 1건의 (부분) 취소현금영수증을 즉시발행합니다.
-' - 발행일 기준 오후 5시 이전에 발행된 현금영수증은 다음날 오후 2시에 국세청
-'   전송결과를 확인할 수 있습니다.
+' 1건의 취소 현금영수증 데이터를 팝빌에 저장과 동시에 발행하여 "발행완료" 상태로 처리합니다.
+' - 현금영수증 국세청 전송 정책 : https://docs.popbill.com/cashbill/ntsSendPolicy?lang=dotnet
 ' - https://docs.popbill.com/cashbill/vb/api#RevokeRegistIssue
 '=========================================================================
 Private Sub btnRegistIssue_part_Click()
@@ -1269,7 +1274,7 @@ Private Sub btnRegistIssue_part_Click()
     orgConfirmNum = "709328269"
     
     '원본현금영수증 거래일자
-    orgTradeDate = "20190207"
+    orgTradeDate = "20210901"
     
     '발행안내문자 전송여부
     smssendYN = True
@@ -1307,9 +1312,8 @@ Private Sub btnRegistIssue_part_Click()
 End Sub
 
 '=========================================================================
-' [발행완료] 상태의 현금영수증을 [발행취소] 합니다.
-' - 공급자 발행취소는 현금영수증을 국세청에 신고하기 전까지 가능합니다.
-' - 발행취소된 형금영수증은 국세청에 전송되지 않습니다.
+' 국세청 전송 이전 "발행완료" 상태의 현금영수증을 "발행취소"하고 국세청 신고 대상에서 제외합니다.
+' - Delete(삭제)함수를 호출하여 "발행취소" 상태의 현금영수증을 삭제하면, 문서번호 재사용이 가능합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#CancelIssue
 '=========================================================================
 Private Sub btnCancelIssue_Click()
@@ -1330,7 +1334,8 @@ Private Sub btnCancelIssue_Click()
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증을 삭제합니다.
+' 삭제 가능한 상태의 현금영수증을 삭제합니다.
+' - 삭제 가능한 상태: "임시저장", "발행취소", "전송실패"
 ' - 현금영수증을 삭제하면 사용된 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - https://docs.popbill.com/cashbill/vb/api#Delete
 '=========================================================================
@@ -1348,7 +1353,7 @@ Private Sub btnDelete_Click()
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증 상태/요약 정보를 확인합니다.
+' 현금영수증 1건의 상태 및 요약정보를 확인합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetInfo
 '=========================================================================
 Private Sub btnGetInfo_Click()
@@ -1391,7 +1396,7 @@ Private Sub btnGetInfo_Click()
 End Sub
 
 '=========================================================================
-' 대량의 현금영수증 상태/요약 정보를 확인합니다.
+' 다수건의 현금영수증 상태 및 요약 정보를 확인합니다. (1회 호출 시 최대 1,000건 확인 가능)
 ' - https://docs.popbill.com/cashbill/vb/api#GetInfos
 '=========================================================================
 Private Sub btnGetInfos_Click()
@@ -1401,10 +1406,10 @@ Private Sub btnGetInfos_Click()
     Dim info As PBCbInfo
     
     '현금영수증 문서번호배열, 최대 1000건
-    KeyList.Add "20190115-001"
-    KeyList.Add "20190115-002"
-    KeyList.Add "20190115-003"
-    KeyList.Add "20190115-004"
+    KeyList.Add "20210901-001"
+    KeyList.Add "20210901-002"
+    KeyList.Add "20210901-003"
+    KeyList.Add "20210901-004"
     
     Set resultList = CashbillService.GetInfos(txtCorpNum.Text, KeyList)
      
@@ -1431,7 +1436,7 @@ Private Sub btnGetInfos_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증 1건의 상세정보를 조회합니다.
+' 현금영수증 1건의 상세정보를 확인합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetDetailInfo
 '=========================================================================
 Private Sub btnGetDetailInfo_Click()
@@ -1477,7 +1482,7 @@ Private Sub btnGetDetailInfo_Click()
 End Sub
 
 '=========================================================================
-' 검색조건을 사용하여 현금영수증 목록을 조회합니다.
+' 검색조건에 해당하는 현금영수증을 조회합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#Search
 '=========================================================================
 Private Sub btnSearch_Click()
@@ -1499,10 +1504,10 @@ Private Sub btnSearch_Click()
     DType = "T"
     
     '[필수] 시작일자, 형식(yyyyMMdd)
-    SDate = "20190101"
+    SDate = "20210901"
     
     '[필수] 종료일자, 형식(yyyyMMdd)
-    EDate = "20190201"
+    EDate = "20210910"
     
     '상태코드 배열, 미기재시 전체 상태조회, 상태코드(stateCode)값 3자리의 배열, 2,3번째 자리에 와일드카드 가능
     '상태코드에 대한 자세한 사항은 "[현금영수증 API 연동매뉴얼] > 5.1 현금영수증 상태코드" 를 참조하시기 바랍니다.
@@ -1596,7 +1601,7 @@ Private Sub btnSearch_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증 상태 변경이력을 확인합니다.
+' 현금영수증의 상태에 대한 변경이력을 확인합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetLogs
 '=========================================================================
 Private Sub btnGetLogs_Click()
@@ -1621,7 +1626,7 @@ Private Sub btnGetLogs_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증 발행 안내메일을 재전송합니다.
+' 현금영수증과 관련된 안내 메일을 재전송 합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#SendEmail
 '=========================================================================
 Private Sub btnSendEmail_Click()
@@ -1642,10 +1647,8 @@ Private Sub btnSendEmail_Click()
 End Sub
 
 '=========================================================================
-' 알림문자를 전송합니다. (단문/SMS- 한글 최대 45자)
+' 현금영수증과 관련된 안내 SMS(단문) 문자를 재전송하는 함수로, 팝빌 사이트 [문자·팩스] > [문자] > [전송내역] 메뉴에서 전송결과를 확인 할 수 있습니다.
 ' - 알림문자 전송시 포인트가 차감됩니다. (전송실패시 환불처리)
-' - 전송내역 확인은 "팝빌 로그인" > [문자 팩스] > [문자] > [전송내역] 탭에서
-'   전송결과를 확인할 수 있습니다.
 ' - https://docs.popbill.com/cashbill/vb/api#SendSMS
 '=========================================================================
 Private Sub btnSendSMS_Click()
@@ -1674,10 +1677,8 @@ Private Sub btnSendSMS_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증을 팩스전송합니다.
+' 현금영수증을 팩스로 전송하는 함수로, 팝빌 사이트 [문자·팩스] > [팩스] > [전송내역] 메뉴에서 전송결과를 확인 할 수 있습니다.
 ' - 팩스 전송 요청시 포인트가 차감됩니다. (전송실패시 환불처리)
-' - 전송내역 확인은 "팝빌 로그인" > [문자 팩스] > [팩스] > [전송내역]
-'   메뉴에서 전송결과를 확인할 수 있습니다.
 ' - https://docs.popbill.com/cashbill/vb/api#SendFAX
 '=========================================================================
 Private Sub btnSendFAX_Click()
@@ -1702,7 +1703,7 @@ Private Sub btnSendFAX_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증 관련 메일전송 항목에 대한 전송여부를 목록으로 반환합니다
+' 현금영수증 관련 메일 항목에 대한 발송설정을 확인합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#ListEmailConfig
 '=========================================================================
 Private Sub btnListemailconfig_Click()
@@ -1739,14 +1740,12 @@ Private Sub btnListemailconfig_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증 관련 메일전송 항목에 대한 전송여부를 수정합니다.
+' 현금영수증 관련 메일 항목에 대한 발송설정을 수정합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#UpdateEmailConfig
 '
 ' 메일전송유형
-'
 ' CSH_ISSUE : 고객에게 현금영수증이 발행 되었음을 알려주는 메일 입니다.
 ' CSH_CANCEL : 고객에게 현금영수증이 발행취소 되었음을 알려주는 메일 입니다.
-'
 '=========================================================================
 Private Sub btnUpdateemailconfig_Click()
     Dim Response As PBResponse
@@ -1770,8 +1769,8 @@ Private Sub btnUpdateemailconfig_Click()
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증 보기 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 팝빌 사이트와 동일한 현금영수증 1건의 상세 정보 페이지의 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
 ' - https://docs.popbill.com/cashbill/vb/api#GetPopUpURL
 '=========================================================================
 Private Sub btnGetPopUpURL_Click()
@@ -1788,8 +1787,8 @@ Private Sub btnGetPopUpURL_Click()
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증 인쇄(공급자) URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 현금영수증 1건을 인쇄하기 위한 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetPrintURL
 '=========================================================================
 Private Sub btnGetPrintURL_Click()
@@ -1806,9 +1805,8 @@ Private Sub btnGetPrintURL_Click()
 End Sub
 
 '=========================================================================
-' 1건의 현금영수증 인쇄(공급받는자) URL을 반환합니다.
-' - URL 보안정책에 따라 반환된 URL은 30초의 유효시간을 갖습니다.
-' - https://docs.popbill.com/cashbill/vb/api#GetPrintURL
+' 1건의 현금영수증 인쇄 팝업 URL을 반환합니다. (공급받는자용)
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 '=========================================================================
 Private Sub btnGetEPrintUrl_Click()
     Dim url As String
@@ -1824,8 +1822,8 @@ Private Sub btnGetEPrintUrl_Click()
 End Sub
 
 '=========================================================================
-' 대량의 현금영수증 인쇄팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 다수건의 현금영수증을 인쇄하기 위한 페이지의 팝업 URL을 반환합니다. (최대 100건)
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
 ' - https://docs.popbill.com/cashbill/vb/api#GetMassPrintURL
 '=========================================================================
 Private Sub btnGetMassPrintURL_Click()
@@ -1833,10 +1831,10 @@ Private Sub btnGetMassPrintURL_Click()
     Dim KeyList As New Collection
     
     '문서번호 배열, 최대 100건
-    KeyList.Add "20190211-01"
-    KeyList.Add "20190211-02"
-    KeyList.Add "20190211-03"
-    KeyList.Add "20190211-04"
+    KeyList.Add "20210901-01"
+    KeyList.Add "20210901-02"
+    KeyList.Add "20210901-03"
+    KeyList.Add "20210901-04"
     
     url = CashbillService.GetMassPrintURL(txtCorpNum.Text, KeyList)
      
@@ -1849,8 +1847,8 @@ Private Sub btnGetMassPrintURL_Click()
 End Sub
 
 '=========================================================================
-' 현금영수증 수신메일 링크URL 을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 구매자가 수신하는 현금영수증 안내 메일의 하단에 버튼 URL 주소를 반환합니다.
+' - 함수 호출로 반환 받은 URL에는 유효시간이 없습니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetMailURL
 '=========================================================================
 Private Sub btnGetMailURL_Click()
@@ -1867,8 +1865,8 @@ Private Sub btnGetMailURL_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 > 현금영수증 > 임시(연동)문서함 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 팝빌 현금영수증 임시문서함 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
 ' - https://docs.popbill.com/cashbill/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_TBOX_Click()
@@ -1885,8 +1883,8 @@ Private Sub btnGetURL_TBOX_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 > 현금영수증 > 발행문서함 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 팝빌 현금영수증 발행문서함 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
 ' - https://docs.popbill.com/cashbill/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_PBOX_Click()
@@ -1903,8 +1901,8 @@ Private Sub btnGetURL_PBOX_Click()
 End Sub
 
 '=========================================================================
-' 팝빌 > 현금영수증 > 현금영수증 작성 팝업 URL을 반환합니다.
-' - 보안정책으로 인해 반환된 URL의 유효시간은 30초입니다.
+' 팝빌 현금영수증 매출문서작성 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
 ' - https://docs.popbill.com/cashbill/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_WRITE_Click()
