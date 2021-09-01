@@ -333,7 +333,7 @@ Begin VB.Form frmExample
          End
       End
       Begin VB.CommandButton btnCheckMgtKeyInUse 
-         Caption         =   "관리번호 사용여부 확인"
+         Caption         =   "문서번호 사용여부 확인"
          Height          =   375
          Left            =   6150
          TabIndex        =   16
@@ -357,7 +357,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Label Label3 
          AutoSize        =   -1  'True
-         Caption         =   "관리번호( MgtKey) : "
+         Caption         =   "문서번호( MgtKey) : "
          Height          =   180
          Left            =   1440
          TabIndex        =   14
@@ -634,8 +634,7 @@ Private Sub btnAssignMgtKey_Click()
     '현금영수증 아이템키, 목록조회(Search) API의 반환항목중 ItemKey 참조
     itemKey = "020042413523200001"
             
-    '할당할 문서번호, 숫자, 영문, '-', '_' 조합으로
-    '1~24자리까지 사업자번호별 중복없는 고유번호 할당
+    '할당할 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     mgtKey = "20210901-05"
         
     Set Response = CashbillService.AssignMgtKey(txtCorpNum.Text, itemKey, mgtKey)
@@ -1089,7 +1088,7 @@ Private Sub btnRegistIssue_Click()
     Dim Response As PBResponse
     Dim emailSubject As String
     
-    '현금영수증 문서번호, 1~24자리 영문,숫자조합으로 사업자별로 중복되지 않도록 구성
+    '현금영수증 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
     Cashbill.mgtKey = txtMgtKey.Text
     
     '[취소거래시 필수] 원본 국세청승인번호
