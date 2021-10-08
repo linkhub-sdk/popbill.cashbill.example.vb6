@@ -4,10 +4,10 @@ Begin VB.Form frmExample
    ClientHeight    =   10860
    ClientLeft      =   60
    ClientTop       =   450
-   ClientWidth     =   16170
+   ClientWidth     =   16455
    LinkTopic       =   "Form1"
    ScaleHeight     =   10860
-   ScaleWidth      =   16170
+   ScaleWidth      =   16455
    StartUpPosition =   2  '화면 가운데
    Begin VB.Frame Frame7 
       Caption         =   "현금영수증 관련 기능"
@@ -15,7 +15,7 @@ Begin VB.Form frmExample
       Left            =   240
       TabIndex        =   12
       Top             =   3480
-      Width           =   15450
+      Width           =   15570
       Begin VB.Frame Frame9 
          Caption         =   "즉시발행 프로세스 "
          Height          =   2415
@@ -80,22 +80,30 @@ Begin VB.Form frmExample
          Left            =   7680
          TabIndex        =   32
          Top             =   4125
-         Width           =   5250
+         Width           =   5370
+         Begin VB.CommandButton btnGetViewURl 
+            Caption         =   "현금영수증 보기 URL(메뉴x)"
+            Height          =   375
+            Left            =   210
+            TabIndex        =   65
+            Top             =   840
+            Width           =   2625
+         End
          Begin VB.CommandButton btnGetPDFURL 
             Caption         =   "PDF 다운로드 URL"
             Height          =   390
-            Left            =   3120
+            Left            =   3000
             TabIndex        =   63
-            Top             =   390
-            Width           =   1935
+            Top             =   840
+            Width           =   2295
          End
          Begin VB.CommandButton btnGetEPrintUrl 
             Caption         =   "공급받는자 인쇄 팝업 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   37
-            Top             =   1260
-            Width           =   2745
+            Top             =   1740
+            Width           =   2625
          End
          Begin VB.CommandButton btnGetPopUpURL 
             Caption         =   "현금영수증 보기 URL"
@@ -103,37 +111,37 @@ Begin VB.Form frmExample
             Left            =   210
             TabIndex        =   36
             Top             =   390
-            Width           =   2745
+            Width           =   2625
          End
          Begin VB.CommandButton btnGetPrintURL 
             Caption         =   "현금영수증 인쇄 팝업 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   35
-            Top             =   825
-            Width           =   2745
+            Top             =   1305
+            Width           =   2625
          End
          Begin VB.CommandButton btnGetMassPrintURL 
             Caption         =   "대량 인쇄 팝업 URL"
             Height          =   390
             Left            =   210
             TabIndex        =   34
-            Top             =   1710
-            Width           =   2745
+            Top             =   2190
+            Width           =   2625
          End
          Begin VB.CommandButton btnGetMailURL 
             Caption         =   "현금영수증 메일링크 URL"
             Height          =   390
-            Left            =   240
+            Left            =   3000
             TabIndex        =   33
-            Top             =   2160
-            Width           =   2745
+            Top             =   360
+            Width           =   2295
          End
       End
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
          Height          =   1890
-         Left            =   13080
+         Left            =   13200
          TabIndex        =   28
          Top             =   4125
          Width           =   2265
@@ -698,6 +706,7 @@ Private Sub btnGetPDFURL_Click()
     
     MsgBox "URL : " + vbCrLf + url
 End Sub
+
 
 '=========================================================================
 ' 사용자를 연동회원으로 가입처리합니다.
@@ -1776,6 +1785,24 @@ Private Sub btnGetPopUpURL_Click()
     Dim url As String
     
     url = CashbillService.GetPopUpURL(txtCorpNum.Text, txtMgtKey.Text)
+    
+    If url = "" Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "URL : " + vbCrLf + url
+End Sub
+
+'=========================================================================
+' 팝빌 사이트와 동일한 현금영수증 1건의 상세 정보 페이지(사이트 상단, 좌측 메뉴 및 버튼 제외)의 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
+' - https://docs.popbill.com/cashbill/vb/api#GetViewURL
+'=========================================================================
+Private Sub btnGetViewURl_Click()
+    Dim url As String
+    
+    url = CashbillService.GetViewURL(txtCorpNum.Text, txtMgtKey.Text)
     
     If url = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
