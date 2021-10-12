@@ -1182,7 +1182,7 @@ Private Sub btnRegistIssue_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청 승인번호 : " + Response.confirmNum + vbCrLf + "거래일자 : " + Response.tradeDate)
 End Sub
 
 '=========================================================================
@@ -1239,10 +1239,10 @@ Private Sub btnRevokeRegistIssue_Click()
     Dim memo As String
     
     '원본현금영수증 승인번호
-    orgConfirmNum = "816483090"
+    orgConfirmNum = "TB0000037"
     
     '원본현금영수증 거래일자
-    orgTradeDate = "20210901"
+    orgTradeDate = "20210915"
     
     '발행안내문자 전송여부
     smssendYN = True
@@ -1257,7 +1257,7 @@ Private Sub btnRevokeRegistIssue_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청 승인번호 : " + Response.confirmNum + vbCrLf + "거래일자 : " + Response.tradeDate)
 End Sub
 
 '=========================================================================
@@ -1279,10 +1279,10 @@ Private Sub btnRegistIssue_part_Click()
     Dim totalAmount As String
     
     '원본현금영수증 승인번호
-    orgConfirmNum = "709328269"
+    orgConfirmNum = "TB0000037"
     
     '원본현금영수증 거래일자
-    orgTradeDate = "20210901"
+    orgTradeDate = "20210915"
     
     '발행안내문자 전송여부
     smssendYN = True
@@ -1316,7 +1316,7 @@ Private Sub btnRegistIssue_part_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청 승인번호 : " + Response.confirmNum + vbCrLf + "거래일자 : " + Response.tradeDate)
 End Sub
 
 '=========================================================================

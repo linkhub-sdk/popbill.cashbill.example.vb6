@@ -1,8 +1,8 @@
 frmExample = 213, 12, 1377, 748, , -10, 7, 1326, 886, C
-cStringBuilder = 0, 0, 0, 0, C
+cStringBuilder = 44, 58, 1198, 707, 
 Linkhub = 66, 88, 1320, 677, 
 LinkhubToken = 0, 0, 0, 0, C
-PBResponse = 132, 174, 1325, 887, C
+PBResponse = 132, 174, 1325, 887, 
 PBJoinForm = 132, 174, 1325, 887, C
 PBCBService = 77, 49, 1319, 758, 
 PBCashbill = 110, 145, 1303, 858, 
