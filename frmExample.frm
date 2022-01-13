@@ -857,8 +857,6 @@ Private Sub btnRegistContact_Click()
     '회사조회 권한여부, True-회사조회 / False-개인조회
     joinData.searchAllAllowYN = True
     
-    '관리자 여부, True-관리자 / False-사용자
-    joinData.mgrYN = False
         
     Set Response = CashbillService.RegistContact(txtCorpNum.Text, joinData)
     
@@ -926,8 +924,6 @@ Private Sub btnUpdateContact_Click()
     '회사조회 권한여부, True-회사조회 / False-개인조회
     joinData.searchAllAllowYN = True
     
-    '관리자 여부, True-관리자 / False-사용자
-    joinData.mgrYN = False
                 
     Set Response = CashbillService.UpdateContact(txtCorpNum.Text, joinData, txtUserID.Text)
     
