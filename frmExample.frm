@@ -602,7 +602,7 @@ Attribute VB_Exposed = False
 ' 팝빌 현금영수증 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 : https://docs.popbill.com/cashbill/tutorial/vb
-' - 업데이트 일자 : 2021-10-07
+' - 업데이트 일자 : 2022-01-13
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -1135,6 +1135,9 @@ Private Sub btnRegistIssue_Click()
     '가맹점 사업자번호, "-" 제외 10자리
     Cashbill.franchiseCorpNum = "1234567890"
     
+    '가맹점 종사업장 식별번호
+    Cashbill.franchiseTaxRegID = ""
+    
     '가맹점 상호
     Cashbill.franchiseCorpName = "발행자 상호"
     
@@ -1473,6 +1476,7 @@ Private Sub btnGetDetailInfo_Click()
     tmp = tmp + "orgTradeDate (원본현금영수증 거래일자) : " + cbDetailInfo.orgTradeDate + vbCrLf
     tmp = tmp + "cancelType (취소사유) : " + CStr(cbDetailInfo.cancelType) + vbCrLf
     tmp = tmp + "franchiseCorpNum (가맹점 사업자번호) : " + cbDetailInfo.franchiseCorpNum + vbCrLf
+    tmp = tmp + "franchiseTaxRegID (가맹점 종사업장 식별번호) : " + cbDetailInfo.franchiseTaxRegID + vbCrLf
     tmp = tmp + "franchiseCorpName (가맹점 상호) : " + cbDetailInfo.franchiseCorpName + vbCrLf
     tmp = tmp + "franchiseCEOName (가맹점 대표자 성명) : " + cbDetailInfo.franchiseCEOName + vbCrLf
     tmp = tmp + "franchiseAddr (가맹점 주소) : " + cbDetailInfo.franchiseAddr + vbCrLf
@@ -1507,15 +1511,16 @@ Private Sub btnSearch_Click()
     Dim PerPage As Integer
     Dim Order As String
     Dim QString As String
+    Dim franchiseTaxRedID As String
     
     '[필수] 일자유형, R-등록일자, T-거래일자 I-발행일시
     DType = "T"
     
     '[필수] 시작일자, 형식(yyyyMMdd)
-    SDate = "20210901"
+    SDate = "20220101"
     
     '[필수] 종료일자, 형식(yyyyMMdd)
-    EDate = "20210910"
+    EDate = "20220130"
     
     '상태코드 배열, 미기재시 전체 상태조회, 상태코드(stateCode)값 3자리의 배열, 2,3번째 자리에 와일드카드 가능
     '상태코드에 대한 자세한 사항은 "[현금영수증 API 연동매뉴얼] > 5.1 현금영수증 상태코드" 를 참조하시기 바랍니다.
@@ -1552,8 +1557,12 @@ Private Sub btnSearch_Click()
     '현금영수증 식별번호 조회, 미기재시 전체조회
     QString = ""
     
+    '가맹점 종사업장 번호, 미기재시 전체조회
+    '└ 다수건 검색시 콤마(",")로 구분. 예) 1234,1000
+    franchiseTaxRedID = ""
     
-    Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, state, tradeType, tradeUsage, taxationType, Page, PerPage, Order, QString, tradeOpt)
+    
+    Set cbSearchList = CashbillService.Search(txtCorpNum.Text, DType, SDate, EDate, state, tradeType, tradeUsage, taxationType, Page, PerPage, Order, QString, tradeOpt, franchiseTaxRedID)
      
     If cbSearchList Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -1778,7 +1787,7 @@ End Sub
 
 '=========================================================================
 ' 팝빌 사이트와 동일한 현금영수증 1건의 상세 정보 페이지의 URL을 반환합니다.
-' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetPopUpURL
 '=========================================================================
 Private Sub btnGetPopUpURL_Click()
@@ -1796,7 +1805,7 @@ End Sub
 
 '=========================================================================
 ' 팝빌 사이트와 동일한 현금영수증 1건의 상세 정보 페이지(사이트 상단, 좌측 메뉴 및 버튼 제외)의 URL을 반환합니다.
-' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetViewURL
 '=========================================================================
 Private Sub btnGetViewURl_Click()
@@ -1849,7 +1858,7 @@ End Sub
 
 '=========================================================================
 ' 다수건의 현금영수증을 인쇄하기 위한 페이지의 팝업 URL을 반환합니다. (최대 100건)
-' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetMassPrintURL
 '=========================================================================
 Private Sub btnGetMassPrintURL_Click()
@@ -1892,7 +1901,7 @@ End Sub
 
 '=========================================================================
 ' 팝빌 현금영수증 임시문서함 팝업 URL을 반환합니다.
-' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_TBOX_Click()
@@ -1910,7 +1919,7 @@ End Sub
 
 '=========================================================================
 ' 팝빌 현금영수증 발행문서함 팝업 URL을 반환합니다.
-' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_PBOX_Click()
@@ -1928,7 +1937,7 @@ End Sub
 
 '=========================================================================
 ' 팝빌 현금영수증 매출문서작성 팝업 URL을 반환합니다.
-' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다..
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_WRITE_Click()
