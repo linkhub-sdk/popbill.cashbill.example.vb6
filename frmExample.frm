@@ -1,20 +1,27 @@
 VERSION 5.00
 Begin VB.Form frmExample 
    Caption         =   "팝빌 현금영수증 SDK 예제"
-   ClientHeight    =   10860
+   ClientHeight    =   11175
    ClientLeft      =   60
    ClientTop       =   450
    ClientWidth     =   16455
    LinkTopic       =   "Form1"
-   ScaleHeight     =   10860
+   ScaleHeight     =   11175
    ScaleWidth      =   16455
    StartUpPosition =   2  '화면 가운데
+   Begin VB.TextBox txtURL 
+      Height          =   315
+      Left            =   12120
+      TabIndex        =   70
+      Top             =   240
+      Width           =   3975
+   End
    Begin VB.Frame Frame7 
       Caption         =   "현금영수증 관련 기능"
       Height          =   7185
       Left            =   240
       TabIndex        =   12
-      Top             =   3480
+      Top             =   3720
       Width           =   15570
       Begin VB.Frame Frame9 
          Caption         =   "즉시발행 프로세스 "
@@ -375,15 +382,15 @@ Begin VB.Form frmExample
    End
    Begin VB.Frame Frame1 
       Caption         =   " 팝빌 기본 API "
-      Height          =   2535
+      Height          =   2895
       Left            =   240
       TabIndex        =   4
       Top             =   720
-      Width           =   15690
+      Width           =   15810
       Begin VB.Frame Frame15 
          Caption         =   "파트너과금 포인트"
-         Height          =   1935
-         Left            =   13080
+         Height          =   2295
+         Left            =   13200
          TabIndex        =   56
          Top             =   360
          Width           =   2415
@@ -406,18 +413,34 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame10 
          Caption         =   "연동과금 포인트"
-         Height          =   1935
+         Height          =   2295
          Left            =   10920
          TabIndex        =   54
          Top             =   360
-         Width           =   2055
+         Width           =   2175
+         Begin VB.CommandButton btnGetUseHistoryURL 
+            Caption         =   "포인트 사용내역 URL"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   68
+            Top             =   1800
+            Width           =   1935
+         End
+         Begin VB.CommandButton btnGetPaymentURL 
+            Caption         =   "포인트 결제내역 URL"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   67
+            Top             =   1320
+            Width           =   1935
+         End
          Begin VB.CommandButton btnGetChargeURL 
             Caption         =   " 포인트 충전 URL"
             Height          =   410
             Left            =   120
             TabIndex        =   58
             Top             =   840
-            Width           =   1815
+            Width           =   1935
          End
          Begin VB.CommandButton btnGetBalance 
             Caption         =   "잔여 포인트 확인"
@@ -425,12 +448,12 @@ Begin VB.Form frmExample
             Left            =   120
             TabIndex        =   55
             Top             =   360
-            Width           =   1815
+            Width           =   1935
          End
       End
       Begin VB.Frame Frame6 
          Caption         =   " 회사정보 관련"
-         Height          =   1935
+         Height          =   2295
          Left            =   8880
          TabIndex        =   43
          Top             =   360
@@ -454,7 +477,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame2 
          Caption         =   " 회원정보 "
-         Height          =   1935
+         Height          =   2295
          Left            =   240
          TabIndex        =   10
          Top             =   360
@@ -486,7 +509,7 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame3 
          Caption         =   " 포인트 관련 "
-         Height          =   1935
+         Height          =   2295
          Left            =   2040
          TabIndex        =   8
          Top             =   360
@@ -510,11 +533,19 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame4 
          Caption         =   " 담당자 관련 "
-         Height          =   1935
+         Height          =   2295
          Left            =   4440
          TabIndex        =   7
          Top             =   360
          Width           =   2055
+         Begin VB.CommandButton btnGetContactInfo 
+            Caption         =   "담당자 정보 확인"
+            Height          =   410
+            Left            =   120
+            TabIndex        =   66
+            Top             =   840
+            Width           =   1815
+         End
          Begin VB.CommandButton btnRegistContact 
             Caption         =   "담당자 추가"
             Height          =   410
@@ -528,7 +559,7 @@ Begin VB.Form frmExample
             Height          =   410
             Left            =   120
             TabIndex        =   41
-            Top             =   840
+            Top             =   1320
             Width           =   1815
          End
          Begin VB.CommandButton btnUpdateContact 
@@ -536,13 +567,13 @@ Begin VB.Form frmExample
             Height          =   410
             Left            =   120
             TabIndex        =   40
-            Top             =   1320
+            Top             =   1800
             Width           =   1815
          End
       End
       Begin VB.Frame Frame5 
          Caption         =   " 팝빌 기본 URL "
-         Height          =   1935
+         Height          =   2295
          Left            =   6600
          TabIndex        =   5
          Top             =   360
@@ -573,6 +604,15 @@ Begin VB.Form frmExample
       Top             =   225
       Width           =   1935
    End
+   Begin VB.Label Label5 
+      AutoSize        =   -1  'True
+      Caption         =   "URL : "
+      Height          =   180
+      Left            =   11400
+      TabIndex        =   69
+      Top             =   285
+      Width           =   525
+   End
    Begin VB.Label Label2 
       AutoSize        =   -1  'True
       Caption         =   "팝빌회원 아이디 : "
@@ -602,7 +642,7 @@ Attribute VB_Exposed = False
 ' 팝빌 현금영수증 API VB 6.0 SDK Example
 '
 ' - VB6 SDK 연동환경 설정방법 안내 : https://docs.popbill.com/cashbill/tutorial/vb
-' - 업데이트 일자 : 2022-01-13
+' - 업데이트 일자 : 2022-01-17
 ' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
 ' - 연동 기술지원 이메일 : code@linkhub.co.kr
 '
@@ -695,16 +735,17 @@ End Sub
 ' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 '=========================================================================
 Private Sub btnGetPDFURL_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = CashbillService.GetPDFURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetPDFURL(txtCorpNum.Text, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 
@@ -719,8 +760,8 @@ Private Sub btnJoinMember_Click()
     '아이디, 6자이상 50자 미만
     joinData.id = "userid"
     
-    '비밀번호, 6자이상 20자 미만
-    joinData.pwd = "pwd_must_be_long_enough"
+    '비밀번호, 8자 이상 20자 이하(영문, 숫자, 특수문자 조합)
+    joinData.Password = "asdf$%^123"
     
     '파트너링크 아이디
     joinData.LinkID = LinkID
@@ -813,16 +854,17 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetAccessURL
 '=========================================================================
 Private Sub btnGetAccessURL_Click()
-    Dim url As String
+    Dim URL As String
      
-    url = CashbillService.GetAccessURL(txtCorpNum.Text, txtUserID.Text)
+    URL = CashbillService.GetAccessURL(txtCorpNum.Text, txtUserID.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -834,10 +876,10 @@ Private Sub btnRegistContact_Click()
     Dim Response As PBResponse
     
     '담당자 아이디, 6자 이상 50자 미만
-    joinData.id = "testkorea"
+    joinData.id = "vb6Cashbill001"
     
-    '비밀번호, 6자 이상 20자 미만
-    joinData.pwd = "test@test.com"
+    '비밀번호, 8자 이상 20자 이하(영문, 숫자, 특수문자 조합)
+    joinData.Password = "qwe123!@#"
     
     '담당자명, 최대 100자
     joinData.personName = "담당자명"
@@ -854,8 +896,8 @@ Private Sub btnRegistContact_Click()
     '담당자 메일주소, 최대 100자
     joinData.email = "test@test.com"
     
-    '회사조회 권한여부, True-회사조회 / False-개인조회
-    joinData.searchAllAllowYN = True
+    '담당자 권한, 1-개인 / 2-읽기 / 3-회사
+    joinData.searchRole = 3
     
         
     Set Response = CashbillService.RegistContact(txtCorpNum.Text, joinData)
@@ -866,6 +908,34 @@ Private Sub btnRegistContact_Click()
     End If
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
+End Sub
+
+'=========================================================================
+' 연동회원 사업자번호에 등록된 담당자(팝빌 로그인 계정) 정보를 확인합니다.
+' https://docs.popbill.com/cashbill/vb/api#GetContactInfo
+'=========================================================================
+Private Sub btnGetContactInfo_Click()
+    Dim tmp As String
+    Dim info As PBContactInfo
+    Dim ContactID As String
+    
+    ContactID = "testkorea"
+    
+    Set info = CashbillService.GetContactInfo(txtCorpNum.Text, ContactID, txtUserID.Text)
+    
+    If info Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    tmp = "id(아이디) | personName(성명) | email(이메일) | hp(휴대폰번호) |  fax(팩스번호) | tel(연락처) | " _
+         + "regDT(등록일시) | searchRole(담당자 권한) | mgrYN(관리자 여부) | state(상태) " + vbCrLf
+    
+   
+    tmp = tmp + info.id + " | " + info.personName + " | " + info.email + " | " + info.hp + " | " + info.fax _
+        + info.tel + " | " + info.regDT + " | " + CStr(info.searchRole) + " | " + CStr(info.mgrYN) + " | " + CStr(info.state) + vbCrLf
+        
+    MsgBox tmp
 End Sub
 
 '=========================================================================
@@ -885,11 +955,11 @@ Private Sub btnListContact_Click()
     End If
     
     tmp = "id(아이디) | personName(성명) | email(이메일) | hp(휴대폰번호) |  fax(팩스번호) | tel(연락처) | " _
-         + "regDT(등록일시) | searchAllAllowYN(회사조회 권한여부) | mgrYN(관리자 여부) | state(상태) " + vbCrLf
+         + "regDT(등록일시) | searchRole(담당자 권한) | mgrYN(관리자 여부) | state(상태) " + vbCrLf
     
     For Each info In resultList
         tmp = tmp + info.id + " | " + info.personName + " | " + info.email + " | " + info.hp + " | " + info.fax _
-        + info.tel + " | " + info.regDT + " | " + CStr(info.searchAllAllowYN) + " | " + CStr(info.mgrYN) + " | " + CStr(info.state) + vbCrLf
+        + info.tel + " | " + info.regDT + " | " + CStr(info.searchRole) + " | " + CStr(info.mgrYN) + " | " + CStr(info.state) + vbCrLf
     Next
     
     MsgBox tmp
@@ -904,7 +974,7 @@ Private Sub btnUpdateContact_Click()
     Dim Response As PBResponse
     
     '담당자 아이디
-    joinData.id = txtUserID.Text
+    joinData.id = "vb6Cashbill001"
     
     '담당자 성명, 최대 100자
     joinData.personName = "담당자명_수정"
@@ -921,8 +991,8 @@ Private Sub btnUpdateContact_Click()
     '담당자 이메일, 최대 100자
     joinData.email = "test@test.com"
 
-    '회사조회 권한여부, True-회사조회 / False-개인조회
-    joinData.searchAllAllowYN = True
+    '담당자 권한, 1-개인 / 2-읽기 / 3-회사
+    joinData.searchRole = 3
     
                 
     Set Response = CashbillService.UpdateContact(txtCorpNum.Text, joinData, txtUserID.Text)
@@ -993,6 +1063,44 @@ Private Sub btnUpdateCorpInfo_Click()
 End Sub
 
 '=========================================================================
+' 연동회원 포인트 결제내역 확인을 위한 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
+' - https://docs.popbill.com/cashbill/vb/api#GetPaymentURL
+'=========================================================================
+Private Sub btnGetPaymentURL_Click()
+    Dim URL As String
+           
+    URL = CashbillService.GetPaymentURL(txtCorpNum.Text, txtUserID.Text)
+    
+    If URL = "" Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
+End Sub
+
+'=========================================================================
+' 연동회원 포인트 사용내역 확인을 위한 페이지의 팝업 URL을 반환합니다.
+' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
+' - https://docs.popbill.com/cashbill/vb/api#GetUseHistoryURL
+'=========================================================================
+Private Sub btnGetUseHistoryURL_Click()
+    Dim URL As String
+           
+    URL = CashbillService.GetUseHistoryURL(txtCorpNum.Text, txtUserID.Text)
+    
+    If URL = "" Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
+End Sub
+
+'=========================================================================
 ' 연동회원의 잔여포인트를 확인합니다.
 ' - 과금방식이 파트너과금인 경우 파트너 잔여포인트(GetPartnerBalance API)를 통해 확인하시기 바랍니다.
 ' - https://docs.popbill.com/cashbill/vb/api#GetBalance
@@ -1016,16 +1124,17 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetChargeURL
 '=========================================================================
 Private Sub btnGetChargeURL_Click()
-    Dim url As String
+    Dim URL As String
      
-    url = CashbillService.GetChargeURL(txtCorpNum.Text, txtUserID.Text)
+    URL = CashbillService.GetChargeURL(txtCorpNum.Text, txtUserID.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1052,16 +1161,17 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetPartnerURL
 '=========================================================================
 Private Sub btnGetPartnerURL_CHRG_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = CashbillService.GetPartnerURL(txtCorpNum.Text, "CHRG")
+    URL = CashbillService.GetPartnerURL(txtCorpNum.Text, "CHRG")
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1787,16 +1897,17 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetPopUpURL
 '=========================================================================
 Private Sub btnGetPopUpURL_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = CashbillService.GetPopUpURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetPopUpURL(txtCorpNum.Text, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1805,16 +1916,17 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetViewURL
 '=========================================================================
 Private Sub btnGetViewURl_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = CashbillService.GetViewURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetViewURL(txtCorpNum.Text, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1823,16 +1935,17 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetPrintURL
 '=========================================================================
 Private Sub btnGetPrintURL_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = CashbillService.GetPrintURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetPrintURL(txtCorpNum.Text, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1840,16 +1953,17 @@ End Sub
 ' - 반환되는 URL은 보안 정책상 30초 동안 유효하며, 시간을 초과한 후에는 해당 URL을 통한 페이지 접근이 불가합니다.
 '=========================================================================
 Private Sub btnGetEPrintUrl_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = CashbillService.GetEPrintURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetEPrintURL(txtCorpNum.Text, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1858,7 +1972,7 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetMassPrintURL
 '=========================================================================
 Private Sub btnGetMassPrintURL_Click()
-    Dim url As String
+    Dim URL As String
     Dim KeyList As New Collection
     
     '문서번호 배열, 최대 100건
@@ -1867,14 +1981,15 @@ Private Sub btnGetMassPrintURL_Click()
     KeyList.Add "20210901-03"
     KeyList.Add "20210901-04"
     
-    url = CashbillService.GetMassPrintURL(txtCorpNum.Text, KeyList)
+    URL = CashbillService.GetMassPrintURL(txtCorpNum.Text, KeyList)
      
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1883,16 +1998,17 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetMailURL
 '=========================================================================
 Private Sub btnGetMailURL_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = CashbillService.GetMailURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetMailURL(txtCorpNum.Text, txtMgtKey.Text)
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1901,16 +2017,17 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_TBOX_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "TBOX")
+    URL = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "TBOX")
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1919,16 +2036,17 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_PBOX_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "PBOX")
+    URL = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "PBOX")
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 '=========================================================================
@@ -1937,16 +2055,17 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#GetURL
 '=========================================================================
 Private Sub btnGetURL_WRITE_Click()
-    Dim url As String
+    Dim URL As String
     
-    url = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "WRITE")
+    URL = CashbillService.GetURL(txtCorpNum.Text, txtUserID.Text, "WRITE")
     
-    If url = "" Then
+    If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox "URL : " + vbCrLf + url
+    MsgBox "URL : " + vbCrLf + URL
+    txtURL.Text = URL
 End Sub
 
 Private Sub Form_Load()
