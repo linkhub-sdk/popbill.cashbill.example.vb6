@@ -641,15 +641,14 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 현금영수증 API VB 6.0 SDK Example
 '
-' - VB6 SDK 연동환경 설정방법 안내 : https://docs.popbill.com/cashbill/tutorial/vb
 ' - 업데이트 일자 : 2022-01-17
-' - 연동 기술지원 연락처 : 1600-9854 / 070-4304-2991
-' - 연동 기술지원 이메일 : code@linkhub.co.kr
+' - 연동 기술지원 연락처 : 1600-9854
+' - 연동 기술지원 이메일 : code@linkhubcorp.com
+' - VB6 SDK 연동환경 설정방법 안내 : https://docs.popbill.com/cashbill/tutorial/vb
 '
 ' <테스트 연동개발 준비사항>
-' 1) 26, 29번 라인에 선언된 링크아이디(LinkID)와 비밀키(SecretKey)를
+' 1) 25, 28번 라인에 선언된 링크아이디(LinkID)와 비밀키(SecretKey)를
 '    링크허브 가입시 메일로 발급받은 인증정보를 참조하여 변경합니다.
-' 2) 팝빌 개발용 사이트(test.popbill.com)에 연동회원으로 가입합니다.
 '=========================================================================
 
 
@@ -662,7 +661,7 @@ Option Explicit
 '=========================================================================
 
 '링크아이디
-Private Const LinkID = "TESTER"
+Private Const linkID = "TESTER"
 
 '비밀키. 유출에 주의하시기 바랍니다.
 Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
@@ -683,7 +682,7 @@ Private Sub btnAssignMgtKey_Click()
     itemKey = "020042413523200001"
             
     '할당할 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
-    mgtKey = "20210901-05"
+    mgtKey = "20220101-05"
         
     Set Response = CashbillService.AssignMgtKey(txtCorpNum.Text, itemKey, mgtKey)
     
@@ -703,7 +702,7 @@ End Sub
 Private Sub btnCheckIsMember_Click()
     Dim Response As PBResponse
     
-    Set Response = CashbillService.CheckIsMember(txtCorpNum.Text, LinkID)
+    Set Response = CashbillService.CheckIsMember(txtCorpNum.Text, linkID)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -764,7 +763,7 @@ Private Sub btnJoinMember_Click()
     joinData.Password = "asdf$%^123"
     
     '파트너링크 아이디
-    joinData.LinkID = LinkID
+    joinData.linkID = linkID
     
     '사업자번호, '-'제외, 10자리
     joinData.CorpNum = "1234567890"
@@ -1351,7 +1350,7 @@ Private Sub btnRevokeRegistIssue_Click()
     orgConfirmNum = "TB0000037"
     
     '원본현금영수증 거래일자
-    orgTradeDate = "20210915"
+    orgTradeDate = "20220101"
     
     '발행안내문자 전송여부
     smssendYN = True
@@ -1391,7 +1390,7 @@ Private Sub btnRegistIssue_part_Click()
     orgConfirmNum = "TB0000037"
     
     '원본현금영수증 거래일자
-    orgTradeDate = "20210915"
+    orgTradeDate = "20220101"
     
     '발행안내문자 전송여부
     smssendYN = True
@@ -1484,7 +1483,7 @@ Private Sub btnGetInfo_Click()
         Exit Sub
     End If
     
-    tmp = tmp + "itemKey (팝빌 문서번호) : " + cbInfo.itemKey + vbCrLf
+    tmp = tmp + "itemKey (팝빌번호) : " + cbInfo.itemKey + vbCrLf
     tmp = tmp + "mgtKey (문서번호) : " + cbInfo.mgtKey + vbCrLf
     tmp = tmp + "tradeDate (거래일자) : " + cbInfo.tradeDate + vbCrLf
     tmp = tmp + "tradeType (문서형태) : " + cbInfo.tradeType + vbCrLf
@@ -1523,10 +1522,10 @@ Private Sub btnGetInfos_Click()
     Dim info As PBCbInfo
     
     '현금영수증 문서번호배열, 최대 1000건
-    KeyList.Add "20210901-001"
-    KeyList.Add "20210901-002"
-    KeyList.Add "20210901-003"
-    KeyList.Add "20210901-004"
+    KeyList.Add "20220101-001"
+    KeyList.Add "20220101-002"
+    KeyList.Add "20220101-003"
+    KeyList.Add "20220101-004"
     
     Set resultList = CashbillService.GetInfos(txtCorpNum.Text, KeyList)
      
@@ -1535,7 +1534,7 @@ Private Sub btnGetInfos_Click()
         Exit Sub
     End If
     
-    tmp = "itemKey (팝빌 문서번호) | mgtKey (문서번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
+    tmp = "itemKey (팝빌번호) | mgtKey (문서번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
           "taxationType (과세형태) | totalAmount (거래금액) | issueDT (발행일시) | regDT (등록일시) | stateMemo (상태메모) | stateCode (상태코드)  " + _
           "stateDT (상태변경일시) | identityNum (식별번호) | itemName (주문상품명) | customerName (주문자명) | confirmNum (국세청승인번호)  " + _
           "orgConfirmNum (원본 현금영수증 국세청승인번호) | orgTradeDate (원본 현금영수증 거래일자) | ntssendDT (국세청 전송일시)  " + _
@@ -1629,7 +1628,6 @@ Private Sub btnSearch_Click()
     EDate = "20220130"
     
     '상태코드 배열, 미기재시 전체 상태조회, 상태코드(stateCode)값 3자리의 배열, 2,3번째 자리에 와일드카드 가능
-    '상태코드에 대한 자세한 사항은 "[현금영수증 API 연동매뉴얼] > 5.1 현금영수증 상태코드" 를 참조하시기 바랍니다.
     state.Add "2**"
     state.Add "3**"
     state.Add "4**"
@@ -1684,7 +1682,7 @@ Private Sub btnSearch_Click()
     tmp = tmp + "pageCount (페이지 개수) : " + CStr(cbSearchList.pageCount) + vbCrLf
     tmp = tmp + "message (응답메시지) : " + cbSearchList.message + vbCrLf + vbCrLf + vbCrLf
     
-    tmp = "itemKey (팝빌 문서번호) | mgtKey (문서번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
+    tmp = "itemKey (팝빌번호) | mgtKey (문서번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
          "taxationType (과세형태) | totalAmount (거래금액) | issueDT (발행일시) | regDT (등록일시) | stateMemo (상태메모) | stateCode (상태코드)  " + _
          "stateDT (상태변경일시) | identityNum (식별번호) | itemName (주문상품명) | customerName (주문자명) | confirmNum (국세청승인번호)  " + _
          "orgConfirmNum (원본 현금영수증 국세청승인번호) | orgTradeDate (원본 현금영수증 거래일자) | ntssendDT (국세청 전송일시)  " + _
@@ -1976,10 +1974,10 @@ Private Sub btnGetMassPrintURL_Click()
     Dim KeyList As New Collection
     
     '문서번호 배열, 최대 100건
-    KeyList.Add "20210901-01"
-    KeyList.Add "20210901-02"
-    KeyList.Add "20210901-03"
-    KeyList.Add "20210901-04"
+    KeyList.Add "20220101-01"
+    KeyList.Add "20220101-02"
+    KeyList.Add "20220101-03"
+    KeyList.Add "20220101-04"
     
     URL = CashbillService.GetMassPrintURL(txtCorpNum.Text, KeyList)
      
@@ -2069,18 +2067,15 @@ Private Sub btnGetURL_WRITE_Click()
 End Sub
 
 Private Sub Form_Load()
-    CashbillService.Initialize LinkID, SecretKey
+    CashbillService.Initialize linkID, SecretKey
     
-    '연동환경 설정값 True-테스트용, False-상업용
+    '연동환경설정값, True-개발용 False-상업용
     CashbillService.IsTest = True
     
-    '인증토큰 IP제한기능 사용여부, True-권장
+    '인증토큰 IP제한기능 사용여부, True-사용, False-미사용, 기본값(True)
     CashbillService.IPRestrictOnOff = True
     
-    ' 팝빌 API 서비스 고정 IP 사용여부, True-사용, False-미사용, 기본값(False)
-    CashbillService.UseStaticIP = False
-    
-    ' 로컬시스템 시간 사용여부 True-사용, Fasle-미사용, 기본값(False)
+    '로컬시스템 시간 사용여부 True-사용, Fasle-미사용, 기본값(False)
     CashbillService.UseLocalTimeYN = False
 End Sub
 
