@@ -1353,7 +1353,7 @@ Private Sub btnRevokeRegistIssue_Click()
     orgTradeDate = "20220101"
     
     '발행안내문자 전송여부
-    smssendYN = True
+    smssendYN = False
     
     '메모
     memo = "취소현금영수증 즉시발행"
@@ -1393,7 +1393,7 @@ Private Sub btnRegistIssue_part_Click()
     orgTradeDate = "20220101"
     
     '발행안내문자 전송여부
-    smssendYN = True
+    smssendYN = False
     
     '메모
     memo = "취소현금영수증 즉시발행"
