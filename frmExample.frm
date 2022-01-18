@@ -1628,7 +1628,6 @@ Private Sub btnSearch_Click()
     EDate = "20220130"
     
     '상태코드 배열, 미기재시 전체 상태조회, 상태코드(stateCode)값 3자리의 배열, 2,3번째 자리에 와일드카드 가능
-    state.Add "2**"
     state.Add "3**"
     state.Add "4**"
     
