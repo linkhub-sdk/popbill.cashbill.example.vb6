@@ -918,6 +918,7 @@ Private Sub btnGetContactInfo_Click()
     Dim info As PBContactInfo
     Dim ContactID As String
     
+    '확인할 담당자 아이디
     ContactID = "testkorea"
     
     Set info = CashbillService.GetContactInfo(txtCorpNum.Text, ContactID, txtUserID.Text)
