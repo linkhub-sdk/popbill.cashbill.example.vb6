@@ -1,12 +1,12 @@
 VERSION 5.00
 Begin VB.Form frmExample 
    Caption         =   "팝빌 현금영수증 SDK 예제"
-   ClientHeight    =   11175
+   ClientHeight    =   12270
    ClientLeft      =   60
    ClientTop       =   450
    ClientWidth     =   16455
    LinkTopic       =   "Form1"
-   ScaleHeight     =   11175
+   ScaleHeight     =   12270
    ScaleWidth      =   16455
    StartUpPosition =   2  '화면 가운데
    Begin VB.TextBox txtURL 
@@ -18,11 +18,43 @@ Begin VB.Form frmExample
    End
    Begin VB.Frame Frame7 
       Caption         =   "현금영수증 관련 기능"
-      Height          =   7185
+      Height          =   8385
       Left            =   240
       TabIndex        =   12
       Top             =   3720
-      Width           =   15570
+      Width           =   15810
+      Begin VB.Frame Frame22 
+         Caption         =   "초대량 발행"
+         Height          =   735
+         Left            =   1800
+         TabIndex        =   71
+         Top             =   3960
+         Width           =   7935
+         Begin VB.TextBox txtSubmitID 
+            Height          =   330
+            Left            =   2400
+            TabIndex        =   73
+            Top             =   290
+            Width           =   3375
+         End
+         Begin VB.CommandButton btnBulkSubmit 
+            BackColor       =   &H00C0C0FF&
+            Caption         =   "초대량 발행 접수"
+            Height          =   375
+            Left            =   5880
+            TabIndex        =   72
+            Top             =   240
+            Width           =   1695
+         End
+         Begin VB.Label Label8 
+            Caption         =   "제출 아이디(SubmitID) : "
+            Height          =   255
+            Left            =   240
+            TabIndex        =   74
+            Top             =   360
+            Width           =   2055
+         End
+      End
       Begin VB.Frame Frame9 
          Caption         =   "즉시발행 프로세스 "
          Height          =   2415
@@ -83,10 +115,10 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame14 
          Caption         =   " 인쇄/보기"
-         Height          =   2760
-         Left            =   7680
+         Height          =   3360
+         Left            =   7800
          TabIndex        =   32
-         Top             =   4125
+         Top             =   4800
          Width           =   5370
          Begin VB.CommandButton btnGetViewURl 
             Caption         =   "현금영수증 보기 URL(메뉴x)"
@@ -148,9 +180,9 @@ Begin VB.Form frmExample
       Begin VB.Frame Frame13 
          Caption         =   " 기타 URL "
          Height          =   1890
-         Left            =   13200
+         Left            =   13320
          TabIndex        =   28
-         Top             =   4125
+         Top             =   4800
          Width           =   2265
          Begin VB.CommandButton btnGetURL_TBOX 
             Caption         =   "임시 문서함"
@@ -179,10 +211,10 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame12 
          Caption         =   "부가 기능"
-         Height          =   2775
-         Left            =   2760
+         Height          =   3375
+         Left            =   2880
          TabIndex        =   24
-         Top             =   4125
+         Top             =   4800
          Width           =   4815
          Begin VB.CommandButton btnAssignMgtKey 
             Caption         =   "문서번호 할당"
@@ -235,50 +267,58 @@ Begin VB.Form frmExample
       End
       Begin VB.Frame Frame11 
          Caption         =   " 문서 정보 "
-         Height          =   2775
-         Left            =   240
+         Height          =   3375
+         Left            =   360
          TabIndex        =   19
-         Top             =   4125
-         Width           =   2265
+         Top             =   4800
+         Width           =   2385
+         Begin VB.CommandButton btnGetBulkResult 
+            Caption         =   "초대량 접수결과 확인"
+            Height          =   390
+            Left            =   120
+            TabIndex        =   75
+            Top             =   2760
+            Width           =   2175
+         End
          Begin VB.CommandButton btnSearch 
             Caption         =   "목록 조회"
             Height          =   390
-            Left            =   195
+            Left            =   120
             TabIndex        =   50
             Top             =   1800
-            Width           =   1845
+            Width           =   2175
          End
          Begin VB.CommandButton btnGetDetailInfo 
             Caption         =   "상세 정보확인"
             Height          =   390
-            Left            =   195
+            Left            =   120
             TabIndex        =   23
             Top             =   1320
-            Width           =   1845
+            Width           =   2175
          End
          Begin VB.CommandButton btnGetLogs 
             Caption         =   "상태 변경이력"
             Height          =   390
-            Left            =   195
+            Left            =   120
             TabIndex        =   22
             Top             =   2280
-            Width           =   1845
+            Width           =   2175
          End
          Begin VB.CommandButton btnGetInfos 
             Caption         =   "상태 대량 확인"
             Height          =   390
-            Left            =   195
+            Left            =   120
             TabIndex        =   21
             Top             =   825
-            Width           =   1845
+            Width           =   2175
          End
          Begin VB.CommandButton btnGetInfo 
             Caption         =   "상태 확인"
             Height          =   390
-            Left            =   195
+            Left            =   120
             TabIndex        =   20
             Top             =   390
-            Width           =   1845
+            Width           =   2175
          End
       End
       Begin VB.Frame Frame8 
@@ -661,7 +701,7 @@ Option Explicit
 '=========================================================================
 
 '링크아이디
-Private Const linkID = "TESTER"
+Private Const LinkID = "TESTER"
 
 '비밀키. 유출에 주의하시기 바랍니다.
 Private Const SecretKey = "SwWxqU+0TErBXy/9TVjIPEnI0VTUMMSQZtJf3Ed8q3I="
@@ -702,7 +742,7 @@ End Sub
 Private Sub btnCheckIsMember_Click()
     Dim Response As PBResponse
     
-    Set Response = CashbillService.CheckIsMember(txtCorpNum.Text, linkID)
+    Set Response = CashbillService.CheckIsMember(txtCorpNum.Text, LinkID)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -763,7 +803,7 @@ Private Sub btnJoinMember_Click()
     joinData.Password = "asdf$%^123"
     
     '파트너링크 아이디
-    joinData.linkID = linkID
+    joinData.LinkID = LinkID
     
     '사업자번호, '-'제외, 10자리
     joinData.CorpNum = "1234567890"
@@ -1199,92 +1239,92 @@ End Sub
 ' - https://docs.popbill.com/cashbill/vb/api#RegistIssue
 '=========================================================================
 Private Sub btnRegistIssue_Click()
-    Dim Cashbill As New PBCashbill
+    Dim cashbill As New PBCashbill
     Dim Response As PBResponse
     Dim emailSubject As String
     
     '현금영수증 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
-    Cashbill.mgtKey = txtMgtKey.Text
+    cashbill.mgtKey = txtMgtKey.Text
     
     '[취소거래시 필수] 원본 국세청승인번호
     '문서정보(GetInfo API)의 응답항목중 국세청승인번호(confirmNum)를 확인하여 기재
-    Cashbill.orgConfirmNum = ""
+    cashbill.orgConfirmNum = ""
     
     '[취소거래시 필수] 원본 거래일자
     '문서정보(GetInfo API)의 응답항목중 거래일자(tradeDate)를 확인하여 기재
-    Cashbill.orgTradeDate = ""
+    cashbill.orgTradeDate = ""
     
     '문서형태, [승인거래, 취소거래] 중 기재
-    Cashbill.tradeType = "승인거래"
+    cashbill.tradeType = "승인거래"
     
     '거래구분, [소득공제용, 지출증빙용] 중 기재
-    Cashbill.tradeUsage = "소득공제용"
+    cashbill.tradeUsage = "소득공제용"
     
     '거래유형, [일반, 도서공연, 대중교통] 중 기재
-    Cashbill.tradeOpt = "일반"
+    cashbill.tradeOpt = "일반"
     
     '과세형태, [과세, 비과세] 중 기재
-    Cashbill.taxationType = "과세"
+    cashbill.taxationType = "과세"
     
     '거래금액, 공급가액 + 봉사료 + 세액
-    Cashbill.totalAmount = "11000"
+    cashbill.totalAmount = "11000"
     
     '공급가액
-    Cashbill.supplyCost = "10000"
+    cashbill.supplyCost = "10000"
     
     '부가세
-    Cashbill.tax = "1000"
+    cashbill.tax = "1000"
     
     '봉사료
-    Cashbill.serviceFee = "0"
+    cashbill.serviceFee = "0"
     
     '가맹점 사업자번호, "-" 제외 10자리
-    Cashbill.franchiseCorpNum = "1234567890"
+    cashbill.franchiseCorpNum = "1234567890"
     
     '가맹점 종사업장 식별번호
-    Cashbill.franchiseTaxRegID = ""
+    cashbill.franchiseTaxRegID = ""
     
     '가맹점 상호
-    Cashbill.franchiseCorpName = "발행자 상호"
+    cashbill.franchiseCorpName = "발행자 상호"
     
     '가맹점 대표자 성명
-    Cashbill.franchiseCEOName = "발행자 대표자"
+    cashbill.franchiseCEOName = "발행자 대표자"
     
     '가맹점 주소
-    Cashbill.franchiseAddr = "발행자 주소"
+    cashbill.franchiseAddr = "발행자 주소"
     
     '가맹점 전화번호
-    Cashbill.franchiseTEL = "070-1234-1234"
+    cashbill.franchiseTEL = "070-1234-1234"
         
     '식별번호, 거래구분에 따라 작성
     '소득공제용 - 주민등록/휴대폰/카드번호 기재가능
     '지출증빙용 - 사업자번호/주민등록/휴대폰/카드번호 기재가능
-    Cashbill.identityNum = "0101112222"
+    cashbill.identityNum = "0101112222"
         
     '주문자명
-    Cashbill.customerName = "주문자명"
+    cashbill.customerName = "주문자명"
     
     '주문상품명
-    Cashbill.itemName = "주문상품명"
+    cashbill.itemName = "주문상품명"
     
     '주문번호
-    Cashbill.orderNumber = "주문번호"
+    cashbill.orderNumber = "주문번호"
     
     '주문자 이메일
     '팝빌 개발환경에서 테스트하는 경우에도 안내 메일이 전송되므로,
     '실제 거래처의 메일주소가 기재되지 않도록 주의
-    Cashbill.email = "test@test.com"
+    cashbill.email = "test@test.com"
     
     '주문자 휴대폰
-    Cashbill.hp = "010-111-222"
+    cashbill.hp = "010-111-222"
     
     '현금영수증 발행 알림문자 전송여부
-    Cashbill.smssendYN = False
+    cashbill.smssendYN = False
     
     '안내메일 제목, 미기재시 기본양식으로 전송.
     emailSubject = ""
             
-    Set Response = CashbillService.RegistIssue(txtCorpNum.Text, Cashbill, txtUserID.Text, emailSubject)
+    Set Response = CashbillService.RegistIssue(txtCorpNum.Text, cashbill, txtUserID.Text, emailSubject)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -1292,6 +1332,155 @@ Private Sub btnRegistIssue_Click()
     End If
     
     MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청 승인번호 : " + Response.confirmNum + vbCrLf + "거래일자 : " + Response.tradeDate)
+End Sub
+
+'=========================================================================
+ ' * 최대 100건의 현금영수증 발행을 한번의 요청으로 접수합니다.
+ ' - https://docs.popbill.com/cashbill/vb/api#BulkSubmit
+ '=========================================================================
+Private Sub btnBulkSubmit_Click()
+    Dim Response As PBBulkResponse
+    Dim cashbillList As New Collection
+    
+    Dim i As Integer
+    For i = 0 To 99
+        Dim cashbill
+        Set cashbill = New PBCashbill
+        
+        '현금영수증 문서번호, 최대 24자리, 영문, 숫자 '-', '_'를 조합하여 사업자별로 중복되지 않도록 구성
+        cashbill.mgtKey = txtSubmitID.Text + CStr(i)
+    
+        '[취소거래시 필수] 원본 국세청승인번호
+        '문서정보(GetInfo API)의 응답항목중 국세청승인번호(confirmNum)를 확인하여 기재
+        cashbill.orgConfirmNum = ""
+    
+        '[취소거래시 필수] 원본 거래일자
+        '문서정보(GetInfo API)의 응답항목중 거래일자(tradeDate)를 확인하여 기재
+        cashbill.orgTradeDate = ""
+    
+        '문서형태, [승인거래, 취소거래] 중 기재
+        cashbill.tradeType = "승인거래"
+    
+        '거래구분, [소득공제용, 지출증빙용] 중 기재
+        cashbill.tradeUsage = "소득공제용"
+    
+        '거래유형, [일반, 도서공연, 대중교통] 중 기재
+        cashbill.tradeOpt = "일반"
+    
+        '과세형태, [과세, 비과세] 중 기재
+        cashbill.taxationType = "과세"
+    
+        '거래금액, 공급가액 + 봉사료 + 세액
+        cashbill.totalAmount = "11000"
+    
+        '공급가액
+        cashbill.supplyCost = "10000"
+    
+        '부가세
+        cashbill.tax = "1000"
+    
+        '봉사료
+        cashbill.serviceFee = "0"
+    
+        '가맹점 사업자번호, "-" 제외 10자리
+        cashbill.franchiseCorpNum = "1234567890"
+    
+        '가맹점 종사업장 식별번호
+        cashbill.franchiseTaxRegID = ""
+    
+        '가맹점 상호
+        cashbill.franchiseCorpName = "발행자 상호"
+    
+        '가맹점 대표자 성명
+        cashbill.franchiseCEOName = "발행자 대표자"
+    
+        '가맹점 주소
+        cashbill.franchiseAddr = "발행자 주소"
+    
+        '가맹점 전화번호
+        cashbill.franchiseTEL = "070-1234-1234"
+        
+        '식별번호, 거래구분에 따라 작성
+        '소득공제용 - 주민등록/휴대폰/카드번호 기재가능
+        '지출증빙용 - 사업자번호/주민등록/휴대폰/카드번호 기재가능
+        cashbill.identityNum = "0101112222"
+        
+        '주문자명
+        cashbill.customerName = "주문자명"
+    
+        '주문상품명
+        cashbill.itemName = "주문상품명"
+    
+        '주문번호
+        cashbill.orderNumber = "주문번호"
+    
+        '주문자 이메일
+        '팝빌 개발환경에서 테스트하는 경우에도 안내 메일이 전송되므로,
+        '실제 거래처의 메일주소가 기재되지 않도록 주의
+        cashbill.email = "test@test.com"
+    
+        '주문자 휴대폰
+        cashbill.hp = "010-111-222"
+    
+        '현금영수증 발행 알림문자 전송여부
+        cashbill.smssendYN = False
+    
+        cashbillList.Add cashbill
+    Next
+
+    Set Response = CashbillService.BulkSubmit(txtCorpNum.Text, txtSubmitID.Text, cashbillList)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "접수아이디 : " + Response.receiptID)
+End Sub
+
+'=========================================================================
+' 접수시 기재한 SubmitID를 사용하여 현금영수증 접수결과를 확인합니다.
+' - 개별 현금영수증 처리상태는 접수상태(txState)가 완료(2) 시 반환됩니다.
+' - https://docs.popbill.com/cashbill/vb/api#GetBulkResult
+'=========================================================================
+Private Sub btnGetBulkResult_Click()
+    Dim Response As PBBulkCashbillResult
+    Dim tmp As String
+    
+    Set Response = CashbillService.GetBulkResult(txtCorpNum.Text, txtSubmitID.Text)
+    
+    If Response Is Nothing Then
+        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
+        Exit Sub
+    End If
+    
+    tmp = "code (응답코드) : " + CStr(Response.code) + vbCrLf
+    tmp = tmp + "message (응답메시지) : " + Response.message + vbCrLf
+    tmp = tmp + "submitID (제출아이디) : " + Response.submitID + vbCrLf
+    tmp = tmp + "submitCount (현금영수증 접수 건수) : " + CStr(Response.submitCount) + vbCrLf
+    tmp = tmp + "successCount (현금영수증 발행 성공 건수) : " + CStr(Response.successCount) + vbCrLf
+    tmp = tmp + "failCount (현금영수증 발행 실패 건수) : " + CStr(Response.failCount) + vbCrLf
+    tmp = tmp + "txState (접수상태코드) : " + CStr(Response.txState) + vbCrLf
+    tmp = tmp + "txResultCode (접수 결과코드) : " + CStr(Response.txResultCode) + vbCrLf
+    tmp = tmp + "txStartDT (발행처리 시작일시) : " + Response.txStartDT + vbCrLf
+    tmp = tmp + "txEndDT (발행처리 완료일시) : " + Response.txEndDT + vbCrLf
+    tmp = tmp + "receiptDT (접수 접수일시) : " + Response.receiptDT + vbCrLf
+    tmp = tmp + "receiptID (접수아이디) : " + Response.receiptDT + vbCrLf
+  
+    tmp = tmp + "mgtKey(문서번호) |  code (코드) |  confirmNum (국세청승인번호) |  tradeDate (거래일자) " + vbCrLf + vbCrLf
+            
+    Dim issueResult As PBBulkCashbillIssueResult
+    
+    If Response.issueResult Is Nothing = False Then
+        For Each issueResult In Response.issueResult
+            tmp = tmp + issueResult.mgtKey + " | "
+            tmp = tmp + CStr(issueResult.code) + " | "
+            tmp = tmp + issueResult.confirmNum + " | "
+            tmp = tmp + issueResult.tradeDate + vbCrLf
+        Next
+    End If
+    
+    MsgBox tmp
 End Sub
 
 '=========================================================================
@@ -2067,7 +2256,7 @@ Private Sub btnGetURL_WRITE_Click()
 End Sub
 
 Private Sub Form_Load()
-    CashbillService.Initialize linkID, SecretKey
+    CashbillService.Initialize LinkID, SecretKey
     
     '연동환경설정값, True-개발용 False-상업용
     CashbillService.IsTest = True
