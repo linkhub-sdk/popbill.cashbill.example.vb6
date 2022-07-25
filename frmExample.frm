@@ -681,7 +681,7 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 현금영수증 API VB SDK Example
 '
-' - 업데이트 일자 : 2022-04-06
+' - 업데이트 일자 : 2022-07-25
 ' - 연동 기술지원 연락처 : 1600-9854
 ' - 연동 기술지원 이메일 : code@linkhubcorp.com
 ' - VB SDK 연동환경 설정방법 안내 : https://docs.popbill.com/cashbill/tutorial/vb
@@ -1438,7 +1438,7 @@ Private Sub btnGetBulkResult_Click()
     tmp = tmp + "receiptDT (접수 접수일시) : " + Response.receiptDT + vbCrLf
     tmp = tmp + "receiptID (접수아이디) : " + Response.receiptDT + vbCrLf
   
-    tmp = tmp + "mgtKey(문서번호) |  code (코드) |  confirmNum (국세청승인번호) |  tradeDate (거래일자) " + vbCrLf + vbCrLf
+    tmp = tmp + "mgtKey(문서번호) |  code (코드) | message (메시지) |  confirmNum (국세청승인번호) |  tradeDate (거래일자) " + vbCrLf + vbCrLf
             
     Dim issueResult As PBBulkCashbillIssueResult
     
@@ -1446,6 +1446,7 @@ Private Sub btnGetBulkResult_Click()
         For Each issueResult In Response.issueResult
             tmp = tmp + issueResult.mgtKey + " | "
             tmp = tmp + CStr(issueResult.code) + " | "
+            tmp = tmp + issueResult.message + " | "
             tmp = tmp + issueResult.confirmNum + " | "
             tmp = tmp + issueResult.tradeDate + vbCrLf
         Next
