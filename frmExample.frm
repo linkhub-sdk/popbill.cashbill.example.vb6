@@ -681,7 +681,7 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 현금영수증 API VB SDK Example
 '
-' - 업데이트 일자 : 2022-07-25
+' - 업데이트 일자 : 2022-07-26
 ' - 연동 기술지원 연락처 : 1600-9854
 ' - 연동 기술지원 이메일 : code@linkhubcorp.com
 ' - VB SDK 연동환경 설정방법 안내 : https://docs.popbill.com/cashbill/tutorial/vb
@@ -769,7 +769,7 @@ End Sub
 Private Sub btnGetPDFURL_Click()
     Dim URL As String
     
-    URL = CashbillService.GetPDFURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetPDFURL(txtCorpNum.Text, txtMgtKey.Text, txtUserID.Text)
     
     If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -941,7 +941,7 @@ Private Sub btnGetContactInfo_Click()
     
     ContactID = "testkorea"
     
-    Set info = CashbillService.GetContactInfo(txtCorpNum.Text, ContactID, txtUserID.Text)
+    Set info = CashbillService.GetContactInfo(txtCorpNum.Text, ContactID)
     
     If info Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -1521,7 +1521,7 @@ Private Sub btnRevokeRegistIssue_Click()
     '메모
     memo = "취소현금영수증 즉시발행"
     
-    Set Response = CashbillService.RevokeRegistIssue(txtCorpNum.Text, txtMgtKey.Text, orgConfirmNum, orgTradeDate, smssendYN, memo, txtUserID.Text)
+    Set Response = CashbillService.RevokeRegistIssue(txtCorpNum.Text, txtMgtKey.Text, orgConfirmNum, orgTradeDate, smssendYN, memo)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -2000,7 +2000,7 @@ Private Sub btnListemailconfig_Click()
     Dim resultList As Collection
     Dim i As Integer
     
-    Set resultList = CashbillService.ListEmailConfig(txtCorpNum.Text, txtUserID.Text)
+    Set resultList = CashbillService.ListEmailConfig(txtCorpNum.Text)
     
     If resultList Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -2048,7 +2048,7 @@ Private Sub btnUpdateemailconfig_Click()
     '전송 여부 (True = 전송, False = 미전송)
     sendYN = True
     
-    Set Response = CashbillService.UpdateEmailConfig(txtCorpNum.Text, emailType, sendYN, txtUserID.Text)
+    Set Response = CashbillService.UpdateEmailConfig(txtCorpNum.Text, emailType, sendYN)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -2066,7 +2066,7 @@ End Sub
 Private Sub btnGetPopUpURL_Click()
     Dim URL As String
     
-    URL = CashbillService.GetPopUpURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetPopUpURL(txtCorpNum.Text, txtMgtKey.Text, txtUserID.Text)
     
     If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -2085,7 +2085,7 @@ End Sub
 Private Sub btnGetViewURL_Click()
     Dim URL As String
     
-    URL = CashbillService.GetViewURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetViewURL(txtCorpNum.Text, txtMgtKey.Text, txtUserID.Text)
     
     If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -2104,7 +2104,7 @@ End Sub
 Private Sub btnGetPrintURL_Click()
     Dim URL As String
     
-    URL = CashbillService.GetPrintURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetPrintURL(txtCorpNum.Text, txtMgtKey.Text, txtUserID.Text)
     
     If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -2123,7 +2123,7 @@ End Sub
 Private Sub btnGetEPrintUrl_Click()
     Dim URL As String
     
-    URL = CashbillService.GetEPrintURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetEPrintURL(txtCorpNum.Text, txtMgtKey.Text, txtUserID.Text)
     
     If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -2149,7 +2149,7 @@ Private Sub btnGetMassPrintURL_Click()
     KeyList.Add "20220101-03"
     KeyList.Add "20220101-04"
     
-    URL = CashbillService.GetMassPrintURL(txtCorpNum.Text, KeyList)
+    URL = CashbillService.GetMassPrintURL(txtCorpNum.Text, KeyList, txtUserID.Text)
      
     If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
@@ -2168,7 +2168,7 @@ End Sub
 Private Sub btnGetMailURL_Click()
     Dim URL As String
     
-    URL = CashbillService.GetMailURL(txtCorpNum.Text, txtMgtKey.Text)
+    URL = CashbillService.GetMailURL(txtCorpNum.Text, txtMgtKey.Text, txtUserID.Text)
     
     If URL = "" Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
