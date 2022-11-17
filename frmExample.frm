@@ -29,7 +29,15 @@ Begin VB.Form frmExample
          Left            =   1800
          TabIndex        =   69
          Top             =   3960
-         Width           =   7935
+         Width           =   9960
+         Begin VB.CommandButton btnGetBulkResult 
+            Caption         =   "초대량 접수결과 확인"
+            Height          =   375
+            Left            =   7670
+            TabIndex        =   73
+            Top             =   240
+            Width           =   2175
+         End
          Begin VB.TextBox txtSubmitID 
             Height          =   330
             Left            =   2400
@@ -256,14 +264,6 @@ Begin VB.Form frmExample
          TabIndex        =   19
          Top             =   4800
          Width           =   2385
-         Begin VB.CommandButton btnGetBulkResult 
-            Caption         =   "초대량 접수결과 확인"
-            Height          =   390
-            Left            =   120
-            TabIndex        =   73
-            Top             =   2760
-            Width           =   2175
-         End
          Begin VB.CommandButton btnSearch 
             Caption         =   "목록 조회"
             Height          =   390
@@ -649,7 +649,7 @@ Attribute VB_Exposed = False
 '
 ' 팝빌 현금영수증 API VB SDK Example
 '
-' - 업데이트 일자 : 2022-11-01
+' - 업데이트 일자 : 2022-11-16
 ' - 연동 기술지원 연락처 : 1600-9854
 ' - 연동 기술지원 이메일 : code@linkhubcorp.com
 ' - VB SDK 연동환경 설정방법 안내 : https://docs.popbill.com/cashbill/tutorial/vb
@@ -1259,7 +1259,9 @@ Private Sub btnRegistIssue_Click()
     '현금영수증 발행 알림문자 전송여부
     cashbill.smssendYN = False
     
-    
+    ' 거래일시, 날짜(yyyyMMddHHmmss)
+    ' 당일, 전일만 가능 미입력시 기본값 발행일시 처리
+    cashbill.tradeDT = ""
     
     '안내메일 제목, 미기재시 기본양식으로 전송.
     emailSubject = ""
@@ -1271,7 +1273,7 @@ Private Sub btnRegistIssue_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청 승인번호 : " + Response.confirmNum + vbCrLf + "거래일자 : " + Response.tradeDate)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청 승인번호 : " + Response.confirmNum + vbCrLf + "거래일자 : " + Response.tradeDate + vbCrLf + "거래일시 : " + Response.tradeDT)
 End Sub
 
 '=========================================================================
@@ -1283,7 +1285,7 @@ Private Sub btnBulkSubmit_Click()
     Dim cashbillList As New Collection
     
     Dim i As Integer
-    For i = 0 To 99
+    For i = 0 To 4
         Dim cashbill
         Set cashbill = New PBCashbill
         
@@ -1364,6 +1366,10 @@ Private Sub btnBulkSubmit_Click()
     
         '현금영수증 발행 알림문자 전송여부
         cashbill.smssendYN = False
+        
+        ' 거래일시, 날짜(yyyyMMddHHmmss)
+        ' 당일, 전일만 가능 미입력시 기본값 발행일시 처리
+        cashbill.tradeDT = ""
     
         cashbillList.Add cashbill
     Next
@@ -1407,7 +1413,7 @@ Private Sub btnGetBulkResult_Click()
     tmp = tmp + "receiptDT (접수 접수일시) : " + Response.receiptDT + vbCrLf
     tmp = tmp + "receiptID (접수아이디) : " + Response.receiptDT + vbCrLf
   
-    tmp = tmp + "mgtKey(문서번호) |  code (코드) | message (메시지) |  confirmNum (국세청승인번호) |  tradeDate (거래일자) " + vbCrLf + vbCrLf
+    tmp = tmp + "mgtKey(문서번호) |  code (코드) | message (메시지) |  confirmNum (국세청승인번호) |  tradeDate (거래일자) |  tradeDT (거래일시) " + vbCrLf
             
     Dim issueResult As PBBulkCashbillIssueResult
     
@@ -1417,7 +1423,8 @@ Private Sub btnGetBulkResult_Click()
             tmp = tmp + CStr(issueResult.code) + " | "
             tmp = tmp + issueResult.message + " | "
             tmp = tmp + issueResult.confirmNum + " | "
-            tmp = tmp + issueResult.tradeDate + vbCrLf
+            tmp = tmp + issueResult.tradeDate + " | "
+            tmp = tmp + issueResult.tradeDT + vbCrLf
         Next
     End If
     
@@ -1457,10 +1464,10 @@ Private Sub btnRevokeRegistIssue_Click()
     Dim memo As String
     
     '원본현금영수증 승인번호
-    orgConfirmNum = "TB0001090"
+    orgConfirmNum = "TB0000119"
     
     '원본현금영수증 거래일자
-    orgTradeDate = "20220110"
+    orgTradeDate = "20221115"
     
     '발행안내문자 전송여부
     smssendYN = False
@@ -1475,7 +1482,7 @@ Private Sub btnRevokeRegistIssue_Click()
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청 승인번호 : " + Response.confirmNum + vbCrLf + "거래일자 : " + Response.tradeDate)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청 승인번호 : " + Response.confirmNum + vbCrLf + "거래일자 : " + Response.tradeDate + vbCrLf + "거래일시 : " + Response.tradeDT)
 End Sub
 
 '=========================================================================
@@ -1496,12 +1503,14 @@ Private Sub btnRegistIssue_part_Click()
     Dim tax As String
     Dim serviceFee As String
     Dim totalAmount As String
+    Dim emailSubject As String
+    Dim tradeDT As String
     
     '원본현금영수증 승인번호
-    orgConfirmNum = "TB0000142"
+    orgConfirmNum = "TB0000118"
     
     '원본현금영수증 거래일자
-    orgTradeDate = "20220121"
+    orgTradeDate = "20221115"
     
     '발행안내문자 전송여부
     smssendYN = False
@@ -1527,42 +1536,28 @@ Private Sub btnRegistIssue_part_Click()
     '[취소] 합계금액
     totalAmount = "7700"
     
+    ' 안내메일 제목, 공백처리시 기본양식으로 전송
+    emailSubject = ""
+    
+    ' 거래일시, 날짜(yyyyMMddHHmmss)
+    ' 당일, 전일만 가능 미입력시 기본값 발행일시 처리
+    tradeDT = ""
+    
     Set Response = CashbillService.RevokeRegistIssue(txtCorpNum.Text, txtMgtKey.Text, orgConfirmNum, orgTradeDate, smssendYN, memo, txtUserID.Text, _
-        isPartCancel, cancelType, supplyCost, tax, serviceFee, totalAmount)
+        isPartCancel, cancelType, supplyCost, tax, serviceFee, totalAmount, emailSubject, tradeDT)
     
     If Response Is Nothing Then
         MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
         Exit Sub
     End If
     
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청 승인번호 : " + Response.confirmNum + vbCrLf + "거래일자 : " + Response.tradeDate)
+    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message + vbCrLf + "국세청 승인번호 : " + Response.confirmNum + vbCrLf + "거래일자 : " + Response.tradeDate + vbCrLf + "거래일시 : " + Response.tradeDT)
 End Sub
 
-'=========================================================================
-' 국세청 전송 이전 "발행완료" 상태의 현금영수증을 "발행취소"하고 국세청 전송 대상에서 제외합니다.
-' - Delete(삭제)함수를 호출하여 "발행취소" 상태의 현금영수증을 삭제하면, 문서번호 재사용이 가능합니다.
-' - https://docs.popbill.com/cashbill/vb/api#CancelIssue
-'=========================================================================
-Private Sub btnCancelIssue_Click()
-    Dim Response As PBResponse
-    Dim memo As String
-    
-    '메모
-    memo = "발행 취소 메모"
-    
-    Set Response = CashbillService.CancelIssue(txtCorpNum.Text, txtMgtKey.Text, memo)
-    
-    If Response Is Nothing Then
-        MsgBox ("응답코드 : " + CStr(CashbillService.LastErrCode) + vbCrLf + "응답메시지 : " + CashbillService.LastErrMessage)
-        Exit Sub
-    End If
-    
-    MsgBox ("응답코드 : " + CStr(Response.code) + vbCrLf + "응답메시지 : " + Response.message)
-End Sub
 
 '=========================================================================
 ' 삭제 가능한 상태의 현금영수증을 삭제합니다.
-' - 삭제 가능한 상태: "임시저장", "발행취소", "전송실패"
+' - 삭제 가능한 상태: "전송실패"
 ' - 현금영수증을 삭제하면 사용된 문서번호(mgtKey)를 재사용할 수 있습니다.
 ' - https://docs.popbill.com/cashbill/vb/api#Delete
 '=========================================================================
@@ -1599,6 +1594,7 @@ Private Sub btnGetInfo_Click()
     tmp = tmp + "itemKey (팝빌번호) : " + cbInfo.itemKey + vbCrLf
     tmp = tmp + "mgtKey (문서번호) : " + cbInfo.mgtKey + vbCrLf
     tmp = tmp + "tradeDate (거래일자) : " + cbInfo.tradeDate + vbCrLf
+    tmp = tmp + "tradeDT (거래일시) : " + cbInfo.tradeDT + vbCrLf
     tmp = tmp + "tradeType (문서형태) : " + cbInfo.tradeType + vbCrLf
     tmp = tmp + "tradeUsage (거래구분) : " + cbInfo.tradeUsage + vbCrLf
     tmp = tmp + "tradeOpt (거래유형) : " + cbInfo.tradeOpt + vbCrLf
@@ -1637,10 +1633,10 @@ Private Sub btnGetInfos_Click()
     Dim info As PBCbInfo
     
     '현금영수증 문서번호배열, 최대 1000건
-    KeyList.Add "20220101-001"
-    KeyList.Add "20220101-002"
-    KeyList.Add "20220101-003"
-    KeyList.Add "20220101-004"
+    KeyList.Add "20221115_bulk_0029"
+    KeyList.Add "20221115_bulk_0028"
+    KeyList.Add "20221115_bulk_0027"
+    KeyList.Add "20221115_bulk_0026"
     
     Set resultList = CashbillService.GetInfos(txtCorpNum.Text, KeyList)
      
@@ -1649,14 +1645,14 @@ Private Sub btnGetInfos_Click()
         Exit Sub
     End If
     
-    tmp = "itemKey (팝빌번호) | mgtKey (문서번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
+    tmp = "itemKey (팝빌번호) | mgtKey (문서번호) | tradeDate (거래일자) | tradeDT (거래일시) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
           "taxationType (과세형태) | totalAmount (거래금액) | issueDT (발행일시) | regDT (등록일시) | stateMemo (상태메모) | stateCode (상태코드)  " + _
           "stateDT (상태변경일시) | identityNum (식별번호) | itemName (주문상품명) | customerName (주문자명) | confirmNum (국세청승인번호)  " + _
           "orgConfirmNum (원본 현금영수증 국세청승인번호) | orgTradeDate (원본 현금영수증 거래일자) | ntssendDT (국세청 전송일시)  " + _
           "ntsresultDT (국세청 처리결과 수신일시) | ntsresultCode (국세청 처리결과 상태코드) | ntsresultMessage (국세청 처리결과 메시지) | printYN (인쇄여부) " + vbCrLf + vbCrLf
     
     For Each info In resultList
-        tmp = tmp + info.itemKey + " | " + info.mgtKey + " | " + info.tradeDate + " | " + info.tradeType + " | " + info.tradeUsage + " | " + info.tradeOpt + " | " + info.taxationType + " | "
+        tmp = tmp + info.itemKey + " | " + info.mgtKey + " | " + info.tradeDate + " | " + info.tradeDT + " | " + info.tradeType + " | " + info.tradeUsage + " | " + info.tradeOpt + " | " + info.taxationType + " | "
         tmp = tmp + info.totalAmount + " | " + info.issueDT + " | " + info.regDT + " | " + info.stateMemo + " | " + CStr(info.stateCode) + " | " + info.stateDT + " | " + info.identityNum + " | "
         tmp = tmp + info.itemName + " | " + info.customerName + " | " + info.confirmNum + " | " + info.orgConfirmNum + " | " + info.orgTradeDate + " | " + info.ntssendDT + " | " + info.ntsresultDT + " | "
         tmp = tmp + info.ntsresultCode + " | " + info.ntsresultMessage + " | " + CStr(info.printYN) + vbCrLf
@@ -1684,6 +1680,7 @@ Private Sub btnGetDetailInfo_Click()
     tmp = tmp + "mgtKey (문서번호) : " + cbDetailInfo.mgtKey + vbCrLf
     tmp = tmp + "confirmNum (국세청승인번호) : " + cbDetailInfo.confirmNum + vbCrLf
     tmp = tmp + "tradeDate (거래일자) : " + cbDetailInfo.tradeDate + vbCrLf
+    tmp = tmp + "tradeDT (거래일시) : " + cbDetailInfo.tradeDT + vbCrLf
     tmp = tmp + "tradeUsage (거래구분) : " + cbDetailInfo.tradeUsage + vbCrLf
     tmp = tmp + "tradeOpt (거래유형) : " + cbDetailInfo.tradeOpt + vbCrLf
     tmp = tmp + "tradeType (문서형태) : " + cbDetailInfo.tradeType + vbCrLf
@@ -1795,7 +1792,7 @@ Private Sub btnSearch_Click()
     tmp = tmp + "pageCount (페이지 개수) : " + CStr(cbSearchList.pageCount) + vbCrLf
     tmp = tmp + "message (응답메시지) : " + cbSearchList.message + vbCrLf + vbCrLf + vbCrLf
     
-    tmp = "itemKey (팝빌번호) | mgtKey (문서번호) | tradeDate (거래일자) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
+    tmp = "itemKey (팝빌번호) | mgtKey (문서번호) | tradeDate (거래일자) | tradeDT (거래일시) | tradeType (문서형태) | tradeType (문서형태) | tradeUsage (거래구분) | tradeOpt (거래유형) |  " + _
          "taxationType (과세형태) | totalAmount (거래금액) | issueDT (발행일시) | regDT (등록일시) | stateMemo (상태메모) | stateCode (상태코드)  " + _
          "stateDT (상태변경일시) | identityNum (식별번호) | itemName (주문상품명) | customerName (주문자명) | confirmNum (국세청승인번호)  " + _
          "orgConfirmNum (원본 현금영수증 국세청승인번호) | orgTradeDate (원본 현금영수증 거래일자) | ntssendDT (국세청 전송일시)  " + _
@@ -1807,6 +1804,7 @@ Private Sub btnSearch_Click()
         tmp = tmp + info.itemKey + " | "
         tmp = tmp + info.mgtKey + " | "
         tmp = tmp + info.tradeDate + " | "
+        tmp = tmp + info.tradeDT + " | "
         tmp = tmp + info.tradeType + " | "
         tmp = tmp + info.tradeUsage + " | "
         tmp = tmp + info.tradeOpt + " | "
@@ -2200,6 +2198,3 @@ End Sub
 
 
 
-Private Sub Frame9_DragDrop(Source As Control, X As Single, Y As Single)
-
-End Sub
